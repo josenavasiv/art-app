@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+	html {
+		font-family: 'Poppins', sans-serif;
+		background: #080808;
+	}
+	.upload-grid {
+		display: grid;
+		gap: 1rem;
+		padding: 1rem;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+	}
+
+	/* Add parent to the parent div then add .parent-hover:move to the child div */
+	.thumbnail {
+		background-size: cover;
+		background-position: top;
+		background-repeat: no-repeat;
+		transition: all 0.3s ease;
+	}
+	.thumbnail:hover {
+		box-shadow: -1px -1px #e63e6d, -2px -2px #e63e6d, -3px -3px #e63e6d;
+		-webkit-transform: translateX(3px);
+		transform: translateX(3px);
+	}
+	.parent:hover .parent-hover\:move {
+		/* Add parent-hover\:move to child within className and add in the css */
+	}
+
+	.thumbnail-text:hover {
+		background-image: linear-gradient(
+			to bottom,
+			hsla(0, 0%, 0%, 0) 0%,
+			hsla(0, 0%, 0%, 0.009) 11.7%,
+			hsla(0, 0%, 0%, 0.034) 22.1%,
+			hsla(0, 0%, 0%, 0.072) 31.2%,
+			hsla(0, 0%, 0%, 0.123) 39.4%,
+			hsla(0, 0%, 0%, 0.182) 46.6%,
+			hsla(0, 0%, 0%, 0.249) 53.1%,
+			hsla(0, 0%, 0%, 0.32) 58.9%,
+			hsla(0, 0%, 0%, 0.394) 64.3%,
+			hsla(0, 0%, 0%, 0.468) 69.3%,
+			hsla(0, 0%, 0%, 0.54) 74.1%,
+			hsla(0, 0%, 0%, 0.607) 78.8%,
+			hsla(0, 0%, 0%, 0.668) 83.6%,
+			hsla(0, 0%, 0%, 0.721) 88.7%,
+			hsla(0, 0%, 0%, 0.762) 94.1%,
+			hsla(0, 0%, 0%, 0.79) 100%
+		);
+	}
+}

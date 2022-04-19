@@ -1,0 +1,130 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Section {
+  COMMUNITY
+  FEEDBACK
+  RESOURCES
+}
+
+enum Subject {
+  DIGITAL
+  TRADITIONAL
+  STYLIZED
+  REALISM
+  SKETCHES
+  PORTRAITS
+  CHARACTER_DESIGN
+  FAN_ART
+  PAINTING
+  ILLUSTRATION
+  CONCEPT_ART
+  SCI_FI
+  FANTASY
+  ANIME_MANGA
+  OTHER
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  backgroundImageUrl String?
+  status        String?
+
+  artworks      Artwork[]
+  comments      Comment[]
+  likes         Like[]
+
+  accounts      Account[]
+  sessions      Session[]
+}
+
+model Artwork {
+  id            String    @id @default(cuid())
+  title         String
+  description   String?
+  createdAt     DateTime  @default(now())
+  imageUrl      String
+  thumbnailUrl  String?
+  tags          String[]
+  viewCount     Int       @default(0)
+  likeCount     Int       @default(0)
+  mature        Boolean   @default(false)
+  section       Section   @default(COMMUNITY)
+  subjects      Subject[]
+  authorName    String
+
+  authorId      String
+  author        User @relation(fields: [authorId], references: [id])
+
+  comments      Comment[]
+  likes         Like[]
+
+}
+
+model Comment {
+  id            String    @id @default(cuid())
+  content       String
+  createdAt     DateTime  @default(now())
+
+  artworkId     String
+  artwork       Artwork   @relation(fields: [artworkId], references: [id])
+  authorId      String
+  author        User     @relation(fields: [authorId], references: [id])
+
+}
+
+model Like {
+  id            String    @id @default(cuid())
+  artworkId     String
+  artwork       Artwork   @relation(fields: [artworkId], references: [id])
+  authorId      String
+  author        User     @relation(fields: [authorId], references: [id])
+}
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?  @db.Text
+  access_token       String?  @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?  @db.Text
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
