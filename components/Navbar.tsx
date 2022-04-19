@@ -2,6 +2,8 @@ import React from 'react';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import { signIn } from 'next-auth/react';
+import useLoggedInUser from '../hooks/useLoggedInUser';
 
 const Navbar: React.FC = () => {
 	const { data: session, status } = useSession();
@@ -9,6 +11,8 @@ const Navbar: React.FC = () => {
 
 	// console.log(session);
 	// SWR into database with useEffect when session status changes
+	const { loggedInUser, isLoading, isError } = useLoggedInUser();
+	console.log(loggedInUser);
 
 	if (!session) {
 		return (
@@ -37,7 +41,7 @@ const Navbar: React.FC = () => {
 					/>
 				</div>
 
-				<div className="flex flex-row items-center space-x-6 pr-6 pl-3">
+				<div onClick={() => signIn()} className="flex flex-row items-center space-x-6 pr-6 pl-3">
 					<button className="w-18 flex flex-row space-x-1">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
