@@ -100,33 +100,38 @@ const index: React.FC = ({ artworkDetails, session }: InferGetServerSidePropsTyp
 
 	return (
 		<>
-			<Navbar />
-			<div className="flex justify-center">
-				<div className="flex flex-col max-w-[1400px] w-full items-center justify-center space-y-3">
-					<img className="" src={artworkDetails.imageUrl} alt="" />
-					<div className="w-3/4 p-6 bg-slate-200 space-y-3">
+			<div className="h-screen relative">
+				<div className="absolute top-0 w-full z-10">
+					<Navbar />
+				</div>
+				<div className="flex flex-row justify-center align-middle mr-[320px] h-full">
+					<div className="h-full w-full flex justify-center">
+						<img src={artworkDetails.imageUrl} alt="" className="self-center" />
+					</div>
+
+					<div className="fixed bg-gray-900 text-white h-full w-[320px] overflow-y-auto right-0 p-5 pt-[76px] space-y-6">
 						<div className="flex flex-row space-x-3 relative">
 							{userIsLoading && <div>LOADING USER DETAILS</div>}
 							{user && (
 								<>
 									<img
 										onClick={() => router.push(`/profile/${user.id}`)}
-										className="rounded-full w-12 h-12 cursor-pointer"
-										src={user.image}
+										className="rounded-full w-12 h-12 cursor-pointer "
+										src={user.avatar ?? user.image}
 										alt=""
 									/>
 									<div className="flex flex-col">
 										<div
 											onClick={() => router.push(`/profile/${user.id}`)}
-											className="cursor-pointer"
+											className="text-md cursor-pointer py-1 font-medium text-[#DB6B97]"
 										>
-											{user.name}
+											{user.displayName ?? user.name}
 										</div>
-										<div>{user.status}</div>
+										<div className="text-xs text-gray-400 font-light">{user.headline}</div>
 									</div>
 									{/* CHANGE THIS TO DROP DOWN */}
 									{canEditDelete && (
-										<div className="flex flex-row space-x-2 text-xs absolute right-0 text-[#080808]">
+										<div className="flex flex-row space-x-2 text-xs absolute right-0 text-[#080808] py-2">
 											<button
 												onClick={() => router.push(`/artwork/${artworkDetails.id}/edit`)}
 												className="bg-[#FFDADA] h-4 w-8 rounded-sm hover:bg-[#fffafa]"
@@ -196,60 +201,58 @@ const index: React.FC = ({ artworkDetails, session }: InferGetServerSidePropsTyp
 							)}
 						</div>
 						<div className="flex flex-row items-center">
-							<button className="bg-blue-300 w-1/2 rounded-sm ">Like</button>
+							<button className="bg-blue-300 w-2/5 rounded-sm ">Like</button>
 						</div>
-						<div className="flex flex-col bg-red-200 space-y-2">
-							<p>{artworkDetails.title}</p>
-							<p>{artworkDetails.description}</p>
-							<p>{artworkDetails.createdAt}</p>
+						<div className="flex flex-col space-y-2">
+							<div className="text-3xl font-semibold">{artworkDetails.title}</div>
+							<div className="text-sm pb-2">{artworkDetails.description}</div>
+							<div className="text-xs">{artworkDetails.createdAt}</div>
 							<div className="flex flex-row justify-between">
-								<p>{artworkDetails.viewCount} views</p>
-								<p>{artworkDetails.likeCount} likes</p>
+								<div className="text-xs">{artworkDetails.viewCount} views</div>
+								<div className="text-xs">{artworkDetails.likeCount} likes</div>
 							</div>
 						</div>
-					</div>
 
-					{/* Comments Section */}
-					<div className="flex flex-col w-3/4">
-						{commentIsLoading && <div>LOADING COMMENTS ADD SPINNER HERE</div>}
-						{comments && (
-							<>
-								{comments.map((comment: string) => (
-									<Comment
-										// @ts-ignore
-										key={comment.id} // @ts-ignore
-										commentId={comment.id} // @ts-ignore
-										content={comment?.content} // @ts-ignore
-										authorId={comment?.authorId}
-									/>
-								))}
-							</>
-						)}
-					</div>
+						{/* Comments Section */}
+						<div className="flex flex-col w-full space-y-7">
+							{commentIsLoading && <div>LOADING COMMENTS ADD SPINNER HERE</div>}
+							{comments && (
+								<>
+									{comments.map((comment: string) => (
+										<Comment
+											// @ts-ignore
+											key={comment.id} // @ts-ignore
+											commentId={comment.id} // @ts-ignore
+											content={comment?.content} // @ts-ignore
+											authorId={comment?.authorId}
+										/>
+									))}
+								</>
+							)}
+						</div>
 
-					{/* Post a Comment Section */}
-					{session && (
-						<form
-							onSubmit={handleSubmit(onSubmit)}
-							className="space-y-5 flex flex-col text-gray-300 p-4 w-[400px]"
-						>
-							<div className="space-y-1">
+						{/* Post a Comment Section */}
+						{session && (
+							<form
+								onSubmit={handleSubmit(onSubmit)}
+								className="space-y-3 flex flex-col text-gray-300 w-full bg-gray-900"
+							>
 								<textarea
 									id="comment"
 									placeholder="Share a comment or provide feedback!"
 									{...register('content', { required: true, maxLength: 130 })}
-									className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+									className=" text-gray-900 border border-gray-500 rounded-sm text-sm w-full p-2.5 bg-gray-900 dark:text-white "
 								/>
-							</div>
 
-							<input
-								disabled={formState.isSubmitting}
-								className="p-2 rounded-md bg-[#E63E6D] w-32 text-sm font-semibold"
-								type="submit"
-								value="Add Comment"
-							/>
-						</form>
-					)}
+								<input
+									disabled={formState.isSubmitting}
+									className="p-2 rounded-md bg-[#E63E6D] w-32 text-xs font-semibold"
+									type="submit"
+									value="Add Comment"
+								/>
+							</form>
+						)}
+					</div>
 				</div>
 			</div>
 		</>

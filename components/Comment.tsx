@@ -72,23 +72,26 @@ const Comment: React.FC<IComment> = ({ commentId, content, authorId }) => {
 	}
 
 	return (
-		<div className="flex flex-row p-3 space-x-2 bg-gray-700 text-sm text-gray-300 relative">
+		<div className="flex flex-row space-x-2 text-sm relative">
 			<img
-				className="h-7 w-7 rounded-full cursor-pointer"
-				src={user.image}
+				className="h-6 w-6 rounded-full cursor-pointer"
+				src={user.avatar ?? user.image}
 				alt=""
 				onClick={() => router.push(`/profile/${user.id}`)}
 			/>
 			<div className="flex flex-col space-y-2 ">
-				<Link href={`/profile/${user.id}`}>
-					<a className="text-xs font-light text-[#DB6B97] py-1">{user.name}</a>
-				</Link>
+				<div className="relative">
+					<Link href={`/profile/${user.id}`}>
+						<a className="text-xs font-medium text-[#DB6B97]">{user.displayName ?? user.name}</a>
+					</Link>
+					<div className="text-[9px] font-light text-gray-400 ">{user.headline}</div>
+				</div>
+
 				{editing ? (
-					<form onSubmit={handleSubmit(onSubmit)} className="flex flex-row space-x-1">
-						<input
-							type="text"
+					<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-2 w-60">
+						<textarea
 							{...register('content', { required: true })}
-							className="bg-gray-600 border-b-2 px-1 border-gray-600 text-gray-900 text-sm rounded-sm  block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+							className=" text-gray-900 border border-gray-500 rounded-sm text-sm w-full p-1 bg-gray-900 dark:text-white"
 						/>
 						<button
 							type="submit"
@@ -102,7 +105,7 @@ const Comment: React.FC<IComment> = ({ commentId, content, authorId }) => {
 				)}
 			</div>
 			{canEditDelete && (
-				<div className="flex flex-row space-x-2 text-xs absolute right-0 pr-3 text-[#080808]">
+				<div className="flex flex-row space-x-2 text-xs absolute right-0 pt-1 text-[#080808]">
 					<button
 						onClick={() => setEditing(!editing)}
 						className="bg-[#FFDADA] h-4 w-8 rounded-sm hover:bg-[#fffafa]"
