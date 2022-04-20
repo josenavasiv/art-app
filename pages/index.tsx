@@ -1,13 +1,14 @@
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { useSession, signIn, signOut } from 'next-auth/react';
+import { signIn, signOut } from 'next-auth/react';
 import { GetServerSideProps } from 'next';
 import prisma from '../lib/prisma';
+import { InferGetServerSidePropsType } from 'next';
 
 import Navbar from '../components/Navbar';
 import ArtworkGrid from '../components/ArtworkGrid';
 
-import { InferGetServerSidePropsType } from 'next';
+import useLoggedInUser from '../hooks/useLoggedInUser';
 
 export const getServerSideProps: GetServerSideProps = async () => {
 	// const params = new URLSearchParams({ section: 'COMMUNITY' });
@@ -29,16 +30,14 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
 const Home: NextPage = ({ commmunityImages }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const router = useRouter();
-	const { data: session, status } = useSession();
+	const { loggedInUser, isLoading, isError } = useLoggedInUser();
 
 	return (
 		<>
 			<Navbar />
 			<div className="w-full h-full flex flex-col justify-center items-center">
-				<h1 className="text-3xl font-bold underline text-[#D3DBFF]">Hello world!</h1>
-				<h1 className="text-3xl font-bold underline text-[#FFDADA]">Hello world!</h1>
-				<h1 className="text-3xl font-bold underline text-[#DB6B97]">Hello world!</h1>
-				<h1 className="text-3xl font-bold underline text-[#E63E6D]">Hello world!</h1>
+				<h1 className="text-3xl font-bold text-[#E63E6D] p-3">Home.</h1>
+
 				<button onClick={() => signIn()} className="bg-white p-2">
 					SIGN IN
 				</button>
@@ -48,8 +47,11 @@ const Home: NextPage = ({ commmunityImages }: InferGetServerSidePropsType<typeof
 				<button onClick={() => router.push('/api/hello')} className="bg-white p-2">
 					API HELLO
 				</button>
-				<button onClick={() => router.push('/profile/cl253ie2g0008jktshzr9lvwv')} className="bg-white p-2">
-					PROFILE (HARD CODED)
+				<button onClick={() => router.push(`/profile/${loggedInUser.id}`)} className="bg-white p-2">
+					PROFILE
+				</button>
+				<button onClick={() => router.push(`/profile/${loggedInUser.id}/edit`)} className="bg-white p-2">
+					PROFILE EDIT
 				</button>
 			</div>
 			<ArtworkGrid artworks={commmunityImages} />

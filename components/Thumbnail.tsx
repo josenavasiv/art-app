@@ -42,10 +42,10 @@ const Thumbnail: React.FC<IThumbnailProps> = ({ authorId, artworkId, artworkTitl
 				{user && (
 					<div className="w-full h-full opacity-0 hover:opacity-100 duration-300 absolute z-10 flex flex-row text-[#E63E6D] thumbnail-text">
 						<div className="flex flex-row self-end p-3 space-x-2">
-							<img className="rounded-full w-8 h-8 self-center" src={user.image} alt="" />
+							<img className="rounded-full w-8 h-8 self-center" src={user.avatar ?? user.image} alt="" />
 							<div className="flex flex-col self-center">
 								<p className="text-sm font-semibold">{artworkTitle}</p>
-								<p className="text-xs font-light">{user.name}</p>
+								<p className="text-xs font-light">{user.displayName ?? user.name}</p>
 							</div>
 						</div>
 					</div>

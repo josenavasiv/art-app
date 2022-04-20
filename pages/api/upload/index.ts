@@ -16,8 +16,6 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 
 	const session = await getSession({ req });
 	// @ts-ignore
-	const userName: string = session?.user?.name;
-	// @ts-ignore
 	const userEmail: string = session?.user?.email; // Connect to Upload within prisma via email
 	if (session) {
 		const result = await prisma.artwork.create({
@@ -27,7 +25,6 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 				section: section,
 				imageUrl: image_url,
 				thumbnailUrl: image_url,
-				authorName: userName,
 				mature: mature,
 				author: { connect: { email: userEmail } },
 			},

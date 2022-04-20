@@ -2,26 +2,45 @@ import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import prisma from '../../../../lib/prisma';
 import { SectionEnum } from '../../../upload';
-import { useSession, signIn } from 'next-auth/react';
+import { getSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 
 import Navbar from '../../../../components/Navbar';
 
+// @ts-ignore
 export const getServerSideProps: GetServerSideProps = async (context) => {
-	const artworkData = await prisma.artwork.findUnique({
-		where: {
-			// @ts-ignore
-			id: context.query.id,
-		},
-	});
-	const artworkDetails = JSON.parse(JSON.stringify(artworkData));
-	console.log(artworkDetails);
+	const session = await getSession(context);
 
-	return {
-		props: {
-			artworkDetails,
-		},
-	};
+	if (!session) {
+		return {
+			redirect: {
+				destination: '/',
+				permanent: false,
+			},
+		};
+	} else {
+		// Maybe protect edit is unnecassary
+		// const userData = await prisma.user.findUnique({
+		// 	where: {
+		// 		// @ts-ignore
+		// 		email: session?.user?.email
+		// 	}
+		// })
+		const artworkData = await prisma.artwork.findUnique({
+			where: {
+				// @ts-ignore
+				id: context.query.id,
+			},
+		});
+		const artworkDetails = JSON.parse(JSON.stringify(artworkData));
+		console.log(artworkDetails);
+
+		return {
+			props: {
+				artworkDetails,
+			},
+		};
+	}
 };
 
 interface IUpdateArtwork {
@@ -33,7 +52,6 @@ interface IUpdateArtwork {
 
 const index: React.FC = ({ artworkDetails }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const router = useRouter();
-	const { data: session, status } = useSession();
 	const { register, handleSubmit, formState, setValue } = useForm<IUpdateArtwork>();
 
 	// Setting the input fields of the original artwork
@@ -58,20 +76,6 @@ const index: React.FC = ({ artworkDetails }: InferGetServerSidePropsType<typeof 
 		// Redirects to new updated artwork id
 		return router.push(`/artwork/${artwork_data.id}`);
 	};
-
-	if (!session) {
-		return (
-			<>
-				<Navbar />
-				<div className="w-full h-full flex flex-col justify-center items-center">
-					<h1 className="text-3xl font-bold underline text-[#E63E6D]">Please Log In to Upload Image</h1>
-					<button onClick={() => signIn()} className="bg-white p-2">
-						SIGN IN
-					</button>
-				</div>
-			</>
-		);
-	}
 
 	return (
 		<>

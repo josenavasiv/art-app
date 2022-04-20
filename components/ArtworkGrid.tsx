@@ -15,7 +15,6 @@ export interface IArtwork {
 	mature: boolean;
 	section: Section;
 	subjects: string[];
-	authorName: string;
 	authorId: string;
 }
 

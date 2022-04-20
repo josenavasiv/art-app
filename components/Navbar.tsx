@@ -1,20 +1,19 @@
 import React from 'react';
 import Image from 'next/image';
-import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
 import useLoggedInUser from '../hooks/useLoggedInUser';
 
 const Navbar: React.FC = () => {
-	const { data: session, status } = useSession();
+	// const { data: session, status } = useSession();
 	const router = useRouter();
 
 	// console.log(session);
 	// SWR into database with useEffect when session status changes
 	const { loggedInUser, isLoading, isError } = useLoggedInUser();
-	console.log(loggedInUser);
+	// console.log(loggedInUser);
 
-	if (!session) {
+	if (!loggedInUser) {
 		return (
 			<nav className="w-full h-14 space-x-3 bg-[#121212] border-b border-gray-600 flex flex-row text-white text-xs font-medium">
 				<div
@@ -151,7 +150,16 @@ const Navbar: React.FC = () => {
 					</svg>
 				</button>
 				<div className="w-20 flex flex-row space-x-1">
-					<Image src={session?.user?.image || ''} height="30px" width="30px" className="rounded-full" />
+					<Image
+						src={
+							loggedInUser?.avatar ||
+							loggedInUser?.image ||
+							'https://i.picsum.photos/id/866/536/354.jpg?hmac=tGofDTV7tl2rprappPzKFiZ9vDh5MKj39oa2D--gqhA'
+						}
+						height="30px"
+						width="30px"
+						className="rounded-full"
+					/>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						className="h-5 w-5 self-center"

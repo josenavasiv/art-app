@@ -109,10 +109,20 @@ const index: React.FC = ({ artworkDetails, session }: InferGetServerSidePropsTyp
 							{userIsLoading && <div>LOADING USER DETAILS</div>}
 							{user && (
 								<>
-									<img className="rounded-full w-12 h-12" src={user.image} alt="" />
+									<img
+										onClick={() => router.push(`/profile/${user.id}`)}
+										className="rounded-full w-12 h-12 cursor-pointer"
+										src={user.image}
+										alt=""
+									/>
 									<div className="flex flex-col">
-										<p>{user.name}</p>
-										<p>{user.status}</p>
+										<div
+											onClick={() => router.push(`/profile/${user.id}`)}
+											className="cursor-pointer"
+										>
+											{user.name}
+										</div>
+										<div>{user.status}</div>
 									</div>
 									{/* CHANGE THIS TO DROP DOWN */}
 									{canEditDelete && (

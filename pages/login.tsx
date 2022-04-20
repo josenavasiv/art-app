@@ -12,6 +12,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
 };
 
 const login: React.FC<Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider>> = ({ providers }) => {
+	
 	return (
 		<div className="flex flex-col items-center min-h-screen w-full justify-center">
 			<h1 className="text-[#FFDADA] font-bold text-2xl md:text-5xl">Arstation Pinterest App</h1>

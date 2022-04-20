@@ -3,7 +3,7 @@ import useSWR from 'swr';
 // Gets the user details of a specified user via the user's id
 const useUser = (id: string) => {
 	const { data, error } = useSWR(`/api/user/${id}`, async () => {
-		const response = await fetch(`/api/user/${id}`);
+		const response = await fetch(`/api/user/${id}`, { method: 'GET' });
 		const data = await response.json();
 		return data;
 	});
