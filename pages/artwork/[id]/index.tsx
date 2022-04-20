@@ -12,6 +12,8 @@ import Comment from '../../../components/Comment';
 import useComments from '../../../hooks/useComments';
 import useUser from '../../../hooks/useUser';
 
+import { getRelativeDate } from '../../../lib/relativeTime';
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const id = context.query.id as string; // Get over TypeScript string issue
 
@@ -127,7 +129,7 @@ const index: React.FC = ({ artworkDetails, session }: InferGetServerSidePropsTyp
 										>
 											{user.displayName ?? user.name}
 										</div>
-										<div className="text-xs text-gray-400 font-light">{user.headline}</div>
+										<div className="text-xs text-gray-400 font-normal">{user.headline}</div>
 									</div>
 									{/* CHANGE THIS TO DROP DOWN */}
 									{canEditDelete && (
@@ -206,7 +208,9 @@ const index: React.FC = ({ artworkDetails, session }: InferGetServerSidePropsTyp
 						<div className="flex flex-col space-y-2">
 							<div className="text-3xl font-semibold">{artworkDetails.title}</div>
 							<div className="text-sm pb-2">{artworkDetails.description}</div>
-							<div className="text-xs">{artworkDetails.createdAt}</div>
+							<div className="text-xs text-gray-400 italic">
+								Posted {getRelativeDate(artworkDetails.createdAt)}
+							</div>
 							<div className="flex flex-row justify-between">
 								<div className="text-xs">{artworkDetails.viewCount} views</div>
 								<div className="text-xs">{artworkDetails.likeCount} likes</div>
