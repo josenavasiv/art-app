@@ -36,10 +36,31 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	const session = await getSession(context);
 
+	let userCanLike = true;
+	const userResult = await prisma.user.findUnique({
+		// @ts-ignore
+		where: { email: session?.user?.email },
+	});
+	const likeResult = await prisma.like.findUnique({
+		where: {
+			// @ts-ignore
+			artworkId_authorId: {
+				// @ts-ignore
+				authorId: userResult?.id,
+				// @ts-ignore
+				artworkId: id,
+			},
+		},
+	});
+	if (likeResult) {
+		userCanLike = false;
+	}
+
 	return {
 		props: {
 			artworkDetails,
 			session,
+			userCanLike,
 		},
 	};
 };
@@ -51,9 +72,14 @@ interface IFormInput {
 	content: string;
 }
 
-const index: React.FC = ({ artworkDetails, session }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const index: React.FC = ({
+	artworkDetails,
+	session,
+	userCanLike,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const router = useRouter();
 	const [showModal, setShowModal] = useState(false);
+	const [canLike, setCanLike] = useState(userCanLike);
 
 	const { user, isLoading: userIsLoading, isError: userIsError } = useUser(artworkDetails.authorId);
 	const {
@@ -98,6 +124,22 @@ const index: React.FC = ({ artworkDetails, session }: InferGetServerSidePropsTyp
 			headers: { 'Content-Type': 'application/json' },
 		});
 		return router.push('/');
+	};
+
+	const handleLike = async () => {
+		const result = await fetch(`/api/artwork/${artworkDetails.id}/like`, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+		});
+		setCanLike(false);
+	};
+
+	const handleUnlike = async () => {
+		const result = await fetch(`/api/artwork/${artworkDetails.id}/like`, {
+			method: 'DELETE',
+			headers: { 'Content-Type': 'application/json' },
+		});
+		setCanLike(true);
 	};
 
 	return (
@@ -203,7 +245,15 @@ const index: React.FC = ({ artworkDetails, session }: InferGetServerSidePropsTyp
 							)}
 						</div>
 						<div className="flex flex-row items-center">
-							<button className="bg-blue-300 w-2/5 rounded-sm ">Like</button>
+							{canLike ? (
+								<button onClick={handleLike} className="bg-blue-300 w-2/5 rounded-sm">
+									Like
+								</button>
+							) : (
+								<button onClick={handleUnlike} className="bg-blue-300 w-2/5 rounded-sm">
+									Liked!
+								</button>
+							)}
 						</div>
 						<div className="flex flex-col space-y-2">
 							<div className="text-3xl font-semibold">{artworkDetails.title}</div>

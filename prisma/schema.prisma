@@ -90,11 +90,12 @@ model Comment {
 }
 
 model Like {
-  id            String    @id @default(cuid())
   artworkId     String
   artwork       Artwork   @relation(fields: [artworkId], references: [id])
   authorId      String
   author        User     @relation(fields: [authorId], references: [id])
+
+  @@id([artworkId, authorId])
 }
 
 model Follows {
