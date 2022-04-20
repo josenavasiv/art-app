@@ -8,6 +8,7 @@ import { getSession } from 'next-auth/react';
 import prisma from '../../../lib/prisma';
 import Navbar from '../../../components/Navbar';
 import Comment from '../../../components/Comment';
+import MoreByGrid from '../../../components/MoreByGrid';
 
 import useComments from '../../../hooks/useComments';
 import useUser from '../../../hooks/useUser';
@@ -39,14 +40,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	let userCanLike = true;
 	const userResult = await prisma.user.findUnique({
 		// @ts-ignore
-		where: { email: session?.user?.email },
+		where: { email: session?.user?.email || 'TEMPORARY' },
 	});
+
 	const likeResult = await prisma.like.findUnique({
 		where: {
 			// @ts-ignore
 			artworkId_authorId: {
 				// @ts-ignore
-				authorId: userResult?.id,
+				authorId: userResult?.id || 'TEMPORARY',
 				// @ts-ignore
 				artworkId: id,
 			},
@@ -55,7 +57,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	if (likeResult) {
 		userCanLike = false;
 	}
-
 	return {
 		props: {
 			artworkDetails,
@@ -244,20 +245,23 @@ const index: React.FC = ({
 								</>
 							)}
 						</div>
-						<div className="flex flex-row items-center">
-							{canLike ? (
-								<button onClick={handleLike} className="bg-blue-300 w-2/5 rounded-sm">
-									Like
-								</button>
-							) : (
-								<button onClick={handleUnlike} className="bg-blue-300 w-2/5 rounded-sm">
-									Liked!
-								</button>
-							)}
-						</div>
+						{session && (
+							<div className="flex flex-row items-center">
+								{canLike ? (
+									<button onClick={handleLike} className="bg-blue-300 w-2/5 rounded-sm">
+										Like
+									</button>
+								) : (
+									<button onClick={handleUnlike} className="bg-blue-300 w-2/5 rounded-sm">
+										Liked!
+									</button>
+								)}
+							</div>
+						)}
+
 						<div className="flex flex-col space-y-2">
 							<div className="text-3xl font-semibold">{artworkDetails.title}</div>
-							<div className="text-sm pb-2">{artworkDetails.description}</div>
+							<div className="text-sm pb-2 whitespace-pre-line">{artworkDetails.description}</div>
 							<div className="text-xs text-gray-400 italic">
 								Posted {getRelativeDate(artworkDetails.createdAt)}
 							</div>
@@ -306,6 +310,8 @@ const index: React.FC = ({
 								/>
 							</form>
 						)}
+
+						<MoreByGrid userId={artworkDetails.authorId} />
 					</div>
 				</div>
 			</div>

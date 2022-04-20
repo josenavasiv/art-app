@@ -41,7 +41,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		);
 	}
 	const userLikesArtworksParsed = JSON.parse(JSON.stringify(userLikesArtworks));
-	console.log(userLikesArtworksParsed);
+	// console.log(userLikesArtworksParsed);
 
 	return {
 		props: {

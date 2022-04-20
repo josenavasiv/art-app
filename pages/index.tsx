@@ -9,7 +9,6 @@ import Navbar from '../components/Navbar';
 import ArtworkGrid from '../components/ArtworkGrid';
 
 import useLoggedInUser from '../hooks/useLoggedInUser';
-import { getRelativeDate } from '../lib/relativeTime';
 
 export const getServerSideProps: GetServerSideProps = async () => {
 	// const params = new URLSearchParams({ section: 'COMMUNITY' });
@@ -19,6 +18,9 @@ export const getServerSideProps: GetServerSideProps = async () => {
 	// });
 	const data = await prisma.artwork.findMany({
 		where: { section: 'COMMUNITY' },
+		orderBy: {
+			createdAt: 'desc',
+		},
 	});
 	const commmunityImages = JSON.parse(JSON.stringify(data));
 	// console.log(commmunityImages); An array of objects (Upload Prisma)
@@ -44,9 +46,6 @@ const Home: NextPage = ({ commmunityImages }: InferGetServerSidePropsType<typeof
 				</button>
 				<button onClick={() => signOut()} className="bg-white p-2">
 					SIGN OUT
-				</button>
-				<button onClick={() => router.push('/api/hello')} className="bg-white p-2">
-					API HELLO
 				</button>
 				<button onClick={() => router.push(`/profile/${loggedInUser.id}`)} className="bg-white p-2">
 					PROFILE
