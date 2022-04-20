@@ -22,6 +22,17 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 					author: { connect: { id: userResult?.id } },
 				},
 			});
+			const updateLikes = await prisma.artwork.update({
+				where: {
+					// @ts-ignore
+					id: id,
+				},
+				data: {
+					likeCount: {
+						increment: 1,
+					},
+				},
+			});
 			res.json(result);
 			return;
 		} else if (req.method === 'DELETE') {
@@ -33,6 +44,17 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 						authorId: userResult?.id,
 						// @ts-ignore
 						artworkId: id,
+					},
+				},
+			});
+			const updateLikes = await prisma.artwork.update({
+				where: {
+					// @ts-ignore
+					id: id,
+				},
+				data: {
+					likeCount: {
+						decrement: 1,
 					},
 				},
 			});

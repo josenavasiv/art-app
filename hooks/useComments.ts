@@ -10,7 +10,7 @@ const useComments = (artworkId: string) => {
 		return data;
 	});
 
-	console.log(data);
+	// console.log(data);
 
 	return {
 		comments: data,

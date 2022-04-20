@@ -23,17 +23,42 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	const userArtworks = JSON.parse(JSON.stringify(userArtworksData));
 	// console.log(userArtworks);
 
+	const userLikes = await prisma.like.findMany({
+		where: {
+			authorId: id,
+		},
+	});
+	// console.log(userLikes);
+
+	const userLikesArtworks = [];
+	for await (const userLike of userLikes) {
+		userLikesArtworks.push(
+			await prisma.artwork.findUnique({
+				where: {
+					id: userLike.artworkId,
+				},
+			})
+		);
+	}
+	const userLikesArtworksParsed = JSON.parse(JSON.stringify(userLikesArtworks));
+	console.log(userLikesArtworksParsed);
+
 	return {
 		props: {
 			userDetails,
 			userArtworks,
+			userLikesArtworksParsed,
 		},
 	};
 };
 
 // Need to create async function that gets userlikes, maybe change get userArtworks to be obtained with swr
 
-const index: React.FC = ({ userDetails, userArtworks }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const index: React.FC = ({
+	userDetails,
+	userArtworks,
+	userLikesArtworksParsed,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	return (
 		<>
 			<Navbar />
@@ -65,7 +90,7 @@ const index: React.FC = ({ userDetails, userArtworks }: InferGetServerSidePropsT
 					<ArtworkGrid artworks={userArtworks} />
 				</TabPanel>
 				<TabPanel>
-					<h2>Likes</h2>
+					<ArtworkGrid artworks={userLikesArtworksParsed} />
 				</TabPanel>
 				<TabPanel>
 					<h2>Following</h2>
