@@ -1,6 +1,7 @@
 import { Section } from '@prisma/client';
 import React from 'react';
 import Thumbnail from './Thumbnail';
+import useLoggedInUser from '../hooks/useLoggedInUser';
 
 export interface IArtwork {
 	id: string;

@@ -41,7 +41,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	let userCanLike = true;
 	const userResult = await prisma.user.findUnique({
 		// @ts-ignore
-		where: { email: session?.user?.email || 'TEMPORARY' },
+		where: { email: session?.user?.email || 'User is not logged in' },
 	});
 
 	const likeResult = await prisma.like.findUnique({
@@ -49,7 +49,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 			// @ts-ignore
 			artworkId_authorId: {
 				// @ts-ignore
-				authorId: userResult?.id || 'TEMPORARY',
+				authorId: userResult?.id || 'User is not logged in',
 				// @ts-ignore
 				artworkId: id,
 			},
@@ -169,7 +169,7 @@ const index: React.FC = ({
 									<div className="flex flex-col">
 										<div
 											onClick={() => router.push(`/profile/${user.id}`)}
-											className="text-md cursor-pointer py-1 font-medium text-[#DB6B97]"
+											className="text-md cursor-pointer font-medium text-[#DB6B97]"
 										>
 											{user.displayName ?? user.name}
 										</div>

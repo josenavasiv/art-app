@@ -2,6 +2,7 @@ import { GetServerSideProps } from 'next';
 import { InferGetServerSidePropsType } from 'next';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
+import { getSession } from 'next-auth/react';
 
 import prisma from '../../../lib/prisma';
 import Navbar from '../../../components/Navbar';
@@ -9,6 +10,14 @@ import ArtworkGrid from '../../../components/ArtworkGrid';
 import FollowerProfile from '../../../components/FollowerProfile';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+	const session = await getSession(context);
+
+	const sessionResult = await prisma.user.findUnique({
+		where: {
+			email: session?.user?.email || 'User Not Logged In',
+		},
+	});
+
 	const id = context.query.id as string; // Get over TypeScript string issue
 
 	const userDetailsData = await prisma.user.findUnique({
@@ -19,7 +28,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	// Need to grab the user's images
 	const userArtworksData = await prisma.artwork.findMany({
-		where: { authorId: id },
+		where: {
+			OR: [
+				{ authorId: id, mature: false },
+				{ authorId: id, mature: sessionResult?.showMatureContent || false },
+			],
+		},
+		orderBy: {
+			createdAt: 'desc',
+		},
 	});
 	const userArtworks = JSON.parse(JSON.stringify(userArtworksData));
 	// console.log(userArtworks);
@@ -33,13 +50,20 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	const userLikesArtworks = [];
 	for await (const userLike of userLikes) {
-		userLikesArtworks.push(
-			await prisma.artwork.findUnique({
-				where: {
-					id: userLike.artworkId,
-				},
-			})
-		);
+		const result = await prisma.artwork.findUnique({
+			where: {
+				id: userLike.artworkId,
+			},
+		});
+		// If logged-in user has show mature content true, just show every liked artwork
+		if (sessionResult?.showMatureContent === true) {
+			userLikesArtworks.push(result);
+		} else {
+			// If user not logged in or has show mature content false, only add artworks with mature as false
+			if (result?.mature === false) {
+				userLikesArtworks.push(result);
+			}
+		}
 	}
 	const userLikesArtworksParsed = JSON.parse(JSON.stringify(userLikesArtworks));
 	// console.log(userLikesArtworksParsed);
