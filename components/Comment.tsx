@@ -4,14 +4,16 @@ import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useState } from 'react';
+import { getRelativeDate } from '../lib/relativeTime';
 
 interface IComment {
 	commentId: string;
 	content: string;
 	authorId: string;
+	createdAt: string;
 }
 
-const Comment: React.FC<IComment> = ({ commentId, content, authorId }) => {
+const Comment: React.FC<IComment> = ({ commentId, content, authorId, createdAt }) => {
 	const router = useRouter();
 	const { user, isLoading, isError } = useUser(authorId);
 	const { data: session, status } = useSession();
@@ -79,12 +81,12 @@ const Comment: React.FC<IComment> = ({ commentId, content, authorId }) => {
 				alt=""
 				onClick={() => router.push(`/profile/${user.id}`)}
 			/>
-			<div className="flex flex-col space-y-2 ">
+			<div className="flex flex-col space-y-2 w-full">
 				<div className="relative">
 					<Link href={`/profile/${user.id}`}>
 						<a className="text-xs font-medium text-[#DB6B97]">{user.displayName ?? user.name}</a>
 					</Link>
-					<div className="text-[9px] font-light text-gray-400 ">{user.headline}</div>
+					<div className="text-[9px] text-gray-400 ">{user.headline}</div>
 				</div>
 
 				{editing ? (
@@ -101,7 +103,10 @@ const Comment: React.FC<IComment> = ({ commentId, content, authorId }) => {
 						</button>
 					</form>
 				) : (
-					<div className="break-words">{currentComment}</div>
+					<div className="flex flex-col">
+						<div className="break-words whitespace-pre-line">{currentComment}</div>
+						<div className=" text-gray-400 italic self-end text-[9px]">{getRelativeDate(createdAt)}</div>
+					</div>
 				)}
 			</div>
 			{canEditDelete && (

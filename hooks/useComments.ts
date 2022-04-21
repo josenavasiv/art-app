@@ -9,7 +9,7 @@ const useComments = (artworkId: string) => {
 		const data = await response.json();
 		return data;
 	});
-
+	// console.log('comments');
 	// console.log(data);
 
 	return {

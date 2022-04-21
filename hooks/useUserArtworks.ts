@@ -10,7 +10,7 @@ const useUserArtworks = (userId: string) => {
 		return data;
 	});
 
-	console.log(data);
+	// console.log(data);
 
 	return {
 		userArtworks: data,
