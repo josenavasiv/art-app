@@ -6,6 +6,7 @@ import 'react-tabs/style/react-tabs.css';
 import prisma from '../../../lib/prisma';
 import Navbar from '../../../components/Navbar';
 import ArtworkGrid from '../../../components/ArtworkGrid';
+import FollowerProfile from '../../../components/FollowerProfile';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const id = context.query.id as string; // Get over TypeScript string issue
@@ -42,6 +43,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	}
 	const userLikesArtworksParsed = JSON.parse(JSON.stringify(userLikesArtworks));
 	// console.log(userLikesArtworksParsed);
+
+	// Get all the user's following and followers and shov in the ids into two arraya
 
 	return {
 		props: {
@@ -96,7 +99,16 @@ const index: React.FC = ({
 					<h2>Following</h2>
 				</TabPanel>
 				<TabPanel>
-					<h2>Followers</h2>
+					<div className="w-full upload-grid">
+						<FollowerProfile userId={userDetails.id} />
+						<FollowerProfile userId={userDetails.id} />
+						<FollowerProfile userId={userDetails.id} />
+						<FollowerProfile userId={userDetails.id} />
+						<FollowerProfile userId={userDetails.id} />
+						<FollowerProfile userId={userDetails.id} />
+						<FollowerProfile userId={userDetails.id} />
+						<FollowerProfile userId={userDetails.id} />
+					</div>
 				</TabPanel>
 			</Tabs>
 		</>
