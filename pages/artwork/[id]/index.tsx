@@ -175,22 +175,40 @@ const index: React.FC = ({
 										</div>
 										<div className="text-xs text-gray-400 font-normal">{user.headline}</div>
 									</div>
-									{/* CHANGE THIS TO DROP DOWN */}
 									{canEditDelete && (
-										<div className="flex flex-row space-x-2 text-xs absolute right-0 text-[#080808] py-2">
-											<button
+										<div className="flex flex-row space-x-2 text-xs absolute right-0 text-gray-400 py-1">
+											<div
+												className="cursor-pointer"
 												onClick={() => router.push(`/artwork/${artworkDetails.id}/edit`)}
-												className="bg-[#FFDADA] h-4 w-8 rounded-sm hover:bg-[#fffafa]"
 											>
-												EDIT
-											</button>
-											{/* There should be a pop up that warns if you want to delete, then just straight send to the /api/artwork/[id] */}
-											<button
-												onClick={() => setShowModal(true)}
-												className="bg-[#E63E6D] h-4 w-11 rounded-sm hover:bg-[#DB6B97]"
-											>
-												DELETE
-											</button>
+												<svg
+													xmlns="http://www.w3.org/2000/svg"
+													className="h-[17px] w-[15px] hover:text-white"
+													viewBox="0 0 20 20"
+													fill="currentColor"
+												>
+													<path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
+													<path
+														fillRule="evenodd"
+														d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
+														clipRule="evenodd"
+													/>
+												</svg>
+											</div>
+											<div onClick={() => setShowModal(true)} className="cursor-pointer">
+												<svg
+													xmlns="http://www.w3.org/2000/svg"
+													className="h-[17px] w-[15px] hover:text-white"
+													viewBox="0 0 20 20"
+													fill="currentColor"
+												>
+													<path
+														fillRule="evenodd"
+														d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+														clipRule="evenodd"
+													/>
+												</svg>
+											</div>
 
 											{showModal ? (
 												<>
@@ -249,13 +267,47 @@ const index: React.FC = ({
 						{session && (
 							<div className="flex flex-row items-center">
 								{canLike ? (
-									<button onClick={handleLike} className="bg-blue-300 w-2/5 rounded-sm">
-										Like
-									</button>
+									<div
+										onClick={handleLike}
+										className="bg-blue-300 w-1/5 rounded-sm cursor-pointer py-1 px-3 flex flex-row text-xs justify-center items-center space-x-1"
+									>
+										<div>
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												className="h-[17px] w-[15px] hover:text-white pb-0.5"
+												fill="none"
+												viewBox="0 0 24 24"
+												stroke="currentColor"
+												strokeWidth={2}
+											>
+												<path
+													strokeLinecap="round"
+													strokeLinejoin="round"
+													d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"
+												/>
+											</svg>
+										</div>
+
+										<div className="font-bold">LIKE</div>
+									</div>
 								) : (
-									<button onClick={handleUnlike} className="bg-blue-300 w-2/5 rounded-sm">
-										Liked!
-									</button>
+									<div
+										onClick={handleUnlike}
+										className="bg-blue-300 w-1/5 rounded-sm cursor-pointer py-1 px-8 flex flex-row text-xs justify-center items-center space-x-1"
+									>
+										<div>
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												className="h-[17px] w-[15px] hover:text-white pb-0.5"
+												viewBox="0 0 20 20"
+												fill="currentColor"
+											>
+												<path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
+											</svg>
+										</div>
+
+										<div className="font-bold">LIKED</div>
+									</div>
 								)}
 							</div>
 						)}

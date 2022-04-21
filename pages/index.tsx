@@ -56,20 +56,9 @@ const Home: NextPage = ({ commmunityImages }: InferGetServerSidePropsType<typeof
 		<>
 			<Navbar />
 			<div className="w-full h-full flex flex-col justify-center items-center">
-				<h1 className="text-3xl font-bold text-[#E63E6D] p-3">Home.</h1>
-
-				<button onClick={() => signIn()} className="bg-white p-2">
-					SIGN IN
-				</button>
-				<button onClick={() => signOut()} className="bg-white p-2">
-					SIGN OUT
-				</button>
-				<button onClick={() => router.push(`/profile/${loggedInUser.id}`)} className="bg-white p-2">
-					PROFILE
-				</button>
-				<button onClick={() => router.push(`/profile/${loggedInUser.id}/edit`)} className="bg-white p-2">
-					PROFILE EDIT
-				</button>
+				<div className="h-36 flex flex-col justify-center items-center">
+					<h1 className="text-3xl font-bold text-[#E63E6D] p-3 ">Home.</h1>
+				</div>
 			</div>
 
 			<ArtworkGrid artworks={commmunityImages} />

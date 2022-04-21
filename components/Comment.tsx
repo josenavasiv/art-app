@@ -74,9 +74,9 @@ const Comment: React.FC<IComment> = ({ commentId, content, authorId, createdAt }
 	}
 
 	return (
-		<div className="flex flex-row space-x-2 text-sm relative">
+		<div className="flex flex-row space-x-3 text-sm relative">
 			<img
-				className="h-6 w-6 rounded-full cursor-pointer"
+				className="h-7 w-7 rounded-full cursor-pointer mt-1"
 				src={user.avatar ?? user.image}
 				alt=""
 				onClick={() => router.push(`/profile/${user.id}`)}
@@ -97,9 +97,16 @@ const Comment: React.FC<IComment> = ({ commentId, content, authorId, createdAt }
 						/>
 						<button
 							type="submit"
-							className="bg-[#FFDADA] h-4 w-10 rounded-sm hover:bg-[#fffafa] text-xs text-[#080808] self-end"
+							className=" h-4 w-10 rounded-sm hover:text-white text-xs text-gray-400 self-end flex justify-center items-center pr-1"
 						>
-							SAVE
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								className="h-[15px] w-[13px]"
+								viewBox="0 0 20 20"
+								fill="currentColor"
+							>
+								<path d="M7.707 10.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V6h5a2 2 0 012 2v7a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2h5v5.586l-1.293-1.293zM9 4a1 1 0 012 0v2H9V4z" />
+							</svg>
 						</button>
 					</form>
 				) : (
@@ -110,17 +117,36 @@ const Comment: React.FC<IComment> = ({ commentId, content, authorId, createdAt }
 				)}
 			</div>
 			{canEditDelete && (
-				<div className="flex flex-row space-x-2 text-xs absolute right-0 pt-1 text-[#080808]">
-					<button
-						onClick={() => setEditing(!editing)}
-						className="bg-[#FFDADA] h-4 w-8 rounded-sm hover:bg-[#fffafa]"
-					>
-						EDIT
-					</button>
-					{/* There should be a pop up that warns if you want to delete, then just straight send to the /api/artwork/[id] */}
-					<button onClick={onDelete} className="bg-[#E63E6D] h-4 w-11 rounded-sm hover:bg-[#DB6B97]">
-						DELETE
-					</button>
+				<div className="flex flex-row space-x-2 text-xs absolute right-0 pt-1 text-gray-400">
+					<div className="cursor-pointer" onClick={() => setEditing(!editing)}>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							className="h-[17px] w-[15px] hover:text-white"
+							viewBox="0 0 20 20"
+							fill="currentColor"
+						>
+							<path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
+							<path
+								fillRule="evenodd"
+								d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
+								clipRule="evenodd"
+							/>
+						</svg>
+					</div>
+					<div onClick={onDelete} className="cursor-pointer">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							className="h-[17px] w-[15px] hover:text-white"
+							viewBox="0 0 20 20"
+							fill="currentColor"
+						>
+							<path
+								fillRule="evenodd"
+								d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+								clipRule="evenodd"
+							/>
+						</svg>
+					</div>
 				</div>
 			)}
 		</div>

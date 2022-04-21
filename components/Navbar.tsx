@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
 import useLoggedInUser from '../hooks/useLoggedInUser';
+import NavbarDropdown from './NavbarDropdown';
 
 const Navbar: React.FC = () => {
 	// const { data: session, status } = useSession();
@@ -117,39 +118,7 @@ const Navbar: React.FC = () => {
 
 					<p className="self-center">Upload</p>
 				</button>
-				<button className="w-18 flex flex-row">
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						className="h-5 w-5"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke="currentColor"
-						strokeWidth="2"
-					>
-						<path
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-						/>
-					</svg>
-				</button>
-				<button className="w-18 flex flex-row">
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						className="h-5 w-5"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke="currentColor"
-						strokeWidth="2"
-					>
-						<path
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-						/>
-					</svg>
-				</button>
-				<div className="w-20 flex flex-row space-x-1">
+				<div className=" flex flex-row space-x-2">
 					<Image
 						src={
 							loggedInUser?.avatar ||
@@ -160,19 +129,8 @@ const Navbar: React.FC = () => {
 						width="30px"
 						className="rounded-full"
 					/>
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						className="h-5 w-5 self-center"
-						viewBox="0 0 20 20"
-						fill="currentColor"
-					>
-						<path
-							fillRule="evenodd"
-							d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-							clipRule="evenodd"
-						/>
-					</svg>
 				</div>
+				<NavbarDropdown userId={loggedInUser?.id} />
 			</div>
 		</nav>
 	);

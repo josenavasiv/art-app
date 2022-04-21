@@ -103,16 +103,13 @@ const index: React.FC = ({
 
 			<Tabs className="text-gray-300 z-10 mt-2 w-full">
 				<TabList className="font-semibold text-center">
-					<Tab>About</Tab>
 					<Tab>Artwork</Tab>
 					<Tab>Likes</Tab>
 					<Tab>Following</Tab>
 					<Tab>Followers</Tab>
+					<Tab>About</Tab>
 				</TabList>
 
-				<TabPanel>
-					<h2>About</h2>
-				</TabPanel>
 				<TabPanel>
 					<ArtworkGrid artworks={userArtworks} />
 				</TabPanel>
@@ -121,6 +118,9 @@ const index: React.FC = ({
 				</TabPanel>
 				<TabPanel>
 					<h2>Following</h2>
+				</TabPanel>
+				<TabPanel>
+					<h2>About</h2>
 				</TabPanel>
 				<TabPanel>
 					<div className="w-full upload-grid">
