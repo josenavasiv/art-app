@@ -7,7 +7,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 	const { id } = req.query.id;
 
 	const userArtworks = await prisma.artwork.findMany({
-		take: 4,
+		take: 6,
 		where: {
 			authorId: id,
 		},

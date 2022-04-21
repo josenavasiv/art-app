@@ -1,6 +1,6 @@
 // @ts-nocheck
-const convertToDateFromString = () => {
-	const date = new Date('2022-04-20T00:49:37.096Z');
+const convertToDateFromString = (dateString) => {
+	const date = new Date(dateString);
 	return date;
 };
 

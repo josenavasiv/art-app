@@ -272,6 +272,10 @@ const index: React.FC = ({
 							</div>
 						</div>
 
+						<MoreByGrid userId={artworkDetails.authorId} />
+
+						<TagsGrid tags={artworkDetails.tags} />
+
 						{/* Comments Section */}
 						<div className="flex flex-col w-full space-y-7">
 							{commentIsLoading && <div>LOADING COMMENTS ADD SPINNER HERE</div>}
@@ -294,7 +298,7 @@ const index: React.FC = ({
 						{session && (
 							<form
 								onSubmit={handleSubmit(onSubmit)}
-								className="space-y-3 flex flex-col text-gray-300 w-full bg-gray-900"
+								className="space-y-4 flex flex-col text-gray-300 w-full bg-gray-900"
 							>
 								<textarea
 									id="comment"
@@ -311,10 +315,6 @@ const index: React.FC = ({
 								/>
 							</form>
 						)}
-
-						<MoreByGrid userId={artworkDetails.authorId} />
-
-						<TagsGrid tags={artworkDetails.tags} />
 					</div>
 				</div>
 			</div>
