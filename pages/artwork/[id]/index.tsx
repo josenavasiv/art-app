@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { GetServerSideProps } from 'next';
 import { InferGetServerSidePropsType } from 'next';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/react';
+import { Dialog, Transition } from '@headlessui/react';
 
 import prisma from '../../../lib/prisma';
 import Navbar from '../../../components/Navbar';
@@ -81,7 +82,16 @@ const index: React.FC = ({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const router = useRouter();
 
-	const [showModal, setShowModal] = useState(false);
+	// const [showModal, setShowModal] = useState(false);
+	let [isOpen, setIsOpen] = useState(false);
+
+	function closeModal() {
+		setIsOpen(false);
+	}
+
+	function openModal() {
+		setIsOpen(true);
+	}
 	const [canLike, setCanLike] = useState(likeResult ? false : true);
 
 	const { user, isLoading: userIsLoading, isError: userIsError } = useUser(artworkDetails.authorId);
@@ -196,7 +206,7 @@ const index: React.FC = ({
 													/>
 												</svg>
 											</div>
-											<div onClick={() => setShowModal(true)} className="cursor-pointer">
+											<div onClick={openModal} className="cursor-pointer">
 												<svg
 													xmlns="http://www.w3.org/2000/svg"
 													className="h-[17px] w-[15px] hover:text-white"
@@ -211,55 +221,86 @@ const index: React.FC = ({
 												</svg>
 											</div>
 
-											{showModal ? (
-												<>
-													<div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-														<div className="relative w-auto my-6 mx-auto max-w-3xl">
-															{/*content*/}
-															<div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-gray-700 text-lg text-gray-300 outline-none focus:outline-none justify-center items-center pt-7">
-																<svg
-																	xmlns="http://www.w3.org/2000/svg"
-																	className="h-24 w-24 text-[#E63E6D]"
-																	fill="none"
-																	viewBox="0 0 24 24"
-																	stroke="currentColor"
-																	strokeWidth={3}
+											<Transition appear show={isOpen} as={Fragment}>
+												<Dialog
+													as="div"
+													className="fixed inset-0 z-10 overflow-y-auto"
+													onClose={closeModal}
+												>
+													<div className="min-h-screen px-4 text-center">
+														<Transition.Child
+															as={Fragment}
+															enter="ease-out duration-300"
+															enterFrom="opacity-0"
+															enterTo="opacity-100"
+															leave="ease-in duration-200"
+															leaveFrom="opacity-100"
+															leaveTo="opacity-0"
+														>
+															<Dialog.Overlay className="fixed inset-0" />
+														</Transition.Child>
+
+														{/* This element is to trick the browser into centering the modal contents. */}
+														<span
+															className="inline-block h-screen align-middle"
+															aria-hidden="true"
+														>
+															&#8203;
+														</span>
+														<Transition.Child
+															as={Fragment}
+															enter="ease-out duration-300"
+															enterFrom="opacity-0 scale-95"
+															enterTo="opacity-100 scale-100"
+															leave="ease-in duration-200"
+															leaveFrom="opacity-100 scale-100"
+															leaveTo="opacity-0 scale-95"
+														>
+															<div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden  align-middle transition-all transform bg-gray-900 shadow-xl rounded-sm ">
+																<Dialog.Title
+																	as="h3"
+																	className="text-lg font-medium leading-6 text-[#E63E6D] flex items-center justify-center"
 																>
-																	<path
-																		strokeLinecap="round"
-																		strokeLinejoin="round"
-																		d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-																	/>
-																</svg>
-																{/*body*/}
-																<div className="relative p-8 flex-auto">
-																	<p className="my-4 text-white text-xl py-3 leading-relaxed">
-																		Are you sure you want to delete this artwork?
+																	<svg
+																		xmlns="http://www.w3.org/2000/svg"
+																		className="h-12 w-12"
+																		viewBox="0 0 20 20"
+																		fill="currentColor"
+																	>
+																		<path
+																			fillRule="evenodd"
+																			d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+																			clipRule="evenodd"
+																		/>
+																	</svg>
+																</Dialog.Title>
+																<div className="mt-2">
+																	<p className="text-sm text-white">
+																		Are you sure you want to delete this art?
 																	</p>
 																</div>
-																{/*footer*/}
-																<div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b space-x-4">
+
+																<div className="mt-4 flex flex-row justify-around">
 																	<button
-																		className="bg-emerald-600 text-white active:bg-[#FFDADA] font-bold uppercase text-sm px-2 py-1 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
 																		type="button"
-																		onClick={() => setShowModal(false)}
+																		className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+																		onClick={closeModal}
 																	>
-																		GO BACK
+																		Nevermind
 																	</button>
 																	<button
-																		className="bg-[#E63E6D] text-white active:bg-[#DB6B97] font-bold uppercase text-sm px-2 py-1 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
 																		type="button"
+																		className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-500"
 																		onClick={onDelete}
 																	>
-																		DELETE
+																		Delete Artwork
 																	</button>
 																</div>
 															</div>
-														</div>
+														</Transition.Child>
 													</div>
-													<div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
-												</>
-											) : null}
+												</Dialog>
+											</Transition>
 										</div>
 									)}
 								</>
@@ -314,7 +355,7 @@ const index: React.FC = ({
 						)}
 
 						<div className="flex flex-col space-y-2">
-							<div className="text-3xl font-semibold">{artworkDetails.title}</div>
+							<div className="text-4xl font-semibold">{artworkDetails.title}</div>
 							<div className="text-sm pb-2 whitespace-pre-line">{artworkDetails.description}</div>
 							<div className="text-xs text-gray-400 italic">
 								Posted {getRelativeDate(artworkDetails.createdAt)}

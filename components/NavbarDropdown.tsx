@@ -3,6 +3,7 @@ import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { useRouter } from 'next/router';
 import { signOut } from 'next-auth/react';
+import Image from 'next/image';
 
 // @ts-ignore
 function classNames(...classes) {
@@ -11,18 +12,20 @@ function classNames(...classes) {
 
 interface INavbarDropdown {
 	userId: string;
+	userImageUrl: string;
 }
 
-const NavbarDropdown: React.FC<INavbarDropdown> = ({ userId }) => {
+const NavbarDropdown: React.FC<INavbarDropdown> = ({ userId, userImageUrl }) => {
 	const router = useRouter();
 	return (
-		<div className="flex justify-center items-center z-50">
+		<div className="flex flex-row justify-center items-center z-50">
 			<Menu as="div" className="relative inline-block text-left">
 				<div>
-					<Menu.Button className="inline-flex justify-center w-full text-white shadow-sm py-2 bg-gray-900 text-sm font-medium  hover:text-[#E63E6D] ">
+					<Menu.Button className="inline-flex justify-center items-center w-full text-white shadow-sm py-2 text-sm font-medium hover:text-[#E63E6D] space-x-0.5">
+						<Image src={userImageUrl} height="30px" width="30px" className="rounded-full cursor-pointer " />
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
-							className=" h-5 w-5"
+							className="h-5 w-5"
 							fill="none"
 							viewBox="0 0 24 24"
 							stroke="currentColor"
@@ -46,7 +49,7 @@ const NavbarDropdown: React.FC<INavbarDropdown> = ({ userId }) => {
 					leaveFrom="transform opacity-100 scale-100"
 					leaveTo="transform opacity-0 scale-95"
 				>
-					<Menu.Items className="origin-top-right absolute right-0 mt-3 w-36 rounded-md shadow-lg bg-gray-900 ring-1 ring-black ring-opacity-5 focus:outline-none">
+					<Menu.Items className="origin-top-right absolute right-0 mt-3 w-36 rounded-sm shadow-lg bg-gray-900 ring-1 ring-black ring-opacity-5 focus:outline-none">
 						<div className="py-1">
 							<Menu.Item>
 								{({ active }) => (

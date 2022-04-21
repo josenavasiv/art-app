@@ -118,19 +118,15 @@ const Navbar: React.FC = () => {
 
 					<p className="self-center">Upload</p>
 				</button>
-				<div className=" flex flex-row space-x-2">
-					<Image
-						src={
-							loggedInUser?.avatar ||
-							loggedInUser?.image ||
-							'https://i.picsum.photos/id/866/536/354.jpg?hmac=tGofDTV7tl2rprappPzKFiZ9vDh5MKj39oa2D--gqhA'
-						}
-						height="30px"
-						width="30px"
-						className="rounded-full"
-					/>
-				</div>
-				<NavbarDropdown userId={loggedInUser?.id} />
+
+				<NavbarDropdown
+					userId={loggedInUser?.id}
+					userImageUrl={
+						loggedInUser?.avatar ||
+						loggedInUser?.image ||
+						'https://i.picsum.photos/id/866/536/354.jpg?hmac=tGofDTV7tl2rprappPzKFiZ9vDh5MKj39oa2D--gqhA'
+					}
+				/>
 			</div>
 		</nav>
 	);

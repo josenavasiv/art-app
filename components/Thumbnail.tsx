@@ -45,7 +45,7 @@ const Thumbnail: React.FC<IThumbnailProps> = ({ authorId, artworkId, artworkTitl
 							<img className="rounded-full w-8 h-8 self-center" src={user.avatar ?? user.image} alt="" />
 							<div className="flex flex-col self-center">
 								<p className="text-sm font-semibold">{artworkTitle}</p>
-								<p className="text-xs font-light">{user.displayName ?? user.name}</p>
+								<p className="text-xs font-normal">{user.displayName ?? user.name}</p>
 							</div>
 						</div>
 					</div>
