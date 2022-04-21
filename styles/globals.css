@@ -21,6 +21,12 @@
 		grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
 	}
 
+	.tags-grid {
+		display: grid;
+		gap: 1rem;
+		grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+	}
+
 	/* Add parent to the parent div then add .parent-hover:move to the child div */
 	.thumbnail {
 		background-size: cover;

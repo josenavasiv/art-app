@@ -9,6 +9,7 @@ import prisma from '../../../lib/prisma';
 import Navbar from '../../../components/Navbar';
 import Comment from '../../../components/Comment';
 import MoreByGrid from '../../../components/MoreByGrid';
+import TagsGrid from '../../../components/TagsGrid';
 
 import useComments from '../../../hooks/useComments';
 import useUser from '../../../hooks/useUser';
@@ -312,6 +313,8 @@ const index: React.FC = ({
 						)}
 
 						<MoreByGrid userId={artworkDetails.authorId} />
+
+						<TagsGrid tags={artworkDetails.tags} />
 					</div>
 				</div>
 			</div>

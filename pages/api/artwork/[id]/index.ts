@@ -12,6 +12,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 	const newDescription: string = bodyData.description;
 	const newSection: Section = bodyData.section;
 	const newMature: boolean = bodyData.mature;
+	const newTags: boolean = bodyData.filteredTags;
 
 	const session = await getSession({ req });
 
@@ -39,6 +40,8 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 						description: newDescription,
 						section: newSection,
 						mature: newMature,
+						// @ts-ignore
+						tags: newTags,
 					},
 				});
 				res.json(updateResult);

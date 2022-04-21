@@ -13,6 +13,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 	const section: Section = bodyData.section;
 	const image_url: string = bodyData.image_url;
 	const mature: boolean = bodyData.mature;
+	const tags: string[] = bodyData.filteredTags;
 
 	const session = await getSession({ req });
 	// @ts-ignore
@@ -26,6 +27,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 				imageUrl: image_url,
 				thumbnailUrl: image_url,
 				mature: mature,
+				tags: tags,
 				author: { connect: { email: userEmail } },
 			},
 		});

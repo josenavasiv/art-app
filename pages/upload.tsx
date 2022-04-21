@@ -14,6 +14,7 @@ export enum SectionEnum {
 interface IFormInput {
 	title: string;
 	description: string;
+	tags: string[];
 	file: File;
 	section: SectionEnum;
 }
@@ -44,8 +45,11 @@ const upload: React.FC = () => {
 		const description = data.description;
 		const section = data.section;
 		// @ts-ignore
+		const tags = data.tags.split(' ');
+		const filteredTags = tags.filter((element: string) => element !== '');
+		// @ts-ignore
 		const mature = data.mature;
-		const body = { title, description, section, image_url, mature };
+		const body = { title, description, section, image_url, mature, filteredTags };
 		// Calls internal API to create prisma
 		const result = await fetch('/api/upload', {
 			method: 'POST',
@@ -133,6 +137,18 @@ const upload: React.FC = () => {
 								<option value="FEEDBACK">Feedback</option>
 								<option value="RESOURCES">Resources</option>
 							</select>
+						</div>
+
+						<div className="space-y-1">
+							<label htmlFor="tags" className="text-sm font-medium text-gray-300 ">
+								Tags
+							</label>
+							<input
+								id="tags"
+								{...register('tags')}
+								placeholder="Seperate with spaces - Digital Traditional Horror Anime 2D 3D ..."
+								className="bg-gray-50 border font-medium border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+							/>
 						</div>
 
 						<div className="flex items-start">

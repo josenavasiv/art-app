@@ -48,6 +48,7 @@ interface IUpdateArtwork {
 	description: string;
 	section: SectionEnum;
 	mature: boolean;
+	tags: string[];
 }
 
 const index: React.FC = ({ artworkDetails }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
@@ -59,13 +60,17 @@ const index: React.FC = ({ artworkDetails }: InferGetServerSidePropsType<typeof 
 	setValue('description', artworkDetails.description);
 	setValue('section', artworkDetails.section);
 	setValue('mature', artworkDetails.mature);
+	setValue('tags', artworkDetails.tags.join(' '));
 
 	const onSubmit: SubmitHandler<IUpdateArtwork> = async (data) => {
 		const title = data.title;
 		const description = data.description;
 		const section = data.section;
 		const mature = data.mature;
-		const body = { title, description, section, mature };
+		// @ts-ignore
+		const tags = data.tags.split(' ');
+		const filteredTags = tags.filter((element: string) => element !== '');
+		const body = { title, description, section, mature, filteredTags };
 
 		const result = await fetch(`/api/artwork/${artworkDetails.id}`, {
 			method: 'PUT',
@@ -110,10 +115,18 @@ const index: React.FC = ({ artworkDetails }: InferGetServerSidePropsType<typeof 
 							<img src={artworkDetails.imageUrl} />
 						</div>
 
-						{/* <input
-								className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-								placeholder="Tags (Seperate by Commas)"
-							/> */}
+						<div className="space-y-1">
+							<label htmlFor="tags" className="text-sm font-medium text-gray-300 ">
+								Tags
+							</label>
+							<input
+								id="tags"
+								{...register('tags')}
+								placeholder="Seperate with spaces - Digital Traditional Horror Anime 2D 3D ..."
+								className="bg-gray-50 border font-medium border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+							/>
+						</div>
+
 						<div className="flex flex-col space-y-1">
 							<label htmlFor="section" className="text-sm font-medium text-gray-300 ">
 								Section
