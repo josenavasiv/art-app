@@ -78,7 +78,7 @@ const Navbar: React.FC = () => {
 	}
 
 	return (
-		<nav className="w-full h-14 space-x-3 bg-[#121212] border-b border-gray-600 flex flex-row text-white text-sm font-medium">
+		<nav className="w-full h-14 space-x-3 bg-gray-900 border-b border-gray-700 flex flex-row text-white text-sm font-medium">
 			<div
 				onClick={() => router.push('/')}
 				className="w-36 self-center ml-3 flex flex-row space-x-2 p-2 cursor-pointer"
@@ -95,7 +95,7 @@ const Navbar: React.FC = () => {
 
 			<div className="grow self-center">
 				<input
-					className="w-full h-9 bg-[#080808] text-gray-600 border border-gray-600 rounded-sm py-2 px-3"
+					className="w-full h-9 bg-[#080808] text-gray-400 border border-gray-700 rounded-sm py-2 px-3"
 					type="text"
 					name="search"
 					id="search"

@@ -85,8 +85,10 @@ const index: React.FC = ({ artworkDetails }: InferGetServerSidePropsType<typeof 
 	return (
 		<>
 			<Navbar />
-			<div className="w-full h-full flex flex-col justify-center items-center space-y-3">
-				<h1 className="text-3xl font-bold underline text-[#E63E6D] p-4">Edit Page</h1>
+			<div className="w-full h-full flex flex-col justify-center items-center space-y-3 mb-6">
+				<div className="h-36 flex flex-col justify-center items-center">
+					<h1 className="text-3xl font-bold text-[#E63E6D] p-3 ">Edit Artwork.</h1>
+				</div>
 				<div className="w-full max-w-lg">
 					<form onSubmit={handleSubmit(onSubmit)} className="space-y-5 flex flex-col text-gray-300 ">
 						<div className="space-y-1">
@@ -96,7 +98,7 @@ const index: React.FC = ({ artworkDetails }: InferGetServerSidePropsType<typeof 
 							<input
 								id="title"
 								{...register('title', { required: true })}
-								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 							/>
 						</div>
 
@@ -107,11 +109,12 @@ const index: React.FC = ({ artworkDetails }: InferGetServerSidePropsType<typeof 
 							<textarea
 								id="description"
 								{...register('description', { required: true, maxLength: 1000 })}
-								className="bg-gray-50 border border-gray-300 text-gray-900 whitespace-pre-line text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full h-48 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+								className="bg-gray-50 border border-gray-300 text-gray-900 whitespace-pre-line text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full h-48 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 							/>
 						</div>
 
-						<div>
+						<div className="flex flex-col space-y-1">
+							<label className="text-sm font-medium text-gray-300">Artwork</label>
 							<img src={artworkDetails.imageUrl} />
 						</div>
 
@@ -123,7 +126,7 @@ const index: React.FC = ({ artworkDetails }: InferGetServerSidePropsType<typeof 
 								id="tags"
 								{...register('tags')}
 								placeholder="Seperate with spaces - Digital Traditional Horror Anime 2D 3D ..."
-								className="bg-gray-50 border font-medium border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+								className="bg-gray-50 border font-medium border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 							/>
 						</div>
 
@@ -133,7 +136,7 @@ const index: React.FC = ({ artworkDetails }: InferGetServerSidePropsType<typeof 
 							</label>
 							<select
 								id="section"
-								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 								{...register('section')}
 							>
 								<option value="COMMUNITY">Community</option>

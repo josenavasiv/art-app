@@ -17,8 +17,8 @@ const FollowerProfile: React.FC<IFollowerProfile> = ({ userId }) => {
 	} = useFollowArtworks(userId);
 
 	return (
-		<div className="relative">
-			<div className="max-w-full max-h-full min-w-[250px] min-h-[200px] overflow-hidden thumbnail cursor-pointer parent bg-gray-900 -z-20 p-4">
+		<div className="relative follower-grid-item ">
+			<div className=" min-w-[350px] min-h-[200px] overflow-hidden cursor-pointer parent bg-gray-900 -z-20 p-4">
 				<img className="w-full max-h-[125px] object-cover" src={user?.backgroundImageUrl} alt="" />
 				<div className="min-h-[150px] w-full flex flex-col justify-center items-center space-y-2 relative -mb-3">
 					<img className=" w-28 h-28 rounded-full absolute bottom-1/2 mb-2" src={user?.avatar} alt="" />

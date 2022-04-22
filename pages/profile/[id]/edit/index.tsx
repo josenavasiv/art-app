@@ -149,8 +149,10 @@ const index: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 	return (
 		<>
 			<Navbar />
-			<div className="w-full h-full flex flex-col justify-center items-center">
-				<h1 className="text-3xl font-bold underline text-[#E63E6D] p-4">Edit Profile</h1>
+			<div className="w-full h-full flex flex-col justify-center items-center mb-6">
+				<div className="h-36 flex flex-col justify-center items-center">
+					<h1 className="text-3xl font-bold text-[#E63E6D] p-3 ">Edit Profile.</h1>
+				</div>
 				<div className="w-full max-w-lg">
 					<form onSubmit={handleSubmit(onSubmit)} className="space-y-5 flex flex-col text-gray-300 ">
 						<div className="space-y-1">
@@ -160,7 +162,7 @@ const index: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 							<input
 								id="displayName"
 								{...register('displayName', { required: true })}
-								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 							/>
 						</div>
 
@@ -171,11 +173,12 @@ const index: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 							<input
 								id="headline"
 								{...register('headline', { required: true, maxLength: 60 })}
-								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 							/>
 						</div>
 
-						<div>
+						<div className="flex flex-col space-y-1">
+							<label className="text-sm font-medium text-gray-300">Avatar</label>
 							<img src={avatarPreview} />
 							<input
 								{...register('avatar')}
@@ -185,7 +188,8 @@ const index: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 								className="font-semibold text-sm"
 							/>
 						</div>
-						<div>
+						<div className="flex flex-col space-y-1">
+							<label className="text-sm font-medium text-gray-300">Background</label>
 							<img src={backgroundPreview} />
 							<input
 								{...register('backgroundImageUrl')}

@@ -1,13 +1,18 @@
 import { GetServerSideProps } from 'next';
 import { InferGetServerSidePropsType } from 'next';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import 'react-tabs/style/react-tabs.css';
+import { Tab } from '@headlessui/react';
+
 import { getSession } from 'next-auth/react';
 
 import prisma from '../../../lib/prisma';
 import Navbar from '../../../components/Navbar';
 import ArtworkGrid from '../../../components/ArtworkGrid';
 import FollowerProfile from '../../../components/FollowerProfile';
+
+// @ts-ignore
+function classNames(...classes) {
+	return classes.filter(Boolean).join(' ');
+}
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const session = await getSession(context);
@@ -101,40 +106,92 @@ const index: React.FC = ({
 				</div>
 			</div>
 
-			<Tabs className="text-gray-300 z-10 mt-2 w-full">
-				<TabList className="font-semibold text-center">
-					<Tab>Artwork</Tab>
-					<Tab>Likes</Tab>
-					<Tab>Following</Tab>
-					<Tab>Followers</Tab>
-					<Tab>About</Tab>
-				</TabList>
-
-				<TabPanel>
-					<ArtworkGrid artworks={userArtworks} />
-				</TabPanel>
-				<TabPanel>
-					<ArtworkGrid artworks={userLikesArtworksParsed} />
-				</TabPanel>
-				<TabPanel>
-					<h2>Following</h2>
-				</TabPanel>
-				<TabPanel>
-					<h2>About</h2>
-				</TabPanel>
-				<TabPanel>
-					<div className="w-full upload-grid">
-						<FollowerProfile userId={userDetails.id} />
-						<FollowerProfile userId={userDetails.id} />
-						<FollowerProfile userId={userDetails.id} />
-						<FollowerProfile userId={userDetails.id} />
-						<FollowerProfile userId={userDetails.id} />
-						<FollowerProfile userId={userDetails.id} />
-						<FollowerProfile userId={userDetails.id} />
-						<FollowerProfile userId={userDetails.id} />
-					</div>
-				</TabPanel>
-			</Tabs>
+			<div className="text-gray-300 z-10 mt-4 w-full">
+				<Tab.Group>
+					<Tab.List className="flex p-1 space-x-1 bg-blue-900/20 rounded-sm mx-4">
+						<Tab
+							className={({ selected }) =>
+								classNames(
+									'w-full py-2.5 text-sm leading-5 font-medium text-blue-700 rounded-sm',
+									'focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60',
+									selected
+										? 'bg-white shadow'
+										: 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
+								)
+							}
+						>
+							Artwork
+						</Tab>
+						<Tab
+							className={({ selected }) =>
+								classNames(
+									'w-full py-2.5 text-sm leading-5 font-medium text-blue-700 rounded-sm',
+									'focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60',
+									selected
+										? 'bg-white shadow'
+										: 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
+								)
+							}
+						>
+							Likes
+						</Tab>
+						<Tab
+							className={({ selected }) =>
+								classNames(
+									'w-full py-2.5 text-sm leading-5 font-medium text-blue-700 rounded-sm',
+									'focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60',
+									selected
+										? 'bg-white shadow'
+										: 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
+								)
+							}
+						>
+							Following
+						</Tab>
+						<Tab
+							className={({ selected }) =>
+								classNames(
+									'w-full py-2.5 text-sm leading-5 font-medium text-blue-700 rounded-sm',
+									'focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60',
+									selected
+										? 'bg-white shadow'
+										: 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
+								)
+							}
+						>
+							Followers
+						</Tab>
+						<Tab
+							className={({ selected }) =>
+								classNames(
+									'w-full py-2.5 text-sm leading-5 font-medium text-blue-700 rounded-sm',
+									'focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60',
+									selected
+										? 'bg-white shadow'
+										: 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
+								)
+							}
+						>
+							About
+						</Tab>
+					</Tab.List>
+					<Tab.Panels>
+						<Tab.Panel>
+							<ArtworkGrid artworks={userArtworks} />
+						</Tab.Panel>
+						<Tab.Panel>
+							<ArtworkGrid artworks={userLikesArtworksParsed} />
+						</Tab.Panel>
+						<Tab.Panel>Following</Tab.Panel>
+						<Tab.Panel>
+							<div className="w-full followers-grid p-4">
+								<FollowerProfile userId={userDetails.id} />
+							</div>
+						</Tab.Panel>
+						<Tab.Panel>ABOUT</Tab.Panel>
+					</Tab.Panels>
+				</Tab.Group>
+			</div>
 		</>
 	);
 };

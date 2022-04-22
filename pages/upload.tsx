@@ -83,8 +83,10 @@ const upload: React.FC = () => {
 	return (
 		<>
 			<Navbar />
-			<div className="w-full h-full flex flex-col justify-center items-center space-y-3">
-				<h1 className="text-3xl font-bold underline text-[#E63E6D] p-4">Upload Page</h1>
+			<div className="w-full h-full flex flex-col justify-center items-center space-y-3 mb-6">
+				<div className="h-36 flex flex-col justify-center items-center">
+					<h1 className="text-3xl font-bold text-[#E63E6D] p-3 ">Upload New Artwork.</h1>
+				</div>
 				<div className="w-full max-w-lg">
 					<form onSubmit={handleSubmit(onSubmit)} className="space-y-5 flex flex-col text-gray-300 ">
 						<div className="space-y-1">
@@ -94,7 +96,7 @@ const upload: React.FC = () => {
 							<input
 								id="title"
 								{...register('title', { required: true })}
-								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 							/>
 						</div>
 
@@ -105,12 +107,15 @@ const upload: React.FC = () => {
 							<textarea
 								id="description"
 								{...register('description', { required: true, maxLength: 1000 })}
-								className="bg-gray-50 border border-gray-300 text-gray-900 h-48 whitespace-pre-line text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+								placeholder="Add a description for your art. Include links to resources you used or what inspired you"
+								className="bg-gray-50 border font-medium border-gray-300 text-gray-900 h-48 whitespace-pre-line text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 							/>
 						</div>
 
-						<div>
+						<div className="flex flex-col space-y-1">
+							<label className="text-sm font-medium text-gray-300">Artwork</label>
 							<img src={uploadedImage} />
+
 							<input
 								{...register('file', { required: true })}
 								type="file"
@@ -120,17 +125,13 @@ const upload: React.FC = () => {
 							/>
 						</div>
 
-						{/* <input
-								className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-								placeholder="Tags (Seperate by Commas)"
-							/> */}
 						<div className="flex flex-col space-y-1">
 							<label htmlFor="section" className="text-sm font-medium text-gray-300 ">
 								Section
 							</label>
 							<select
 								id="section"
-								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 								{...register('section')}
 							>
 								<option value="COMMUNITY">Community</option>
@@ -147,7 +148,7 @@ const upload: React.FC = () => {
 								id="tags"
 								{...register('tags')}
 								placeholder="Seperate with spaces - Digital Traditional Horror Anime 2D 3D ..."
-								className="bg-gray-50 border font-medium border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+								className="bg-gray-50 border font-medium border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 							/>
 						</div>
 
@@ -173,7 +174,7 @@ const upload: React.FC = () => {
 
 						<input
 							disabled={formState.isSubmitting}
-							className="p-3 w-15 rounded-md bg-[#E63E6D]"
+							className="p-3 w-15 rounded-md bg-[#E63E6D] cursor-pointer"
 							type="submit"
 							value="Submit"
 						/>
