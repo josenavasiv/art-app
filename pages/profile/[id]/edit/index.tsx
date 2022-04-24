@@ -185,7 +185,10 @@ const index: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 								type="file"
 								accept="image/*"
 								onChange={handleAvatarPreview}
-								className="font-semibold text-sm"
+								className="font-semibold text-sm file:mr-4 file:mt-2 file:py-1 file:px-4
+								file:rounded-full file:border-0
+								file:text-sm file:font-semibold
+								file:bg-[#E63E6D] file:text-white"
 							/>
 						</div>
 						<div className="flex flex-col space-y-1">
@@ -196,7 +199,10 @@ const index: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 								type="file"
 								accept="image/*"
 								onChange={handleBackgroundPreview}
-								className="font-semibold text-sm"
+								className="font-semibold text-sm file:mr-4 file:mt-2 file:py-1 file:px-4
+								file:rounded-full file:border-0
+								file:text-sm file:font-semibold
+								file:bg-[#E63E6D] file:text-white"
 							/>
 						</div>
 

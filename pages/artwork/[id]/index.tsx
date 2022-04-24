@@ -11,6 +11,7 @@ import Navbar from '../../../components/Navbar';
 import Comment from '../../../components/Comment';
 import MoreByGrid from '../../../components/MoreByGrid';
 import TagsGrid from '../../../components/TagsGrid';
+import FollowButton from '../../../components/FollowButton';
 
 import useComments from '../../../hooks/useComments';
 import useUser from '../../../hooks/useUser';
@@ -92,7 +93,6 @@ const index: React.FC = ({
 	function openModal() {
 		setIsOpen(true);
 	}
-	const [canLike, setCanLike] = useState(likeResult ? false : true);
 
 	const { user, isLoading: userIsLoading, isError: userIsError } = useUser(artworkDetails.authorId);
 	const {
@@ -161,12 +161,12 @@ const index: React.FC = ({
 				<div className="absolute top-0 w-full z-10">
 					<Navbar />
 				</div>
-				<div className="flex flex-row justify-center align-middle mr-[320px] h-full">
+				<div className="flex flex-row justify-center align-middle mr-[365px] h-full">
 					<div className="h-full w-full flex justify-center">
 						<img src={artworkDetails.imageUrl} alt="" className="self-center" />
 					</div>
 
-					<div className="fixed bg-gray-900 text-white h-full w-[320px] overflow-y-auto right-0 p-5 pt-[76px] space-y-4">
+					<div className="fixed bg-[#1b1528] text-[#F2E9E4] h-full w-[365px] overflow-y-auto right-0 p-5 pt-[76px] space-y-4">
 						<div className="flex flex-row space-x-3 relative">
 							{userIsLoading && <div>LOADING USER DETAILS</div>}
 							{user && (
@@ -180,14 +180,14 @@ const index: React.FC = ({
 									<div className="flex flex-col">
 										<div
 											onClick={() => router.push(`/profile/${user.id}`)}
-											className="text-md cursor-pointer font-medium text-[#DB6B97]"
+											className="text-md cursor-pointer font-semibold text-[#e80059]"
 										>
 											{user.displayName ?? user.name}
 										</div>
-										<div className="text-xs text-gray-400 font-normal">{user.headline}</div>
+										<div className="text-xs text-[#9A8C98] font-medium">{user.headline}</div>
 									</div>
 									{canEditDelete && (
-										<div className="flex flex-row space-x-2 text-xs absolute right-0 text-gray-400 py-1">
+										<div className="flex flex-row space-x-2 text-xs absolute right-0 text-[#b7094c] py-1">
 											<div
 												className="cursor-pointer"
 												onClick={() => router.push(`/artwork/${artworkDetails.id}/edit`)}
@@ -307,7 +307,7 @@ const index: React.FC = ({
 							)}
 						</div>
 						{session && (
-							<div className="flex flex-row items-center">
+							<div className="flex flex-row items-center text-[#22223B] space-x-2">
 								{likeResult ? (
 									<div
 										onClick={handleUnlike}
@@ -351,16 +351,17 @@ const index: React.FC = ({
 										<div className="font-bold">LIKE</div>
 									</div>
 								)}
+								<FollowButton userId={artworkDetails.authorId} />
 							</div>
 						)}
 
 						<div className="flex flex-col space-y-2">
-							<div className="text-4xl font-semibold">{artworkDetails.title}</div>
+							<div className="text-4xl font-semibold text-[#e80059]">{artworkDetails.title}</div>
 							<div className="text-sm pb-2 whitespace-pre-line">{artworkDetails.description}</div>
-							<div className="text-xs text-gray-400 italic">
+							<div className="text-xs text-[#9A8C98] italic">
 								Posted {getRelativeDate(artworkDetails.createdAt)}
 							</div>
-							<div className="flex flex-row justify-between">
+							<div className="flex flex-row justify-between ">
 								<div className="flex flex-row space-x-1">
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
@@ -409,7 +410,7 @@ const index: React.FC = ({
 						<TagsGrid tags={artworkDetails.tags} />
 
 						{/* Comments Section */}
-						<div className="flex flex-col w-full space-y-7">
+						<div className="flex flex-col w-full space-y-2">
 							{commentIsLoading && <div>LOADING COMMENTS ADD SPINNER HERE</div>}
 							{comments && (
 								<>
@@ -432,18 +433,18 @@ const index: React.FC = ({
 						{session && (
 							<form
 								onSubmit={handleSubmit(onSubmit)}
-								className="space-y-4 flex flex-col text-gray-300 w-full bg-gray-900"
+								className="space-y-4 flex flex-col text-gray-300 w-full bg-[#1b1528]"
 							>
 								<textarea
 									id="comment"
 									placeholder="Share a comment or provide feedback!"
 									{...register('content', { required: true, maxLength: 130 })}
-									className=" text-gray-900 border border-gray-500 rounded-sm text-sm w-full p-2.5 bg-gray-900 dark:text-white "
+									className="border border-[#b7094c] rounded-sm text-sm w-full p-2.5 bg-[#1b1528]  transition-all focus:outline-none focus:border-[#F2E9E4] placeholder:text-[#9A8C98] placeholder:font-medium focus:text-[#F2E9E4] focus:font-medium text-[#F2E9E4] font-medium"
 								/>
 
 								<input
 									disabled={formState.isSubmitting}
-									className="p-2 rounded-md bg-[#E63E6D] w-32 text-xs font-semibold"
+									className="p-2 rounded-md bg-[#b7094c] w-32 text-xs font-semibold cursor-pointer"
 									type="submit"
 									value="Add Comment"
 								/>

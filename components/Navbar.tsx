@@ -16,7 +16,7 @@ const Navbar: React.FC = () => {
 
 	if (!loggedInUser) {
 		return (
-			<nav className="w-full h-14 space-x-3 bg-[#121212] border-b border-gray-600 flex flex-row text-white text-xs font-medium">
+			<nav className="w-full h-14 space-x-3 bg-[#1b1528] flex flex-row text-[#e80059] text-sm font-medium">
 				<div
 					onClick={() => router.push('/')}
 					className="w-36 self-center ml-3 flex flex-row space-x-2 p-2 cursor-pointer"
@@ -33,11 +33,11 @@ const Navbar: React.FC = () => {
 
 				<div className="grow self-center">
 					<input
-						className="w-full h-9 bg-[#080808] text-gray-600 border border-gray-600 rounded-sm py-2 px-3"
+						className="w-full h-9 bg-[#1b1528] border-[#F2E9E4] py-2 px-3 border-b-2 focus:border-[#e80059] focus:text-[#e80059] focus:outline-none transition-all placeholder:font-semibold font-semibold placeholder:text-[#F2E9E4] text-[#e80059] text-xs"
 						type="text"
 						name="search"
 						id="search"
-						placeholder="SEARCH_ICON Search..."
+						placeholder="Search #tags"
 					/>
 				</div>
 
@@ -57,7 +57,7 @@ const Navbar: React.FC = () => {
 						</svg>
 						<p className="self-center font-semibold">SIGN IN</p>
 					</button>
-					<button className="w-18 flex flex-row space-x-1 bg-[#E63E6D] px-[0.5rem] py-[0.3rem] rounded-md">
+					<button className="w-18 flex flex-row space-x-1 bg-[#e80059] text-[#1b1528] px-[0.5rem] py-[0.3rem] rounded-md">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							className="h-5 w-5"
@@ -78,7 +78,7 @@ const Navbar: React.FC = () => {
 	}
 
 	return (
-		<nav className="w-full h-14 space-x-3 bg-gray-900 border-b border-gray-700 flex flex-row text-white text-sm font-medium">
+		<nav className="w-full h-14 space-x-3 bg-[#1b1528] flex flex-row text-[#F2E9E4] text-sm font-medium">
 			<div
 				onClick={() => router.push('/')}
 				className="w-36 self-center ml-3 flex flex-row space-x-2 p-2 cursor-pointer"
@@ -95,17 +95,17 @@ const Navbar: React.FC = () => {
 
 			<div className="grow self-center">
 				<input
-					className="w-full h-9 bg-[#080808] text-gray-400 border border-gray-700 rounded-sm py-2 px-3"
+					className="w-full h-9 bg-[#1b1528] border-[#F2E9E4] py-2 px-3 border-b-2 focus:border-[#e80059] focus:text-[#e80059] focus:outline-none transition-all placeholder:font-semibold font-semibold placeholder:text-[#F2E9E4] text-[#F2E9E4] text-xs"
 					type="text"
 					name="search"
 					id="search"
-					placeholder="SEARCH_ICON Search..."
+					placeholder="Search #tags"
 				/>
 			</div>
 
 			<div className="flex flex-row items-center space-x-4 pr-3">
 				<button
-					className="w-18 flex flex-row space-x-2 hover:text-[#E63E6D]"
+					className="w-18 flex flex-row space-x-2 hover:text-[#e80059]"
 					onClick={() => router.push('/upload')}
 				>
 					<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -116,7 +116,7 @@ const Navbar: React.FC = () => {
 						/>
 					</svg>
 
-					<p className="self-center">Upload</p>
+					<p className="self-center font-semibold">Upload</p>
 				</button>
 
 				<NavbarDropdown

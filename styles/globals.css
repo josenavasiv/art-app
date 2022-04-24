@@ -2,12 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.root,
+#root,
+#docs-root {
+	--primaryDark: #f2e9e4;
+	--secondaryDark: #9a8c98;
+	--accentDark: #e80059;
+	--accentSecondaryDark: #b7094c;
+	--backgroundDark: #1b1528;
+
+	--primaryLight: #367ee9;
+	--secondaryLight: #a0aec0;
+	--accentLight: #718096;
+	--accentSecondaryLight: #b7094c;
+	--backgroundLight: #fff;
+}
+
 @layer base {
 	@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 	html {
 		font-family: 'Poppins', sans-serif;
-		background: #080808;
+		background: #1b1528;
 	}
+
 	.upload-grid {
 		display: grid;
 		gap: 1rem;
@@ -28,6 +49,12 @@
 		grid-template-columns: repeat(3, minmax(80px, 1fr));
 	}
 
+	.follower-artwork-grid {
+		display: grid;
+		gap: 1rem;
+		grid-template-columns: repeat(3, minmax(80px, 1fr));
+	}
+
 	/* Add parent to the parent div then add .parent-hover:move to the child div */
 	.thumbnail {
 		background-size: cover;
@@ -36,7 +63,7 @@
 		transition: all 0.3s ease;
 	}
 	.thumbnail:hover {
-		box-shadow: -1px -1px #e63e6d, -2px -2px #e63e6d, -3px -3px #e63e6d;
+		box-shadow: -1px -1px #b7094c, -2px -2px #b7094c, -3px -3px #b7094c;
 		-webkit-transform: translateX(3px);
 		transform: translateX(3px);
 	}

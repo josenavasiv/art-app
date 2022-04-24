@@ -73,13 +73,31 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	const userLikesArtworksParsed = JSON.parse(JSON.stringify(userLikesArtworks));
 	// console.log(userLikesArtworksParsed);
 
-	// Get all the user's following and followers and shov in the ids into two arraya
+	// Get all of the current user's followers
+	// Pass the followerIds to the followerGrid
+	const userFollowers = await prisma.follows.findMany({
+		where: {
+			followingId: id,
+		},
+		// CAN ADD NOT userId === followerId
+	});
+	// Get all of the current user's followings
+	// Pass the followingIds to the followerGrid
+
+	const userFollowing = await prisma.follows.findMany({
+		where: {
+			followerId: id,
+		},
+		// CAN ADD NOT userId === followingId
+	});
 
 	return {
 		props: {
 			userDetails,
 			userArtworks,
 			userLikesArtworksParsed,
+			userFollowers,
+			userFollowing,
 		},
 	};
 };
@@ -90,6 +108,8 @@ const index: React.FC = ({
 	userDetails,
 	userArtworks,
 	userLikesArtworksParsed,
+	userFollowers,
+	userFollowing,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	return (
 		<>
@@ -98,10 +118,10 @@ const index: React.FC = ({
 			<div className="flex justify-center">
 				<div className="flex flex-col h-[320px] w-full items-center justify-center relative overflow-hidden">
 					<img className="rounded-full w-28 h-28" src={userDetails.avatar ?? userDetails.image} alt="" />
-					<div className="text-3xl font-semibold text-[#E63E6D]">
+					<div className="text-3xl font-semibold text-[#b7094c]">
 						{userDetails.displayName ?? userDetails.name}
 					</div>
-					<div className="text-sm font-medium text-[#E63E6D]">{userDetails.headline}</div>
+					<div className="text-sm font-medium text-[#b7094c]">{userDetails.headline}</div>
 					<img className="absolute -z-10 object-cover" src={userDetails?.backgroundImageUrl} alt="" />
 				</div>
 			</div>
@@ -182,10 +202,20 @@ const index: React.FC = ({
 						<Tab.Panel>
 							<ArtworkGrid artworks={userLikesArtworksParsed} />
 						</Tab.Panel>
-						<Tab.Panel>Following</Tab.Panel>
 						<Tab.Panel>
 							<div className="w-full followers-grid p-4">
-								<FollowerProfile userId={userDetails.id} />
+								{userFollowing.map((following: string) => (
+									// @ts-ignore
+									<FollowerProfile key={following.followerId} userId={following.followingId} />
+								))}
+							</div>
+						</Tab.Panel>
+						<Tab.Panel>
+							<div className="w-full followers-grid p-4">
+								{userFollowers.map((follower: string) => (
+									// @ts-ignore
+									<FollowerProfile key={follower.followerId} userId={follower.followerId} />
+								))}
 							</div>
 						</Tab.Panel>
 						<Tab.Panel>ABOUT</Tab.Panel>

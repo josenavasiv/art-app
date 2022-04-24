@@ -84,20 +84,20 @@ const Comment: React.FC<IComment> = ({ commentId, content, authorId, createdAt }
 			<div className="flex flex-col space-y-2 w-full">
 				<div className="relative">
 					<Link href={`/profile/${user.id}`}>
-						<a className="text-xs font-medium text-[#DB6B97]">{user.displayName ?? user.name}</a>
+						<a className="text-xs font-medium text-[#e80059]">{user.displayName ?? user.name}</a>
 					</Link>
-					<div className="text-[9px] text-gray-400 ">{user.headline}</div>
+					<div className="text-[9px] text-[#9A8C98] font-medium">{user.headline}</div>
 				</div>
 
 				{editing ? (
 					<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-2 w-60">
 						<textarea
 							{...register('content', { required: true })}
-							className=" text-gray-900 border border-gray-500 rounded-sm text-sm w-full p-1 bg-gray-900 dark:text-white"
+							className=" border border-[#9A8C98] rounded-sm text-sm w-full p-1 bg-gray-900 text-[#F2E9E4]"
 						/>
 						<button
 							type="submit"
-							className=" h-4 w-10 rounded-sm hover:text-white text-xs text-gray-400 self-end flex justify-center items-center pr-1"
+							className=" h-4 w-10 rounded-sm hover:text-white text-xs text-[#b7094c] self-end flex justify-center items-center pr-1"
 						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -112,12 +112,12 @@ const Comment: React.FC<IComment> = ({ commentId, content, authorId, createdAt }
 				) : (
 					<div className="flex flex-col">
 						<div className="break-words whitespace-pre-line">{currentComment}</div>
-						<div className=" text-gray-400 italic self-end text-[9px]">{getRelativeDate(createdAt)}</div>
+						<div className=" text-[#9A8C98] italic self-end text-[9px]">{getRelativeDate(createdAt)}</div>
 					</div>
 				)}
 			</div>
 			{canEditDelete && (
-				<div className="flex flex-row space-x-2 text-xs absolute right-0 pt-1 text-gray-400">
+				<div className="flex flex-row space-x-2 text-xs absolute right-0 pt-1 text-[#b7094c]">
 					<div className="cursor-pointer" onClick={() => setEditing(!editing)}>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"

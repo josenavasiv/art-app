@@ -121,7 +121,11 @@ const upload: React.FC = () => {
 								type="file"
 								accept="image/*"
 								onChange={handlePreview}
-								className="font-semibold text-sm"
+								className="font-semibold text-sm file:mr-4 file:mt-2 file:py-1 file:px-4
+								file:rounded-full file:border-0
+								file:text-sm file:font-semibold
+								file:bg-[#E63E6D] file:text-white
+							 file:cursor-pointer"
 							/>
 						</div>
 
