@@ -38,7 +38,7 @@ const FollowButton: React.FC<IFollowButton> = ({ userId }) => {
 			{following ? (
 				<div
 					onClick={handleUnfollow}
-					className="bg-[#b7094c] w-24 rounded-sm cursor-pointer py-1 px-8 flex flex-row text-xs justify-center items-center space-x-1"
+					className="bg-[#b7094c] text-[#F2E9E4] w-24 rounded-sm cursor-pointer py-1 px-8 flex flex-row text-xs justify-center items-center space-x-1"
 				>
 					<div>
 						<svg
@@ -56,7 +56,7 @@ const FollowButton: React.FC<IFollowButton> = ({ userId }) => {
 			) : (
 				<div
 					onClick={handleFollow}
-					className="bg-[#b7094c] w-20 rounded-sm cursor-pointer py-1 px-8 flex flex-row text-xs justify-center items-center space-x-1"
+					className="bg-[#b7094c] text-[#F2E9E4] w-20 rounded-sm cursor-pointer py-1 px-8 flex flex-row text-xs justify-center items-center space-x-1"
 				>
 					<div>
 						<svg

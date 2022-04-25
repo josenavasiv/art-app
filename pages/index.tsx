@@ -24,7 +24,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	// This is how the mature content is filtered out
 	const data = await prisma.artwork.findMany({
-		take: 50,
+		take: 30,
 		where: {
 			OR: [
 				{ section: 'COMMUNITY', mature: false },
@@ -55,7 +55,7 @@ const Home: NextPage = ({ commmunityImages }: InferGetServerSidePropsType<typeof
 		fetcher
 	);
 
-	const artworks = data ? [].concat(...data, ...commmunityImages) : []; // Add onto our current artworks on each request
+	const artworks = data ? [].concat(...commmunityImages, ...data) : []; // Add onto our current artworks on each request
 	const isLoadingInitialData = !data && !error;
 
 	useEffect(() => {
@@ -88,4 +88,4 @@ export default Home;
 // getServerSideProps gets the initial 50 or so artworks
 // After that, userSWRInifinite fetches the reset of the artworks by pages
 // Every page contains 50 elements, and skips by 50 elements
-// React-Intersection-Observer is used to get create the other calls
+// React-Intersection-Observer is used to get create the other /api/artworks calls

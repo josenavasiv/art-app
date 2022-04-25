@@ -1,4 +1,5 @@
 import useSWR, { useSWRConfig } from 'swr';
+// import useSWRInfinite from 'swr/infinite';
 
 // Gets the comments of a specified artwork via the artwork's id
 const useComments = (artworkId: string) => {

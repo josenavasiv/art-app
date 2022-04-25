@@ -138,12 +138,19 @@ const index: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 
 	const handleAvatarPreview: ChangeEventHandler<HTMLInputElement> = (e) => {
 		// @ts-ignore
-		setAvatarPreview(URL.createObjectURL(e.target.files[0]));
+
+		if (e.target.files.length !== 0) {
+			// @ts-ignore
+			setAvatarPreview(URL.createObjectURL(e.target.files[0]));
+		}
 	};
 
 	const handleBackgroundPreview: ChangeEventHandler<HTMLInputElement> = (e) => {
 		// @ts-ignore
-		setBackgroundPreview(URL.createObjectURL(e.target.files[0]));
+		if (e.target.files.length !== 0) {
+			// @ts-ignore
+			setBackgroundPreview(URL.createObjectURL(e.target.files[0]));
+		}
 	};
 
 	return (

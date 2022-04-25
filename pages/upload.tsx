@@ -63,7 +63,12 @@ const upload: React.FC = () => {
 
 	const handlePreview: ChangeEventHandler<HTMLInputElement> = (e) => {
 		// @ts-ignore
-		setUploadedImage(URL.createObjectURL(e.target.files[0]));
+		if (e.target.files.length !== 0) {
+			// @ts-ignore
+			setUploadedImage(URL?.createObjectURL(e.target.files[0]));
+		} else {
+			setUploadedImage('');
+		}
 	};
 
 	if (!session) {

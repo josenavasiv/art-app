@@ -58,7 +58,7 @@
 	/* Add parent to the parent div then add .parent-hover:move to the child div */
 	.thumbnail {
 		background-size: cover;
-		background-position: top;
+		background-position: center;
 		background-repeat: no-repeat;
 		transition: all 0.3s ease;
 	}

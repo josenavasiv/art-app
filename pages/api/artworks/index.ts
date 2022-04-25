@@ -5,7 +5,8 @@ import { getSession } from 'next-auth/react';
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
 	const session = await getSession();
 
-	const limit = parseInt((req.query.limit as string) ?? 50);
+	const section = req.query.section;
+	const limit = parseInt((req.query.limit as string) ?? 30);
 	const pageNum = req.query.page ? parseInt(req.query.page as string) : 0;
 
 	const userResult = await prisma.user.findUnique({
@@ -18,7 +19,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 
 	const artworks = await prisma.artwork.findMany({
 		take: limit,
-		skip: 50 * pageNum,
+		skip: 30 * pageNum,
 		where: {
 			OR: [
 				{ section: 'COMMUNITY', mature: false },
