@@ -162,12 +162,12 @@ const index: React.FC = ({
 				<div className="absolute top-0 w-full z-10">
 					<Navbar />
 				</div>
-				<div className="flex flex-row justify-center align-middle mr-[365px] h-full">
-					<div className="h-full w-full flex justify-center">
-						<img src={artworkDetails.imageUrl} alt="" className="self-center" />
+				<div className="flex flex-col md:flex-row justify-center align-middle md:mr-[365px] h-full">
+					<div className="h-full w-full flex justify-center sm:border-b sm:border-[#9A8C98]">
+						<img src={artworkDetails.imageUrl} alt="" className="self-center sm:max-h-[700px]" />
 					</div>
 
-					<div className="fixed bg-[#1d1020] text-[#F2E9E4] h-full w-[365px] overflow-y-auto right-0 p-5 pt-[76px] space-y-4">
+					<div className="md:fixed bg-[#1d1020] text-[#F2E9E4] h-full w-full md:w-[365px] overflow-y-auto md:right-0 p-5 md:pt-[76px] space-y-4">
 						<div className="flex flex-row space-x-3 relative">
 							{userIsLoading && <div>LOADING USER DETAILS</div>}
 							{user && (
@@ -414,9 +414,11 @@ const index: React.FC = ({
 
 						<hr className="border-[#9A8C98]" />
 
-						<div>
+						<div className="sm:text-center md:text-left">
 							<div className="text-sm mb-2 font-medium">More by {user?.displayName}</div>
-							<MoreByGrid userId={artworkDetails.authorId} />
+							<div className="max-w-[443px] mx-auto">
+								<MoreByGrid userId={artworkDetails.authorId} />
+							</div>
 						</div>
 
 						<TagsGrid tags={artworkDetails.tags} />
