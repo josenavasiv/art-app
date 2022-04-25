@@ -15,7 +15,7 @@ const Navbar: React.FC = () => {
 
 	if (!loggedInUser) {
 		return (
-			<nav className="w-full h-14 space-x-3 bg-[#1d1020] flex flex-row text-[#F2E9E4] text-sm font-medium">
+			<nav className="w-full h-14 space-x-3 bg-[#1d1020] flex flex-row text-[#F2E9E4] text-xs md:text-sm font-medium">
 				<div
 					onClick={() => router.push('/')}
 					className="w-36 self-center ml-3 flex flex-row space-x-2 p-2 cursor-pointer"
@@ -27,7 +27,7 @@ const Navbar: React.FC = () => {
 							clipRule="evenodd"
 						/>
 					</svg>
-					<p className="self-center font-bold">BRAND HERE</p>
+					<p className="self-center font-bold">BRANDHERE</p>
 				</div>
 
 				<div className="grow self-center">
@@ -44,7 +44,7 @@ const Navbar: React.FC = () => {
 					<button className="w-18 flex flex-row space-x-1 hover:text-[#e80059]">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
-							className="h-5 w-5"
+							className="h-5 w-5 hidden md:block"
 							viewBox="0 0 20 20"
 							fill="currentColor"
 						>
@@ -54,12 +54,12 @@ const Navbar: React.FC = () => {
 								clipRule="evenodd"
 							/>
 						</svg>
-						<p className="self-center font-semibold hover:text-[#e80059]">SIGN IN</p>
+						<p className="self-center font-semibold hover:text-[#e80059]">LOGIN</p>
 					</button>
 					<button className="w-18 flex flex-row space-x-1 bg-[#F2E9E4] hover:bg-[#e80059] hover:text-[#F2E9E4] text-[#1b1528] px-[0.5rem] py-[0.3rem] rounded-md">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
-							className="h-5 w-5"
+							className="h-5 w-5 hidden md:block"
 							viewBox="0 0 20 20"
 							fill="currentColor"
 						>
@@ -69,7 +69,7 @@ const Navbar: React.FC = () => {
 								clipRule="evenodd"
 							/>
 						</svg>
-						<p className="self-center font-semibold">SIGN UP</p>
+						<p className="self-center font-semibold">REGISTER</p>
 					</button>
 				</div>
 			</nav>
@@ -77,7 +77,7 @@ const Navbar: React.FC = () => {
 	}
 
 	return (
-		<nav className="w-full h-14 space-x-3 bg-[#1d1020] flex flex-row text-[#F2E9E4] text-sm font-medium">
+		<nav className="w-full h-14 space-x-3 bg-[#1d1020] flex flex-row text-[#F2E9E4] text-xs md:text-sm font-medium">
 			<div
 				onClick={() => router.push('/')}
 				className="w-36 self-center ml-3 flex flex-row space-x-2 p-2 cursor-pointer"
@@ -89,7 +89,7 @@ const Navbar: React.FC = () => {
 						clipRule="evenodd"
 					/>
 				</svg>
-				<p className="self-center font-bold">BRAND HERE</p>
+				<p className="self-center font-bold">BRANDHERE</p>
 			</div>
 
 			<div className="grow self-center">

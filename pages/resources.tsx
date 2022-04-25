@@ -26,7 +26,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	const data = await prisma.artwork.findMany({
 		take: 50,
 		where: {
-			OR: [{ mature: false }, { mature: userResult?.showMatureContent || false }],
+			OR: [
+				{ section: 'RESOURCES', mature: false },
+				{ section: 'RESOURCES', mature: userResult?.showMatureContent || false },
+			],
 		},
 		orderBy: {
 			createdAt: 'desc',
@@ -44,7 +47,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 const fetcher = async (url: string) => fetch(url).then((res) => res.json());
 
-const Home: NextPage = ({ communityImages }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const resources: NextPage = ({ communityImages }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const { ref, inView } = useInView();
 
 	const { data, error, mutate, size, setSize } = useSWRInfinite(
@@ -66,8 +69,10 @@ const Home: NextPage = ({ communityImages }: InferGetServerSidePropsType<typeof 
 			<Navbar />
 			<div className="w-full h-full flex flex-col justify-center items-center">
 				<div className="h-36 flex flex-col justify-center items-center">
-					<h1 className="text-3xl font-bold text-[#e80059] p-3 ">Home.</h1>
-					<h1 className="text-xl font-bold text-[#e80059] p-3 ">Welcome to NAME_OF_WEBSITE!</h1>
+					<h1 className="text-3xl font-bold text-[#e80059] p-3 ">Resources.</h1>
+					<h1 className="text-xl font-bold text-[#e80059] p-3 ">
+						Resource creation and displaying current a work in progress!
+					</h1>
 				</div>
 			</div>
 
@@ -80,7 +85,7 @@ const Home: NextPage = ({ communityImages }: InferGetServerSidePropsType<typeof 
 	);
 };
 
-export default Home;
+export default resources;
 
 // getServerSideProps gets the initial 50 or so artworks
 // After that, userSWRInifinite fetches the reset of the artworks by pages
