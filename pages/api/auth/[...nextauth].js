@@ -21,9 +21,9 @@ export default NextAuth({
 	],
 	adapter: PrismaAdapter(prisma),
 	secret: process.env.JWT_SECRET,
-	// pages: {
-	// 	signIn: '/login',
-	// },
+	pages: {
+		signIn: '/login',
+	},
 	callbacks: {
 		async jwt({ token, user, account }) {
 			// Initial sign in

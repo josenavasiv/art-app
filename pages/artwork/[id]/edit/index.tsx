@@ -87,7 +87,7 @@ const index: React.FC = ({ artworkDetails }: InferGetServerSidePropsType<typeof 
 			<Navbar />
 			<div className="w-full h-full flex flex-col justify-center items-center space-y-3 mb-6">
 				<div className="h-36 flex flex-col justify-center items-center">
-					<h1 className="text-3xl font-bold text-[#E63E6D] p-3 ">Edit Artwork.</h1>
+					<h1 className="text-3xl font-bold text-[#e80059] p-3 ">Edit Artwork.</h1>
 				</div>
 				<div className="w-full max-w-lg">
 					<form onSubmit={handleSubmit(onSubmit)} className="space-y-5 flex flex-col text-gray-300 ">
@@ -167,7 +167,7 @@ const index: React.FC = ({ artworkDetails }: InferGetServerSidePropsType<typeof 
 
 						<input
 							disabled={formState.isSubmitting}
-							className="p-3 w-15 rounded-md bg-[#E63E6D]"
+							className="p-3 w-15 rounded-md bg-[#e80059] font-semibold"
 							type="submit"
 							value="Submit"
 						/>

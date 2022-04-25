@@ -158,7 +158,7 @@ const index: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 			<Navbar />
 			<div className="w-full h-full flex flex-col justify-center items-center mb-6">
 				<div className="h-36 flex flex-col justify-center items-center">
-					<h1 className="text-3xl font-bold text-[#E63E6D] p-3 ">Edit Profile.</h1>
+					<h1 className="text-3xl font-bold text-[#e80059] p-3 ">Edit Profile.</h1>
 				</div>
 				<div className="w-full max-w-lg">
 					<form onSubmit={handleSubmit(onSubmit)} className="space-y-5 flex flex-col text-gray-300 ">
@@ -195,7 +195,7 @@ const index: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 								className="font-semibold text-sm file:mr-4 file:mt-2 file:py-1 file:px-4
 								file:rounded-full file:border-0
 								file:text-sm file:font-semibold
-								file:bg-[#E63E6D] file:text-white"
+								file:bg-[#e80059] file:text-white"
 							/>
 						</div>
 						<div className="flex flex-col space-y-1">
@@ -209,7 +209,7 @@ const index: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 								className="font-semibold text-sm file:mr-4 file:mt-2 file:py-1 file:px-4
 								file:rounded-full file:border-0
 								file:text-sm file:font-semibold
-								file:bg-[#E63E6D] file:text-white"
+								file:bg-[#e80059] file:text-white"
 							/>
 						</div>
 
@@ -238,7 +238,7 @@ const index: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 
 						<input
 							disabled={formState.isSubmitting}
-							className="p-3 w-15 rounded-md bg-[#E63E6D]"
+							className="p-3 w-15 rounded-md font-semibold bg-[#e80059]"
 							type="submit"
 							value="Submit"
 						/>

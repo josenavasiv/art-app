@@ -33,6 +33,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	// Need to grab the user's images
 	const userArtworksData = await prisma.artwork.findMany({
+		take: 50,
 		where: {
 			OR: [
 				{ authorId: id, mature: false },
@@ -118,25 +119,23 @@ const index: React.FC = ({
 			<div className="flex justify-center">
 				<div className="flex flex-col h-[320px] w-full items-center justify-center relative overflow-hidden">
 					<img className="rounded-full w-28 h-28" src={userDetails.avatar ?? userDetails.image} alt="" />
-					<div className="text-3xl font-semibold text-[#b7094c]">
+					<div className="text-3xl font-semibold text-[#e80059]">
 						{userDetails.displayName ?? userDetails.name}
 					</div>
-					<div className="text-sm font-medium text-[#b7094c]">{userDetails.headline}</div>
-					<img className="absolute -z-10 object-cover" src={userDetails?.backgroundImageUrl} alt="" />
+					<div className="text-sm font-medium text-[#e80059]">{userDetails.headline}</div>
+					<img className="absolute -z-10 object-cover w-full" src={userDetails?.backgroundImageUrl} alt="" />
 				</div>
 			</div>
 
 			<div className="text-gray-300 z-10 mt-4 w-full">
 				<Tab.Group>
-					<Tab.List className="flex p-1 space-x-1 bg-blue-900/20 rounded-sm mx-4">
+					<Tab.List className="flex p-1 space-x-1 rounded-sm mx-4">
 						<Tab
 							className={({ selected }) =>
 								classNames(
-									'w-full py-2.5 text-sm leading-5 font-medium text-blue-700 rounded-sm',
-									'focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60',
-									selected
-										? 'bg-white shadow'
-										: 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
+									'w-full py-2.5 text-sm leading-5 font-medium text-[#F2E9E4] rounded-sm',
+									'focus:outline-none ',
+									selected ? 'bg-[#b7094c]' : 'text-[#F2E9E4] hover:bg-white/[0.12] hover:text-white'
 								)
 							}
 						>
@@ -145,11 +144,9 @@ const index: React.FC = ({
 						<Tab
 							className={({ selected }) =>
 								classNames(
-									'w-full py-2.5 text-sm leading-5 font-medium text-blue-700 rounded-sm',
-									'focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60',
-									selected
-										? 'bg-white shadow'
-										: 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
+									'w-full py-2.5 text-sm leading-5 font-medium text-[#F2E9E4] rounded-sm',
+									'focus:outline-none ',
+									selected ? 'bg-[#b7094c]' : 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
 								)
 							}
 						>
@@ -158,11 +155,9 @@ const index: React.FC = ({
 						<Tab
 							className={({ selected }) =>
 								classNames(
-									'w-full py-2.5 text-sm leading-5 font-medium text-blue-700 rounded-sm',
-									'focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60',
-									selected
-										? 'bg-white shadow'
-										: 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
+									'w-full py-2.5 text-sm leading-5 font-medium text-[#F2E9E4] rounded-sm',
+									'focus:outline-none ',
+									selected ? 'bg-[#b7094c]' : 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
 								)
 							}
 						>
@@ -171,11 +166,9 @@ const index: React.FC = ({
 						<Tab
 							className={({ selected }) =>
 								classNames(
-									'w-full py-2.5 text-sm leading-5 font-medium text-blue-700 rounded-sm',
-									'focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60',
-									selected
-										? 'bg-white shadow'
-										: 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
+									'w-full py-2.5 text-sm leading-5 font-medium text-[#F2E9E4] rounded-sm',
+									'focus:outline-none ',
+									selected ? 'bg-[#b7094c]' : 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
 								)
 							}
 						>
@@ -184,11 +177,9 @@ const index: React.FC = ({
 						<Tab
 							className={({ selected }) =>
 								classNames(
-									'w-full py-2.5 text-sm leading-5 font-medium text-blue-700 rounded-sm',
-									'focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60',
-									selected
-										? 'bg-white shadow'
-										: 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
+									'w-full py-2.5 text-sm leading-5 font-medium text-[#F2E9E4] rounded-sm',
+									'focus:outline-none ',
+									selected ? 'bg-[#b7094c]' : 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
 								)
 							}
 						>

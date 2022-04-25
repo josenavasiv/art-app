@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
 import useLoggedInUser from '../hooks/useLoggedInUser';
@@ -16,7 +15,7 @@ const Navbar: React.FC = () => {
 
 	if (!loggedInUser) {
 		return (
-			<nav className="w-full h-14 space-x-3 bg-[#1b1528] flex flex-row text-[#e80059] text-sm font-medium">
+			<nav className="w-full h-14 space-x-3 bg-[#1d1020] flex flex-row text-[#F2E9E4] text-sm font-medium">
 				<div
 					onClick={() => router.push('/')}
 					className="w-36 self-center ml-3 flex flex-row space-x-2 p-2 cursor-pointer"
@@ -33,7 +32,7 @@ const Navbar: React.FC = () => {
 
 				<div className="grow self-center">
 					<input
-						className="w-full h-9 bg-[#1b1528] border-[#F2E9E4] py-2 px-3 border-b-2 focus:border-[#e80059] focus:text-[#e80059] focus:outline-none transition-all placeholder:font-semibold font-semibold placeholder:text-[#F2E9E4] text-[#e80059] text-xs"
+						className="w-full h-9 bg-[#1d1020] border-[#F2E9E4] py-2 px-3 border-b-2 focus:border-[#e80059] focus:text-[#e80059] focus:outline-none transition-all placeholder:font-semibold font-semibold placeholder:text-[#F2E9E4] placeholder:focus:text-[#e80059] text-[#e80059] text-xs"
 						type="text"
 						name="search"
 						id="search"
@@ -42,7 +41,7 @@ const Navbar: React.FC = () => {
 				</div>
 
 				<div onClick={() => signIn()} className="flex flex-row items-center space-x-6 pr-6 pl-3">
-					<button className="w-18 flex flex-row space-x-1">
+					<button className="w-18 flex flex-row space-x-1 hover:text-[#e80059]">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							className="h-5 w-5"
@@ -55,9 +54,9 @@ const Navbar: React.FC = () => {
 								clipRule="evenodd"
 							/>
 						</svg>
-						<p className="self-center font-semibold">SIGN IN</p>
+						<p className="self-center font-semibold hover:text-[#e80059]">SIGN IN</p>
 					</button>
-					<button className="w-18 flex flex-row space-x-1 bg-[#e80059] text-[#1b1528] px-[0.5rem] py-[0.3rem] rounded-md">
+					<button className="w-18 flex flex-row space-x-1 bg-[#F2E9E4] hover:bg-[#e80059] hover:text-[#F2E9E4] text-[#1b1528] px-[0.5rem] py-[0.3rem] rounded-md">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							className="h-5 w-5"
@@ -78,7 +77,7 @@ const Navbar: React.FC = () => {
 	}
 
 	return (
-		<nav className="w-full h-14 space-x-3 bg-[#1b1528] flex flex-row text-[#F2E9E4] text-sm font-medium">
+		<nav className="w-full h-14 space-x-3 bg-[#1d1020] flex flex-row text-[#F2E9E4] text-sm font-medium">
 			<div
 				onClick={() => router.push('/')}
 				className="w-36 self-center ml-3 flex flex-row space-x-2 p-2 cursor-pointer"
@@ -95,7 +94,7 @@ const Navbar: React.FC = () => {
 
 			<div className="grow self-center">
 				<input
-					className="w-full h-9 bg-[#1b1528] border-[#F2E9E4] py-2 px-3 border-b-2 focus:border-[#e80059] focus:text-[#e80059] focus:outline-none transition-all placeholder:font-semibold font-semibold placeholder:text-[#F2E9E4] text-[#F2E9E4] text-xs"
+					className="w-full h-9 bg-[#1d1020] border-[#F2E9E4] py-2 px-3 border-b-2 focus:border-[#e80059] focus:text-[#e80059] focus:outline-none transition-all placeholder:font-semibold font-semibold placeholder:text-[#F2E9E4] text-[#F2E9E4] text-xs"
 					type="text"
 					name="search"
 					id="search"

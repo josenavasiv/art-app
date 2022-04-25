@@ -55,7 +55,7 @@ const NavbarDropdown: React.FC<INavbarDropdown> = ({ userId, userImageUrl }) => 
 								{({ active }) => (
 									<div
 										className={classNames(
-											active ? 'text-[#e80059] ' : 'text-[#1b1528]',
+											active ? 'text-[#e80059] ' : 'text-[#1d1020]',
 											'block px-4 py-2 text-sm cursor-pointer'
 										)}
 										onClick={() => router.push(`/profile/${userId}`)}
@@ -68,7 +68,7 @@ const NavbarDropdown: React.FC<INavbarDropdown> = ({ userId, userImageUrl }) => 
 								{({ active }) => (
 									<div
 										className={classNames(
-											active ? ' text-[#e80059]' : 'text-[#1b1528]',
+											active ? ' text-[#e80059]' : 'text-[#1d1020]',
 											'block px-4 py-2 text-sm cursor-pointer'
 										)}
 										onClick={() => router.push(`/profile/${userId}/edit`)}
@@ -81,7 +81,7 @@ const NavbarDropdown: React.FC<INavbarDropdown> = ({ userId, userImageUrl }) => 
 								{({ active }) => (
 									<div
 										className={classNames(
-											active ? ' text-[#e80059]' : 'text-[#1b1528]',
+											active ? ' text-[#e80059]' : 'text-[#1d1020]',
 											'block px-4 py-2 text-sm cursor-pointer'
 										)}
 										// @ts-ignore

@@ -20,7 +20,7 @@ const FollowerProfile: React.FC<IFollowerProfile> = ({ userId }) => {
 
 	return (
 		<div className="relative follower-grid-item ">
-			<div className=" min-w-[350px] min-h-[200px] overflow-hidden parent bg-[#1b1528] -z-20 p-4 space-y-2 ">
+			<div className=" min-w-[350px] min-h-[200px] overflow-hidden parent bg-[#1d1020] -z-20 p-4 space-y-2 ">
 				<div className="h-full w-full flex flex-row justify-start items-center space-x-4 p-1 ">
 					<img
 						className=" w-28 h-28 rounded-full cursor-pointer"
@@ -30,7 +30,7 @@ const FollowerProfile: React.FC<IFollowerProfile> = ({ userId }) => {
 					/>
 					<div onClick={() => router.push(`/profile/${userId}`)} className="text-center z-20 cursor-pointer">
 						<div className="text-2xl font-semibold text-[#F2E9E4]">{user?.displayName}</div>
-						<div className="text-xs text-gray-400">{user?.headline}</div>
+						<div className="text-xs text-[#9A8C98]">{user?.headline}</div>
 					</div>
 					<FollowButton userId={userId} />
 				</div>

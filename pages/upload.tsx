@@ -1,9 +1,10 @@
 import { ChangeEventHandler, useState } from 'react';
-import { useSession, signIn } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 
 import Navbar from '../components/Navbar';
+import useLoggedInUser from '../hooks/useLoggedInUser';
 
 export enum SectionEnum {
 	community = 'Community',
@@ -21,7 +22,8 @@ interface IFormInput {
 
 const upload: React.FC = () => {
 	const router = useRouter();
-	const { data: session, status } = useSession();
+	const { loggedInUser } = useLoggedInUser();
+
 	const { register, handleSubmit, formState } = useForm<IFormInput>();
 
 	const [uploadedImage, setUploadedImage] = useState('');
@@ -71,12 +73,12 @@ const upload: React.FC = () => {
 		}
 	};
 
-	if (!session) {
+	if (!loggedInUser) {
 		return (
 			<>
 				<Navbar />
 				<div className="w-full h-full flex flex-col justify-center items-center">
-					<h1 className="text-3xl font-bold underline text-[#E63E6D]">Please Log In to Upload Image</h1>
+					<h1 className="text-3xl font-bold underline text-[#e80059]">Please Log In to Upload Image</h1>
 					<button onClick={() => signIn()} className="bg-white p-2">
 						SIGN IN
 					</button>
@@ -90,7 +92,7 @@ const upload: React.FC = () => {
 			<Navbar />
 			<div className="w-full h-full flex flex-col justify-center items-center space-y-3 mb-6">
 				<div className="h-36 flex flex-col justify-center items-center">
-					<h1 className="text-3xl font-bold text-[#E63E6D] p-3 ">Upload New Artwork.</h1>
+					<h1 className="text-3xl font-bold text-[#e80059] p-3 ">Upload New Artwork.</h1>
 				</div>
 				<div className="w-full max-w-lg">
 					<form onSubmit={handleSubmit(onSubmit)} className="space-y-5 flex flex-col text-gray-300 ">
@@ -129,7 +131,7 @@ const upload: React.FC = () => {
 								className="font-semibold text-sm file:mr-4 file:mt-2 file:py-1 file:px-4
 								file:rounded-full file:border-0
 								file:text-sm file:font-semibold
-								file:bg-[#E63E6D] file:text-white
+								file:bg-[#e80059] file:text-white
 							 file:cursor-pointer"
 							/>
 						</div>
@@ -183,7 +185,7 @@ const upload: React.FC = () => {
 
 						<input
 							disabled={formState.isSubmitting}
-							className="p-3 w-15 rounded-md bg-[#E63E6D] cursor-pointer"
+							className="p-3 w-15 rounded-md bg-[#e80059] cursor-pointer font-semibold"
 							type="submit"
 							value="Submit"
 						/>

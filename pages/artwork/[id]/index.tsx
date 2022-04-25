@@ -132,6 +132,7 @@ const index: React.FC = ({
 
 	// DELETE FUNCTION
 	const onDelete = async () => {
+		// const imageCloudinaryId = artworkDetails.imageUrl.split('/').pop().split('.').shift();
 		const result = await fetch(`/api/artwork/${artworkDetails.id}`, {
 			method: 'DELETE',
 			headers: { 'Content-Type': 'application/json' },
@@ -166,7 +167,7 @@ const index: React.FC = ({
 						<img src={artworkDetails.imageUrl} alt="" className="self-center" />
 					</div>
 
-					<div className="fixed bg-[#1b1528] text-[#F2E9E4] h-full w-[365px] overflow-y-auto right-0 p-5 pt-[76px] space-y-4">
+					<div className="fixed bg-[#1d1020] text-[#F2E9E4] h-full w-[365px] overflow-y-auto right-0 p-5 pt-[76px] space-y-4">
 						<div className="flex flex-row space-x-3 relative">
 							{userIsLoading && <div>LOADING USER DETAILS</div>}
 							{user && (
@@ -357,9 +358,15 @@ const index: React.FC = ({
 
 						<div className="flex flex-col space-y-2">
 							<div className="text-4xl font-semibold text-[#e80059]">{artworkDetails.title}</div>
-							<div className="text-sm pb-2 whitespace-pre-line">{artworkDetails.description}</div>
-							<div className="text-xs text-[#9A8C98] italic">
-								Posted {getRelativeDate(artworkDetails.createdAt)}
+
+							<div className="text-sm pb-2 whitespace-pre-line ">{artworkDetails.description}</div>
+
+							<div className="text-xs text-[#9A8C98] italic flex flex-row space-x-1">
+								<p>Posted {getRelativeDate(artworkDetails.createdAt)} under</p>
+
+								<span className="text-xs font-semibold text-[#b7094c]  rounded-sm">
+									{artworkDetails.section}
+								</span>
 							</div>
 							<div className="flex flex-row justify-between ">
 								<div className="flex flex-row space-x-1">
@@ -405,9 +412,16 @@ const index: React.FC = ({
 							</div>
 						</div>
 
-						<MoreByGrid userId={artworkDetails.authorId} />
+						<hr className="border-[#9A8C98]" />
+
+						<div>
+							<div className="text-sm mb-2 font-medium">More by {user?.displayName}</div>
+							<MoreByGrid userId={artworkDetails.authorId} />
+						</div>
 
 						<TagsGrid tags={artworkDetails.tags} />
+
+						<hr className="border-[#9A8C98]" />
 
 						{/* Comments Section */}
 						<div className="flex flex-col w-full space-y-2">
@@ -433,7 +447,7 @@ const index: React.FC = ({
 						{session && (
 							<form
 								onSubmit={handleSubmit(onSubmit)}
-								className="space-y-4 flex flex-col text-gray-300 w-full bg-[#1b1528]"
+								className="space-y-4 flex flex-col text-gray-300 w-full bg-[#1d1020]"
 							>
 								<textarea
 									id="comment"

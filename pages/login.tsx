@@ -12,7 +12,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
 };
 
 const login: React.FC<Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider>> = ({ providers }) => {
-	
 	return (
 		<div className="flex flex-col items-center min-h-screen w-full justify-center">
 			<h1 className="text-[#FFDADA] font-bold text-2xl md:text-5xl">Arstation Pinterest App</h1>
@@ -20,7 +19,7 @@ const login: React.FC<Record<LiteralUnion<BuiltInProviderType, string>, ClientSa
 				<div className="mt-5" key={provider.name}>
 					<button
 						className=" border-[#DB6B97] text-[#DB6B97] border-2 p-2 md:p-3 rounded-full font-semibold text-sm md:text-lg"
-						onClick={() => signIn(provider.id, { callbackUrl: '/' })}
+						onClick={() => signIn(provider.id, { callbackUrl: '/community' })}
 					>
 						Login with {provider.name}
 					</button>

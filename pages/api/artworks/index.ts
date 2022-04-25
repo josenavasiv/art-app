@@ -8,7 +8,7 @@ import { getSession } from 'next-auth/react';
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
 	const session = await getSession();
 
-	const section = req.query.section;
+	const section: any = req.query.section;
 	const limit = parseInt((req.query.limit as string) ?? 50);
 	const pageNum = req.query.page ? parseInt(req.query.page as string) : 0;
 
@@ -18,17 +18,14 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 	// 	},
 	// });
 
-	console.log(session);
-
 	const artworks = await prisma.artwork.findMany({
 		take: limit,
 		skip: 50 * pageNum,
 		where: {
-			// @ts-ignore
 			section: section,
 			// OR: [
-			// 	{ section: 'COMMUNITY', mature: false },
-			// 	{ section: 'COMMUNITY', mature: userResult?.showMatureContent || false },
+			// 	{ section: section, mature: false },
+			// 	{ section: section, mature: userResult?.showMatureContent || false },
 			// ],
 		},
 		orderBy: {
@@ -39,3 +36,5 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 	res.json(artworks);
 	return;
 }
+
+// Mature content filtering is now done in the frontend (ArtworkGrid component)
