@@ -16,7 +16,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 
 	const userArtworks = await prisma.artwork.findMany({
 		// @ts-ignore
-		take: limit || 6,
+		take: limit || 3,
 		where: {
 			OR: [
 				{

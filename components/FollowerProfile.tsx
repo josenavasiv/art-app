@@ -20,10 +20,15 @@ const FollowerProfile: React.FC<IFollowerProfile> = ({ userId }) => {
 
 	return (
 		<div className="relative follower-grid-item ">
-			<div className=" min-w-[350px] min-h-[200px] overflow-hidden cursor-pointer parent bg-[#1b1528] -z-20 p-4 space-y-2 ">
-				<div className="h-full w-full flex flex-row justify-start items-center space-x-4 p-1">
-					<img className=" w-28 h-28 rounded-full" src={user?.avatar} alt="" />
-					<div className="text-center z-20">
+			<div className=" min-w-[350px] min-h-[200px] overflow-hidden parent bg-[#1b1528] -z-20 p-4 space-y-2 ">
+				<div className="h-full w-full flex flex-row justify-start items-center space-x-4 p-1 ">
+					<img
+						className=" w-28 h-28 rounded-full cursor-pointer"
+						src={user?.avatar}
+						alt=""
+						onClick={() => router.push(`/profile/${userId}`)}
+					/>
+					<div onClick={() => router.push(`/profile/${userId}`)} className="text-center z-20 cursor-pointer">
 						<div className="text-2xl font-semibold text-[#F2E9E4]">{user?.displayName}</div>
 						<div className="text-xs text-gray-400">{user?.headline}</div>
 					</div>

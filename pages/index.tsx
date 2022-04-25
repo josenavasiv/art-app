@@ -1,22 +1,17 @@
+import { useEffect } from 'react';
 import type { NextPage } from 'next';
-import { useRouter } from 'next/router';
-import { getSession, signIn, signOut } from 'next-auth/react';
+
+import { getSession } from 'next-auth/react';
 import { GetServerSideProps } from 'next';
 import prisma from '../lib/prisma';
 import { InferGetServerSidePropsType } from 'next';
+import useSWRInfinite from 'swr/infinite';
+import { useInView } from 'react-intersection-observer';
 
 import Navbar from '../components/Navbar';
 import ArtworkGrid from '../components/ArtworkGrid';
 
-import useLoggedInUser from '../hooks/useLoggedInUser';
-
 export const getServerSideProps: GetServerSideProps = async (context) => {
-	// const params = new URLSearchParams({ section: 'COMMUNITY' });
-	// const commmunityImages = await fetch(`http://localhost:3000/api/upload?${params}`, {
-	// 	method: 'GET',
-	// 	headers: { 'Content-Type': 'application/json' },
-	// });
-
 	const session = await getSession(context);
 	console.log(session);
 
@@ -25,10 +20,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 			email: session?.user?.email || 'User Not Logged In',
 		},
 	});
-	console.log(userResult);
+	// console.log(userResult);
 
 	// This is how the mature content is filtered out
 	const data = await prisma.artwork.findMany({
+		take: 50,
 		where: {
 			OR: [
 				{ section: 'COMMUNITY', mature: false },
@@ -39,6 +35,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 			createdAt: 'desc',
 		},
 	});
+
 	const commmunityImages = JSON.parse(JSON.stringify(data));
 	// console.log(commmunityImages); An array of objects (Upload Prisma)
 	return {
@@ -48,9 +45,24 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	};
 };
 
+const fetcher = async (url: string) => fetch(url).then((res) => res.json());
+
 const Home: NextPage = ({ commmunityImages }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-	const router = useRouter();
-	const { loggedInUser, isLoading, isError } = useLoggedInUser();
+	const { ref, inView } = useInView();
+
+	const { data, error, mutate, size, setSize } = useSWRInfinite(
+		(index) => `/api/artworks?page=${index + 1}`,
+		fetcher
+	);
+
+	const artworks = data ? [].concat(...data, ...commmunityImages) : []; // Add onto our current artworks on each request
+	const isLoadingInitialData = !data && !error;
+
+	useEffect(() => {
+		if (inView && data?.[data.length - 1]?.length !== 0) {
+			setSize(size + 1); // Setting the page to fetch
+		}
+	}, [inView]);
 
 	return (
 		<>
@@ -61,9 +73,19 @@ const Home: NextPage = ({ commmunityImages }: InferGetServerSidePropsType<typeof
 				</div>
 			</div>
 
-			<ArtworkGrid artworks={commmunityImages} />
+			{/* <ArtworkGrid artworks={commmunityImages} /> */}
+			<ArtworkGrid artworks={artworks} />
+
+			<div ref={ref} className="text-white mt-[1000px]">
+				Intersection Observer Marker
+			</div>
 		</>
 	);
 };
 
 export default Home;
+
+// getServerSideProps gets the initial 50 or so artworks
+// After that, userSWRInifinite fetches the reset of the artworks by pages
+// Every page contains 50 elements, and skips by 50 elements
+// React-Intersection-Observer is used to get create the other calls
