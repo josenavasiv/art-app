@@ -359,12 +359,17 @@ const index: React.FC = ({
 						<div className="flex flex-col space-y-2">
 							<div className="text-4xl font-semibold text-[#e80059]">{artworkDetails.title}</div>
 
-							<div className="text-sm pb-2 whitespace-pre-line ">{artworkDetails.description}</div>
+							<div className="text-sm pb-2 break-words whitespace-pre-line ">
+								{artworkDetails.description}
+							</div>
 
 							<div className="text-xs text-[#9A8C98] italic flex flex-row space-x-1">
 								<p>Posted {getRelativeDate(artworkDetails.createdAt)} under</p>
 
-								<span className="text-xs font-semibold text-[#b7094c]  rounded-sm">
+								<span
+									onClick={() => router.push(`/${artworkDetails.section.toLowerCase()}`)}
+									className="text-xs font-semibold text-[#b7094c] rounded-sm cursor-pointer hover:text-[#F2E9E4]"
+								>
 									{artworkDetails.section}
 								</span>
 							</div>

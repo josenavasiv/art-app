@@ -48,7 +48,9 @@ const upload: React.FC = () => {
 		const section = data.section;
 		// @ts-ignore
 		const tags = data.tags.split(' ');
-		const filteredTags = tags.filter((element: string) => element !== '');
+		const lowerCaseTags = tags.map((tag: string) => tag.toLowerCase());
+		console.log(lowerCaseTags);
+		const filteredTags = lowerCaseTags.filter((element: string) => element !== '');
 		// @ts-ignore
 		const mature = data.mature;
 		const body = { title, description, section, image_url, mature, filteredTags };

@@ -40,6 +40,7 @@
 	html {
 		font-family: 'Poppins', sans-serif;
 		background: #1d1020;
+		/* Moves scrollback into the page instead of it being on the "outside" */
 		overflow: overlay;
 	}
 

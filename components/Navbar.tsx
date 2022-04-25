@@ -3,15 +3,25 @@ import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
 import useLoggedInUser from '../hooks/useLoggedInUser';
 import NavbarDropdown from './NavbarDropdown';
+import { useForm } from 'react-hook-form';
 
 const Navbar: React.FC = () => {
-	// const { data: session, status } = useSession();
 	const router = useRouter();
+	const {
+		register,
+		handleSubmit,
+		watch,
+		formState: { errors },
+	} = useForm();
 
-	// console.log(session);
 	// SWR into database with useEffect when session status changes
 	const { loggedInUser, isLoading, isError } = useLoggedInUser();
 	// console.log(loggedInUser);
+
+	const onSubmit = (data: string) => {
+		router.push(`/search?searchQuery=${data.search}`);
+		return;
+	};
 
 	if (!loggedInUser) {
 		return (
@@ -31,13 +41,18 @@ const Navbar: React.FC = () => {
 				</div>
 
 				<div className="grow self-center">
-					<input
-						className="w-full h-9 bg-[#1d1020] border-[#F2E9E4] py-2 px-3 border-b-2 focus:border-[#e80059] focus:text-[#e80059] focus:outline-none transition-all placeholder:font-semibold font-semibold placeholder:text-[#F2E9E4] placeholder:focus:text-[#e80059] text-[#e80059] text-xs"
-						type="text"
-						name="search"
-						id="search"
-						placeholder="Search #tags"
-					/>
+					{/* @ts-ignore */}
+					<form onSubmit={handleSubmit(onSubmit)}>
+						<input
+							{...register('search')}
+							className="w-full h-9 bg-[#1d1020] border-[#F2E9E4] py-2 px-3 border-b-2 focus:border-[#e80059] focus:text-[#e80059] focus:outline-none transition-all placeholder:font-semibold font-semibold placeholder:text-[#F2E9E4] text-[#F2E9E4] text-xs"
+							type="text"
+							name="search"
+							id="search"
+							placeholder="Search #tags"
+						/>
+						<input type="submit" className="hidden" />
+					</form>
 				</div>
 
 				<div onClick={() => signIn()} className="flex flex-row items-center space-x-6 pr-6 pl-3">
@@ -93,13 +108,18 @@ const Navbar: React.FC = () => {
 			</div>
 
 			<div className="grow self-center">
-				<input
-					className="w-full h-9 bg-[#1d1020] border-[#F2E9E4] py-2 px-3 border-b-2 focus:border-[#e80059] focus:text-[#e80059] focus:outline-none transition-all placeholder:font-semibold font-semibold placeholder:text-[#F2E9E4] text-[#F2E9E4] text-xs"
-					type="text"
-					name="search"
-					id="search"
-					placeholder="Search #tags"
-				/>
+				{/* @ts-ignore */}
+				<form onSubmit={handleSubmit(onSubmit)}>
+					<input
+						{...register('search')}
+						className="w-full h-9 bg-[#1d1020] border-[#F2E9E4] py-2 px-3 border-b-2 focus:border-[#e80059] focus:text-[#e80059] focus:outline-none transition-all placeholder:font-semibold font-semibold placeholder:text-[#F2E9E4] text-[#F2E9E4] text-xs"
+						type="text"
+						name="search"
+						id="search"
+						placeholder="Search #tags"
+					/>
+					<input type="submit" className="hidden" />
+				</form>
 			</div>
 
 			<div className="flex flex-row items-center space-x-4 pr-3">

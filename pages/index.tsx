@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import type { NextPage } from 'next';
-
+import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/react';
 import { GetServerSideProps } from 'next';
 import prisma from '../lib/prisma';
@@ -45,6 +45,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 const fetcher = async (url: string) => fetch(url).then((res) => res.json());
 
 const Home: NextPage = ({ communityImages }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+	const router = useRouter();
 	const { ref, inView } = useInView();
 
 	const { data, error, mutate, size, setSize } = useSWRInfinite(
@@ -65,9 +66,31 @@ const Home: NextPage = ({ communityImages }: InferGetServerSidePropsType<typeof 
 		<>
 			<Navbar />
 			<div className="w-full h-full flex flex-col justify-center items-center">
-				<div className="h-36 flex flex-col justify-center items-center">
-					<h1 className="text-3xl font-bold text-[#e80059] p-3 ">Home.</h1>
-					<h1 className="text-xl font-bold text-[#e80059] p-3 ">Welcome to NAME_OF_WEBSITE!</h1>
+				<div className="h-36 w-full flex flex-col justify-center items-center space-y-2">
+					<h1 className="text-3xl font-bold text-[#e80059] ">WEBSITE NAME</h1>
+					<h1 className="text-lg font-bold text-[#F2E9E4] text-center">
+						A place where artists of all skill levels can share their artwork!
+					</h1>
+					<div className="flex flex-row justify-evenly w-full text-[#e80059]">
+						<h1
+							onClick={() => router.push('/community')}
+							className="text-lg font-bold text-center cursor-pointer"
+						>
+							Community{' '}
+						</h1>
+						<h1
+							onClick={() => router.push('/feedback')}
+							className="text-lg font-bold text-center cursor-pointer"
+						>
+							Feedback{' '}
+						</h1>
+						<h1
+							onClick={() => router.push('/resources')}
+							className="text-lg font-bold text-center cursor-pointer"
+						>
+							Resources{' '}
+						</h1>
+					</div>
 				</div>
 			</div>
 

@@ -1,5 +1,22 @@
 import { useState } from 'react';
 import { Tab } from '@headlessui/react';
+import prisma from '../lib/prisma';
+
+export const getServerSideProps = async (context) => {
+	const searchQuery = context.query.searchQuery ?? '';
+	const result = await prisma.artwork.findMany({
+		where: {
+			tags: {
+				has: 'hi',
+			},
+		},
+	});
+	console.log(result);
+
+	return {
+		props: {},
+	};
+};
 
 function classNames(...classes) {
 	return classes.filter(Boolean).join(' ');
