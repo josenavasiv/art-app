@@ -19,11 +19,14 @@ export default useUser;
 
 // Returns
 // {
-// 	backgroundImageUrl: null
-// 	email: "josenavasiv@gmail.com"
-// 	emailVerified: null
-// 	id: "cl253ie2g0008jktshzr9lvwv"
-// 	image: "https://lh3.googleusercontent.com/a-/AOh14Gie1FfPrtEntm3crauVn9N3nfAS3eQFj4QP40xiwQ=s96-c"
-// 	name: "Jose Navas"
-// 	status: null
+// avatar: "https://res.cloudinary.com/josenavasiv/image/upload/v1650564660/uploads/iv69h25zqqvqrubxmcmv.jpg"
+// backgroundImageUrl: "https://res.cloudinary.com/josenavasiv/image/upload/v1650437675/uploads/cpseztsmaomuagclnjvf.jpg"
+// displayName: "JoJoJacKy"
+// email: "josenavasiv@gmail.com"
+// emailVerified: null
+// headline: "Aspiring Artist"
+// id: "cl26usi0500118gtsxch0n2ob"
+// image: "https://lh3.googleusercontent.com/a-/AOh14Gie1FfPrtEntm3crauVn9N3nfAS3eQFj4QP40xiwQ=s96-c"
+// name: "Jose Navas"
+// showMatureContent: true
 // }

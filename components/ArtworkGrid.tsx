@@ -2,6 +2,7 @@ import { Section } from '@prisma/client';
 import React from 'react';
 import Thumbnail from './Thumbnail';
 import useLoggedInUser from '../hooks/useLoggedInUser';
+import useUser from '../hooks/useUser';
 
 export interface IArtwork {
 	id: string;
@@ -24,11 +25,26 @@ export interface IArtworkGridProps {
 }
 
 const UploadGrid: React.FC<IArtworkGridProps> = ({ artworks }) => {
+	const { loggedInUser } = useLoggedInUser();
+	// console.log(loggedInUser);
+
+	const filterByMatureContent = (artwork: any) => {
+		if (loggedInUser?.showMatureContent) {
+			return true;
+		} else {
+			if (artwork.mature) return false;
+			else return true;
+		}
+	};
+
+	const filteredArtworks = artworks.filter(filterByMatureContent);
+	// console.log(filteredArtworks);
+
 	return (
 		<div className="w-full upload-grid">
-			{artworks.map((artwork) => (
+			{filteredArtworks.map((artwork, index) => (
 				<Thumbnail
-					key={artwork.id}
+					key={`${artwork.id} + ${index}`}
 					authorId={artwork.authorId}
 					artworkId={artwork.id}
 					artworkTitle={artwork.title}
@@ -40,3 +56,6 @@ const UploadGrid: React.FC<IArtworkGridProps> = ({ artworks }) => {
 };
 
 export default UploadGrid;
+
+// Need to filter out mature content in the frontend instead of the backend
+// due to being unable to use getSession in /api/artworks

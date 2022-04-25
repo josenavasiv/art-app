@@ -2,29 +2,34 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 
 // GET /api/artworks
+// section: COMMUNITY, FEEDBACK
+// limit: 50
+// skip: 50
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
 	const session = await getSession();
 
 	const section = req.query.section;
-	const limit = parseInt((req.query.limit as string) ?? 30);
+	const limit = parseInt((req.query.limit as string) ?? 50);
 	const pageNum = req.query.page ? parseInt(req.query.page as string) : 0;
 
-	const userResult = await prisma.user.findUnique({
-		where: {
-			email: session?.user?.email || 'User is not logged in',
-		},
-	});
+	// const userResult = await prisma.user.findUnique({
+	// 	where: {
+	// 		email: session?.user?.email || 'User is not logged in',
+	// 	},
+	// });
 
 	console.log(session);
 
 	const artworks = await prisma.artwork.findMany({
 		take: limit,
-		skip: 30 * pageNum,
+		skip: 50 * pageNum,
 		where: {
-			OR: [
-				{ section: 'COMMUNITY', mature: false },
-				{ section: 'COMMUNITY', mature: userResult?.showMatureContent || false },
-			],
+			// @ts-ignore
+			section: section,
+			// OR: [
+			// 	{ section: 'COMMUNITY', mature: false },
+			// 	{ section: 'COMMUNITY', mature: userResult?.showMatureContent || false },
+			// ],
 		},
 		orderBy: {
 			createdAt: 'desc',

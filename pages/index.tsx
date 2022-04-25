@@ -13,7 +13,7 @@ import ArtworkGrid from '../components/ArtworkGrid';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const session = await getSession(context);
-	console.log(session);
+	// console.log(session);
 
 	const userResult = await prisma.user.findUnique({
 		where: {
@@ -24,7 +24,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	// This is how the mature content is filtered out
 	const data = await prisma.artwork.findMany({
-		take: 30,
+		take: 50,
 		where: {
 			OR: [
 				{ section: 'COMMUNITY', mature: false },
@@ -51,7 +51,7 @@ const Home: NextPage = ({ commmunityImages }: InferGetServerSidePropsType<typeof
 	const { ref, inView } = useInView();
 
 	const { data, error, mutate, size, setSize } = useSWRInfinite(
-		(index) => `/api/artworks?page=${index + 1}`,
+		(index) => `/api/artworks?page=${index + 1}&section=COMMUNITY`,
 		fetcher
 	);
 
@@ -76,7 +76,7 @@ const Home: NextPage = ({ commmunityImages }: InferGetServerSidePropsType<typeof
 			{/* <ArtworkGrid artworks={commmunityImages} /> */}
 			<ArtworkGrid artworks={artworks} />
 
-			<div ref={ref} className="text-white mt-[1000px]">
+			<div ref={ref} className="text-white mt-[750px]">
 				Intersection Observer Marker
 			</div>
 		</>
