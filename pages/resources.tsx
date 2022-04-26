@@ -10,6 +10,7 @@ import { useInView } from 'react-intersection-observer';
 
 import Navbar from '../components/Navbar';
 import ArtworkGrid from '../components/ArtworkGrid';
+import Head from 'next/head';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const session = await getSession(context);
@@ -66,6 +67,10 @@ const resources: NextPage = ({ communityImages }: InferGetServerSidePropsType<ty
 
 	return (
 		<>
+			<Head>
+				<title>Resources</title>
+				<meta name="viewport" content="initial-scale=1.0, width=device-width" />
+			</Head>
 			<Navbar />
 			<div className="w-full h-full flex flex-col justify-center items-center">
 				<div className="h-36 flex flex-col justify-center items-center">

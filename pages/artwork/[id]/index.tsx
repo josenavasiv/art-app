@@ -5,6 +5,8 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/react';
 import { Dialog, Transition } from '@headlessui/react';
+import Head from 'next/head';
+import Linkify from 'react-linkify';
 
 import prisma from '../../../lib/prisma';
 import Navbar from '../../../components/Navbar';
@@ -158,6 +160,10 @@ const index: React.FC = ({
 
 	return (
 		<>
+			<Head>
+				<title>Artwork - {artworkDetails.title}</title>
+				<meta name="viewport" content="initial-scale=1.0, width=device-width" />
+			</Head>
 			<div className="h-screen relative">
 				<div className="absolute top-0 w-full z-10">
 					<Navbar />
@@ -312,7 +318,7 @@ const index: React.FC = ({
 								{likeResult ? (
 									<div
 										onClick={handleUnlike}
-										className="bg-blue-300 w-1/5 rounded-sm cursor-pointer py-1 px-8 flex flex-row text-xs justify-center items-center space-x-1"
+										className="bg-[#3bbfff] w-1/5 rounded-sm cursor-pointer py-1 px-8 flex flex-row text-xs justify-center items-center space-x-1"
 									>
 										<div>
 											<svg
@@ -330,7 +336,7 @@ const index: React.FC = ({
 								) : (
 									<div
 										onClick={handleLike}
-										className="bg-blue-300 w-1/5 rounded-sm cursor-pointer py-1 px-3 flex flex-row text-xs justify-center items-center space-x-1"
+										className="bg-[#3bbfff] w-1/5 rounded-sm cursor-pointer py-1 px-3 flex flex-row text-xs justify-center items-center space-x-1"
 									>
 										<div>
 											<svg
@@ -359,9 +365,17 @@ const index: React.FC = ({
 						<div className="flex flex-col space-y-2">
 							<div className="text-4xl font-semibold text-[#e80059]">{artworkDetails.title}</div>
 
-							<div className="text-sm pb-2 break-words whitespace-pre-line ">
-								{artworkDetails.description}
-							</div>
+							<Linkify
+								componentDecorator={(decoratedHref, decoratedText, key) => (
+									<a target="_blank" href={decoratedHref} key={key} style={{ color: '#3bbfff' }}>
+										{decoratedText}
+									</a>
+								)}
+							>
+								<div className="text-sm pb-2 break-words whitespace-pre-line ">
+									{artworkDetails.description}
+								</div>
+							</Linkify>
 
 							<div className="text-xs text-[#9A8C98] italic flex flex-row space-x-1">
 								<p>Posted {getRelativeDate(artworkDetails.createdAt)} under</p>

@@ -6,6 +6,7 @@ import { getSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 
 import Navbar from '../../../../components/Navbar';
+import Head from 'next/head';
 
 // @ts-ignore
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -84,6 +85,10 @@ const index: React.FC = ({ artworkDetails }: InferGetServerSidePropsType<typeof 
 
 	return (
 		<>
+			<Head>
+				<title>Edit Artwork - {artworkDetails.title}</title>
+				<meta name="viewport" content="initial-scale=1.0, width=device-width" />
+			</Head>
 			<Navbar />
 			<div className="w-full h-full flex flex-col justify-center items-center space-y-3 mb-6">
 				<div className="h-36 flex flex-col justify-center items-center">

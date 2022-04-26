@@ -9,8 +9,8 @@ const useIsFollowing = (userId: string) => {
 		const data = await response.json();
 		return data;
 	});
-	console.log('FOLLOWING DATA');
-	console.log(data);
+	// console.log('FOLLOWING DATA');
+	// console.log(data);
 
 	return {
 		following: data,

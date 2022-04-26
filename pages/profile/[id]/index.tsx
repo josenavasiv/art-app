@@ -1,6 +1,7 @@
 import { GetServerSideProps } from 'next';
 import { InferGetServerSidePropsType } from 'next';
 import { Tab } from '@headlessui/react';
+import Linkify from 'react-linkify';
 
 import { getSession } from 'next-auth/react';
 
@@ -8,6 +9,7 @@ import prisma from '../../../lib/prisma';
 import Navbar from '../../../components/Navbar';
 import ArtworkGrid from '../../../components/ArtworkGrid';
 import FollowerProfile from '../../../components/FollowerProfile';
+import Head from 'next/head';
 
 // @ts-ignore
 function classNames(...classes) {
@@ -114,15 +116,19 @@ const index: React.FC = ({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	return (
 		<>
+			<Head>
+				<title>Profile - {userDetails.displayName ?? userDetails.name}</title>
+				<meta name="viewport" content="initial-scale=1.0, width=device-width" />
+			</Head>
 			<Navbar />
 
 			<div className="flex justify-center">
 				<div className="flex flex-col h-[320px] w-full items-center justify-center relative overflow-hidden">
 					<img className="rounded-full w-28 h-28" src={userDetails.avatar ?? userDetails.image} alt="" />
-					<div className="text-3xl font-semibold text-[#e80059]">
+					<div className="text-3xl font-semibold text-[#b7094c]">
 						{userDetails.displayName ?? userDetails.name}
 					</div>
-					<div className="text-sm font-medium text-[#e80059]">{userDetails.headline}</div>
+					<div className="text-sm font-medium text-[#b7094c]">{userDetails.headline}</div>
 					<img className="absolute -z-10 object-cover w-full" src={userDetails?.backgroundImageUrl} alt="" />
 				</div>
 			</div>
@@ -209,7 +215,20 @@ const index: React.FC = ({
 								))}
 							</div>
 						</Tab.Panel>
-						<Tab.Panel>ABOUT</Tab.Panel>
+						<Tab.Panel>
+							<div className="w-full h-full flex flex-col justify-center items-center space-y-4">
+								<Linkify
+									componentDecorator={(decoratedHref, decoratedText, key) => (
+										<a target="_blank" href={decoratedHref} key={key} style={{ color: '#3bbfff' }}>
+											{decoratedText}
+										</a>
+									)}
+								>
+									<h1 className="text-2xl font-semibold text-[#e80059]">Biography</h1>
+									<div className="w-2/5 whitespace-pre-line font-medium">{userDetails?.bio}</div>
+								</Linkify>
+							</div>
+						</Tab.Panel>
 					</Tab.Panels>
 				</Tab.Group>
 			</div>

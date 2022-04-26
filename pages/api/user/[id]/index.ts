@@ -13,6 +13,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 	const showMatureContent = bodyData.showMatureContent;
 	const avatar = bodyData?.avatar;
 	const backgroundImageUrl = bodyData?.backgroundImageUrl;
+	const bio = bodyData?.bio;
 
 	if (req.method === 'GET') {
 		const result = await prisma.user.findUnique({
@@ -39,6 +40,8 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 					showMatureContent: showMatureContent,
 					avatar: avatar,
 					backgroundImageUrl: backgroundImageUrl,
+					// @ts-ignore
+					bio: bio,
 				},
 			});
 			res.json(updatedUser);

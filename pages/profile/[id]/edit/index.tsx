@@ -5,6 +5,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 
 import Navbar from '../../../../components/Navbar';
+import Head from 'next/head';
 
 // Will protect with middleware
 // @ts-ignore
@@ -44,6 +45,7 @@ interface IUpdateProfile {
 	showMatureContent: boolean;
 	avatar: string;
 	backgroundImageUrl: string;
+	bio: string;
 }
 
 const index: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
@@ -57,14 +59,17 @@ const index: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 	// Setting the input fields of the original artwork
 	setValue('displayName', userDetails.displayName ?? userDetails.name);
 	setValue('headline', userDetails.headline);
+	setValue('bio', userDetails.bio);
 	setValue('showMatureContent', userDetails.showMatureContent);
 
 	const onSubmit: SubmitHandler<IUpdateProfile> = async (data) => {
 		const displayName = data.displayName;
 		const headline = data.headline;
 		const showMatureContent = data.showMatureContent;
+		const bio = data.bio;
+		console.log(bio);
 
-		let body = { displayName, headline, showMatureContent };
+		let body = { displayName, headline, showMatureContent, bio };
 
 		if (Array.from(data.avatar).length > 0 && Array.from(data.backgroundImageUrl).length > 0) {
 			const formDataAvatar = new FormData();
@@ -90,7 +95,7 @@ const index: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 			const backgroundImageUrl: string = backgroundJson.secure_url;
 
 			// @ts-ignore
-			body = { displayName, headline, showMatureContent, avatar, backgroundImageUrl };
+			body = { displayName, headline, showMatureContent, avatar, backgroundImageUrl, bio };
 		} else if (Array.from(data.avatar).length > 0 && Array.from(data.backgroundImageUrl).length === 0) {
 			console.log('avatar');
 			const formDataAvatar = new FormData();
@@ -119,12 +124,12 @@ const index: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 			const backgroundImageUrl: string = backgroundJson.secure_url;
 			const avatar = userDetails.avatar;
 			// @ts-ignore
-			body = { displayName, headline, showMatureContent, avatar, backgroundImageUrl };
+			body = { displayName, headline, showMatureContent, avatar, backgroundImageUrl, bio };
 		} else {
 			const avatar = userDetails.avatar;
 			const backgroundImageUrl = userDetails.backgroundImageUrl;
 			// @ts-ignore
-			body = { displayName, headline, showMatureContent, avatar, backgroundImageUrl };
+			body = { displayName, headline, showMatureContent, avatar, backgroundImageUrl, bio };
 		}
 
 		const result = await fetch(`/api/user/${userDetails.id}`, {
@@ -155,6 +160,10 @@ const index: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 
 	return (
 		<>
+			<Head>
+				<title>Edit Profile - {userDetails.displayName ?? userDetails.name}</title>
+				<meta name="viewport" content="initial-scale=1.0, width=device-width" />
+			</Head>
 			<Navbar />
 			<div className="w-full h-full flex flex-col justify-center items-center mb-6">
 				<div className="h-36 flex flex-col justify-center items-center">
@@ -181,6 +190,17 @@ const index: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 								id="headline"
 								{...register('headline', { required: true, maxLength: 60 })}
 								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+							/>
+						</div>
+
+						<div className="space-y-1">
+							<label htmlFor="bio" className="text-sm font-medium text-gray-300 ">
+								Bio
+							</label>
+							<textarea
+								id="bio"
+								{...register('bio', { required: true, maxLength: 1000 })}
+								className="bg-gray-50 border font-medium border-gray-300 text-gray-900 h-48 whitespace-pre-line text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 							/>
 						</div>
 

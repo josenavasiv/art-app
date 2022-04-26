@@ -6,6 +6,7 @@ import { getSession } from 'next-auth/react';
 import ArtworkGrid from '../components/ArtworkGrid';
 import Navbar from '../components/Navbar';
 import artworks from './api/artworks';
+import Head from 'next/head';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	// @ts-ignore
@@ -73,6 +74,10 @@ const search: NextPage = ({ searchImages, searchQuery }: InferGetServerSideProps
 	console.log(searchImages);
 	return (
 		<>
+			<Head>
+				<title>Search</title>
+				<meta name="viewport" content="initial-scale=1.0, width=device-width" />
+			</Head>
 			<Navbar />
 			<div className="w-full h-full flex flex-col justify-center items-center">
 				<div className="h-36 flex flex-col justify-center items-center">

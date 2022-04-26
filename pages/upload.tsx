@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 
 import Navbar from '../components/Navbar';
 import useLoggedInUser from '../hooks/useLoggedInUser';
+import Head from 'next/head';
 
 export enum SectionEnum {
 	community = 'Community',
@@ -78,6 +79,10 @@ const upload: React.FC = () => {
 	if (!loggedInUser) {
 		return (
 			<>
+				<Head>
+					<title>Upload New Artwork</title>
+					<meta name="viewport" content="initial-scale=1.0, width=device-width" />
+				</Head>
 				<Navbar />
 				<div className="w-full h-full flex flex-col justify-center items-center">
 					<h1 className="text-3xl font-bold underline text-[#e80059]">Please Log In to Upload Image</h1>
@@ -91,6 +96,10 @@ const upload: React.FC = () => {
 
 	return (
 		<>
+			<Head>
+				<title>Upload New Artwork</title>
+				<meta name="viewport" content="initial-scale=1.0, width=device-width" />
+			</Head>
 			<Navbar />
 			<div className="w-full h-full flex flex-col justify-center items-center space-y-3 mb-6">
 				<div className="h-36 flex flex-col justify-center items-center">
