@@ -35,15 +35,19 @@ const upload: React.FC = () => {
 		const formData = new FormData();
 		// @ts-ignore
 		formData.append('file', data.file[0]);
-		formData.append('upload_preset', 'uploads'); // For the Cloudinary Images Preset
-
-		// Need to add Error Handling
-		const res = await fetch('https://api.cloudinary.com/v1_1/josenavasiv/image/upload', {
+		const res = await fetch('/api/digitaloceans3', {
 			method: 'POST',
 			body: formData,
 		});
+		// formData.append('upload_preset', 'uploads'); // For the Cloudinary Images Preset
+
+		// // Need to add Error Handling
+		// const res = await fetch('https://api.cloudinary.com/v1_1/josenavasiv/image/upload', {
+		// 	method: 'POST',
+		// 	body: formData,
+		// });
 		const resJson = await res.json();
-		const image_url: string = resJson.secure_url;
+		const image_url: string = resJson.do_url;
 		const title = data.title;
 		const description = data.description;
 		const section = data.section;

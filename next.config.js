@@ -3,7 +3,7 @@ const nextConfig = {
 	reactStrictMode: false,
 	// reactStrictMode: true,
 	images: {
-		domains: ['lh3.googleusercontent.com', 'res.cloudinary.com'],
+		domains: ['lh3.googleusercontent.com', 'res.cloudinary.com', 'sfo3.digitaloceanspaces.com'],
 	},
 };
 
