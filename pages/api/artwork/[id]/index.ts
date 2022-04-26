@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '../../../../lib/prisma';
 import { getSession } from 'next-auth/react';
 import { Section } from '@prisma/client';
+import s3Client from '../../../../lib/s3Client';
 
 // PUT & DELETE /api/artwork/[id]
 
@@ -53,11 +54,25 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 				where: { id: id },
 			});
 			if (artworkResult?.authorId === userId) {
-				// Delete the user's artwork post
-				const deleteResult = await prisma.artwork.delete({
-					where: { id: artworkResult?.id },
-				});
-				res.json(deleteResult);
+				try {
+					// @ts-ignore
+					const key: string = artworkResult.imageUrl.split('/').pop();
+					// Delete the user's artwork post from prisma
+					const deleteResult = await prisma.artwork.delete({
+						where: { id: artworkResult?.id },
+					});
+
+					// Delete the image from the DO Space
+					return s3Client.deleteObject(
+						{
+							Bucket: process.env.DO_SPACES_BUCKET as string,
+							Key: key,
+						},
+						async () => res.status(201).send('File Deleted from prisma db and DO space.')
+					);
+				} catch (error) {
+					res.status(500).send('Internal server error');
+				}
 			}
 		} else {
 			res.status(401).send({ message: 'Unauthorized. Please sign in' });

@@ -1,18 +1,19 @@
 // @ts-nocheck
 import fs from 'fs';
-import AWS from 'aws-sdk';
+// import AWS from 'aws-sdk';
 import formidable from 'formidable';
+import s3Client from '../../../lib/s3Client';
 
 // POST /api/digitaloceans3
 
-const s3Client = new AWS.S3({
-	endpoint: process.env.DO_SPACES_URL,
-	region: 'sfo3',
-	credentials: {
-		accessKeyId: process.env.DO_SPACES_ID,
-		secretAccessKey: process.env.DO_SPACES_SECRET,
-	},
-});
+// const s3Client = new AWS.S3({
+// 	endpoint: process.env.DO_SPACES_URL,
+// 	region: 'sfo3',
+// 	credentials: {
+// 		accessKeyId: process.env.DO_SPACES_ID,
+// 		secretAccessKey: process.env.DO_SPACES_SECRET,
+// 	},
+// });
 
 export const config = {
 	api: {
@@ -38,11 +39,9 @@ export default async function handle(req, res) {
 					ACL: 'public-read',
 				},
 				async () =>
-					res
-						.status(201)
-						.send({
-							do_url: `https://${process.env.DO_SPACES_BUCKET}.${process.env.DO_SPACES_URL}/${files.file.originalFilename}`,
-						})
+					res.status(201).send({
+						do_url: `https://${process.env.DO_SPACES_BUCKET}.${process.env.DO_SPACES_URL}/${files.file.originalFilename}`,
+					})
 			);
 		} catch (error) {
 			res.status(500).send('Internal server error');
