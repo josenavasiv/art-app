@@ -378,7 +378,7 @@ const index: React.FC = ({
 							</Linkify>
 
 							<div className="text-xs text-[#9A8C98] italic flex flex-row space-x-1">
-								<p>Posted {getRelativeDate(artworkDetails.createdAt)} under</p>
+								<div>Posted {getRelativeDate(artworkDetails.createdAt)} under</div>
 
 								<span
 									onClick={() => router.push(`/${artworkDetails.section.toLowerCase()}`)}
