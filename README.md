@@ -1,34 +1,65 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<div align="center">
+  <img alt="Halcyon" src="https://app-artworks.sfo3.digitaloceanspaces.com/art-app-placeholder-icon.png" width="100" />
+</div>
+<h1 align="center">
+  artapp.com
+</h1>
+<p align="center">
+  A beginner focused, art sharing full-stack web app
+</p>
 
-## Getting Started
+# Art-App WIP NAME
 
-First, run the development server:
+Hello! This is my first official _big_ project that I am currently building and improving on daily. This beginner focused, art sharing full-stack web app was built primarily with [React.js](https://reactjs.org/), [Next.js](https://nextjs.org/) and [Prisma](https://www.prisma.io/). I took inspiration from [Artstation](https://www.artstation.com/) and focused on creating a similar site that revolves around users who are still in the process of learning how to draw, whereas Artstation focuses on professional artists who are sharing their portfolio. In its current state, users can upload their artworks, comment and like on other artworks, and follow each other. User's uploaded artworks are saved onto a [Digital Ocean Space](https://www.digitalocean.com/products/spaces) and user's information is saved onto a [Postgres](https://www.postgresql.org/) database, hosted on [Supabase](https://supabase.com/). User authentication is done through [Google](https://next-auth.js.org/providers/google) via [Next-Auth](https://next-auth.js.org/), but I do plan on adding more methods of authentication that users can use.
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+There is still a lot to do such as: refactoring the code, adding proper error handling and especially improving on the use of TypeScript. This was my first time using TypeScript, so there was a lot of type ignoring in order to get the code to execute. The site will be eventually have its colors and components restyled. There is a lot of placeholder styling right now since I am mainly focused on functionality for now.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+![alt text](https://i.imgur.com/JxQG89i.png)
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+### Built with:
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+-   [React.js](https://reactjs.org/)
+-   [TypeScript](https://www.typescriptlang.org/)
+-   [Next.js](https://nextjs.org/)
+-   [Prisma](https://www.prisma.io/)
+-   [Next-Auth.js](https://next-auth.js.org/)
+-   [TailwindCSS](https://tailwindcss.com/)
+-   [SWR](https://swr.vercel.app/)
+-   [React-Hook-Form](https://react-hook-form.com/)
+-   [PostgreSQL](https://www.postgresql.org/)
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Setup
 
-## Learn More
+This web app is currently live over at [artappname](https://reactjs.org/) but if interested in running it locally, you would need to setup a [Digital Ocean Space](https://www.digitalocean.com/products/spaces) and obtain a space access key, register OAuth 2.0 authorization with [Google](https://developers.google.com/identity/protocols/oauth2) and setup a PostgreSQL server with [Supabase](https://supabase.com/docs/guides/database) by starting a new project there.
 
-To learn more about Next.js, take a look at the following resources:
+1. Install dependencies
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+    ```bash
+    npm install
+    ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+2. Create and set environmental variables within .env in root directory
 
-## Deploy on Vercel
+    ```bash
+    DATABASE_URL = db-connection-url-from-supabase
+    GOOGLE_CLIENT_ID = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    GOOGLE_CLIENT_SECRET = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    JWT_SECRET = your-own-secret-string
+    DO_SPACES_ID = digital-ocean-generated-space-access-key
+    DO_SPACES_SECRET = digital-ocean-generated-space-access-secret
+    DO_SPACES_URL = digital-ocean-space-url
+    DO_SPACES_BUCKET = digital-ocean-space-name
+    ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. Generate and migrate the Prisma schema to your Postgres database
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+    ```bash
+    npx prisma generate
+    npx prisma migrate dev
+    ```
+
+4. Start development server
+
+    ```bash
+    npm run dev
+    ```
