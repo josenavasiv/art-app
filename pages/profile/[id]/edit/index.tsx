@@ -4,6 +4,7 @@ import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import useLoggedInUser from '../../../../hooks/useLoggedInUser';
+import prisma from '../../../../lib/prisma';
 
 import Navbar from '../../../../components/Navbar';
 import Head from 'next/head';
