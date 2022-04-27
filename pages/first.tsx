@@ -196,6 +196,7 @@ const first: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 							<textarea
 								id="bio"
 								{...register('bio', { required: true, maxLength: 1000 })}
+								placeholder="Add a bio to your profile. Add links to your socials as well."
 								className="bg-gray-50 border font-medium border-gray-300 text-gray-900 h-48 whitespace-pre-line text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 							/>
 						</div>

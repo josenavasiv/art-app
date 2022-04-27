@@ -47,7 +47,7 @@ model User {
   headline      String    @default("New User")
   displayName   String?
   showMatureContent Boolean @default(false)
-  bio       String?         @default("Write a summary about yourself. Add links to your other socials too.")
+  bio       String?         
   
 
   artworks      Artwork[]
