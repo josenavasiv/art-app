@@ -83,14 +83,14 @@ const first: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 				body: formDataAvatar,
 			});
 			const avatarJson = await avatarRes.json();
-			const avatar: string = avatarJson.secure_url;
+			const avatar: string = avatarJson.do_url;
 
-			const backgroundRes =  await fetch(`/api/digitaloceans3?userid=${loggedInUser.id}`, {
+			const backgroundRes = await fetch(`/api/digitaloceans3?userid=${loggedInUser.id}`, {
 				method: 'POST',
 				body: formDataBackground,
 			});
 			const backgroundJson = await backgroundRes.json();
-			const backgroundImageUrl: string = backgroundJson.secure_url;
+			const backgroundImageUrl: string = backgroundJson.do_url;
 
 			// @ts-ignore
 			body = { displayName, headline, showMatureContent, avatar, backgroundImageUrl, bio };
@@ -98,13 +98,12 @@ const first: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 			console.log('avatar');
 			const formDataAvatar = new FormData();
 			formDataAvatar.append('file', data.avatar[0]);
-			formDataAvatar.append('upload_preset', 'uploads'); // For the Cloudinary Images Preset
-			const avatarRes = await fetch('https://api.cloudinary.com/v1_1/josenavasiv/image/upload', {
+			const avatarRes = await fetch(`/api/digitaloceans3?userid=${loggedInUser.id}`, {
 				method: 'POST',
 				body: formDataAvatar,
 			});
 			const avatarJson = await avatarRes.json();
-			const avatar: string = avatarJson.secure_url;
+			const avatar: string = avatarJson.do_url;
 
 			const backgroundImageUrl = userDetails.backgroundImageUrl;
 			// @ts-ignore
@@ -113,13 +112,12 @@ const first: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 			console.log('background');
 			const formDataBackground = new FormData();
 			formDataBackground.append('file', data.backgroundImageUrl[0]);
-			formDataBackground.append('upload_preset', 'uploads'); // For the Cloudinary Images Preset
-			const backgroundRes = await fetch('https://api.cloudinary.com/v1_1/josenavasiv/image/upload', {
+			const backgroundRes = await fetch(`/api/digitaloceans3?userid=${loggedInUser.id}`, {
 				method: 'POST',
 				body: formDataBackground,
 			});
 			const backgroundJson = await backgroundRes.json();
-			const backgroundImageUrl: string = backgroundJson.secure_url;
+			const backgroundImageUrl: string = backgroundJson.do_url;
 			const avatar = userDetails.avatar;
 			// @ts-ignore
 			body = { displayName, headline, showMatureContent, avatar, backgroundImageUrl, bio };
