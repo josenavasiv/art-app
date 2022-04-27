@@ -53,7 +53,7 @@ const upload: React.FC = () => {
 	const imgRef = useRef<HTMLImageElement>(null);
 	const [crop, setCrop] = useState<Crop>();
 	const [completedCrop, setCompletedCrop] = useState<PixelCrop>();
-	const [thumbnail, setThumbnail] = useState(null);
+	const [thumbnail, setThumbnail] = useState(null); // Thumbnail state
 
 	const { register, handleSubmit, formState } = useForm<IFormInput>();
 
@@ -139,7 +139,6 @@ const upload: React.FC = () => {
 			if (completedCrop?.width && completedCrop?.height && imgRef.current && previewCanvasRef.current) {
 				// We use canvasPreview as it's much faster than imgPreview.
 				canvasPreview(imgRef.current, previewCanvasRef.current, completedCrop, scale, rotate);
-				console.log('2');
 				const imageDataUrl = previewCanvasRef.current.toDataURL();
 				// @ts-ignore
 				setThumbnail(imageDataUrl);
@@ -293,7 +292,28 @@ const upload: React.FC = () => {
 						</div>
 
 						{/* Submit Loader Spinner */}
-						{formState.isSubmitting && <div className="bg-red-200 text-white mt-10">SUBMITTING!</div>}
+						{formState.isSubmitting && (
+							<div className="font-medium bg-[#e80059] text-[#F2E9E4] rounded-full flex flex-row justify-center items-center space-x-1">
+								<div>Uploading artwork! Please wait!</div>
+								<svg
+									width="20px"
+									height="20px"
+									viewBox="0 0 24 24"
+									fill="none"
+									xmlns="http://www.w3.org/2000/svg"
+									className="animate-spin "
+								>
+									<path
+										d="M12 22C17.5228 22 22 17.5228 22 12H19C19 15.866 15.866 19 12 19V22Z"
+										fill="white"
+									/>
+									<path
+										d="M2 12C2 6.47715 6.47715 2 12 2V5C8.13401 5 5 8.13401 5 12H2Z"
+										fill="white"
+									/>
+								</svg>
+							</div>
+						)}
 
 						<input
 							disabled={formState.isSubmitting}

@@ -225,7 +225,7 @@ const index: React.FC = ({
 									)}
 								>
 									<h1 className="text-2xl font-semibold text-[#e80059]">Biography</h1>
-									<div className="w-2/5 whitespace-pre-line font-medium">{userDetails?.bio}</div>
+									<div className="w-3/5 whitespace-pre-line font-medium">{userDetails?.bio}</div>
 								</Linkify>
 							</div>
 						</Tab.Panel>
