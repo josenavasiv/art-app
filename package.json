@@ -6,8 +6,7 @@
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"lint": "next lint",
-		"prisma:generate": "PRISMA_CLIENT_ENGINE_TYPE=\"dataproxy\" prisma generate"
+		"lint": "next lint"
 	},
 	"dependencies": {
 		"@headlessui/react": "^1.5.0",
