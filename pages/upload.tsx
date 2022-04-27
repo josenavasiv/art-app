@@ -1,4 +1,4 @@
-import { ChangeEventHandler, useState } from 'react';
+import { ChangeEventHandler, useState, useRef } from 'react';
 import { signIn } from 'next-auth/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
@@ -6,6 +6,28 @@ import { useRouter } from 'next/router';
 import Navbar from '../components/Navbar';
 import useLoggedInUser from '../hooks/useLoggedInUser';
 import Head from 'next/head';
+
+// react-image-crop related imports
+import ReactCrop, { centerCrop, makeAspectCrop, Crop, PixelCrop } from 'react-image-crop';
+import { canvasPreview } from '../lib/canvasPreview';
+import { useDebounceEffect } from '../lib/useDebounceEffect';
+import 'react-image-crop/dist/ReactCrop.css';
+
+function centerAspectCrop(mediaWidth: number, mediaHeight: number, aspect: number) {
+	return centerCrop(
+		makeAspectCrop(
+			{
+				unit: '%',
+				width: 65,
+			},
+			aspect,
+			mediaWidth,
+			mediaHeight
+		),
+		mediaWidth,
+		mediaHeight
+	);
+}
 
 export enum SectionEnum {
 	community = 'Community',
@@ -25,9 +47,15 @@ const upload: React.FC = () => {
 	const router = useRouter();
 	const { loggedInUser } = useLoggedInUser();
 
-	const { register, handleSubmit, formState } = useForm<IFormInput>();
+	// react-crop-image
+	const [imgSrc, setImgSrc] = useState('');
+	const previewCanvasRef = useRef<HTMLCanvasElement>(null);
+	const imgRef = useRef<HTMLImageElement>(null);
+	const [crop, setCrop] = useState<Crop>();
+	const [completedCrop, setCompletedCrop] = useState<PixelCrop>();
+	const [thumbnail, setThumbnail] = useState(null);
 
-	const [uploadedImage, setUploadedImage] = useState('');
+	const { register, handleSubmit, formState } = useForm<IFormInput>();
 
 	const onSubmit: SubmitHandler<IFormInput> = async (data) => {
 		// The Data is an object of the registered input elements
@@ -39,15 +67,24 @@ const upload: React.FC = () => {
 			method: 'POST',
 			body: formData,
 		});
-		// formData.append('upload_preset', 'uploads'); // For the Cloudinary Images Preset
-
-		// // Need to add Error Handling
-		// const res = await fetch('https://api.cloudinary.com/v1_1/josenavasiv/image/upload', {
-		// 	method: 'POST',
-		// 	body: formData,
-		// });
 		const resJson = await res.json();
+
+		const formDataThumbnail = new FormData();
+		// @ts-ignore
+		const thumbnailFile = await dataUrlToFile(
+			// @ts-ignore
+			thumbnail,
+			`${data.title.split(' ')[0]}_thumbnail.png`
+		); // To get the first title word
+		formDataThumbnail.append('file', thumbnailFile);
+		const thumbnailRes = await fetch(`/api/digitaloceans3?userid=${loggedInUser.id}`, {
+			method: 'POST',
+			body: formDataThumbnail,
+		});
+		const formDataThumbnailJson = await thumbnailRes.json();
+
 		const image_url: string = resJson.do_url;
+		const thumbnail_url: string = formDataThumbnailJson.do_url;
 		const title = data.title;
 		const description = data.description;
 		const section = data.section;
@@ -58,7 +95,7 @@ const upload: React.FC = () => {
 		const filteredTags = lowerCaseTags.filter((element: string) => element !== '');
 		// @ts-ignore
 		const mature = data.mature;
-		const body = { title, description, section, image_url, mature, filteredTags };
+		const body = { title, description, section, image_url, thumbnail_url, mature, filteredTags };
 		// Calls internal API to create prisma
 		const result = await fetch('/api/upload', {
 			method: 'POST',
@@ -70,15 +107,47 @@ const upload: React.FC = () => {
 		return router.push(`/artwork/${artwork_data.id}`);
 	};
 
-	const handlePreview: ChangeEventHandler<HTMLInputElement> = async (e) => {
-		// @ts-ignore
-		if (e.target.files.length !== 0) {
+	const scale = 1;
+	const rotate = 0;
+	const aspect = 16 / 9;
+
+	function onSelectFile(e: React.ChangeEvent<HTMLInputElement>) {
+		if (e.target.files && e.target.files.length > 0) {
+			setCrop(undefined); // Makes crop preview update between images.
+			const reader = new FileReader();
 			// @ts-ignore
-			setUploadedImage(URL?.createObjectURL(e.target.files[0]));
-		} else {
-			setUploadedImage('');
+			reader.addEventListener('load', () => setImgSrc(reader.result.toString() || ''));
+			reader.readAsDataURL(e.target.files[0]);
 		}
-	};
+	}
+
+	function onImageLoad(e: React.SyntheticEvent<HTMLImageElement>) {
+		if (aspect) {
+			const { width, height } = e.currentTarget;
+			setCrop(centerAspectCrop(width, height, aspect));
+		}
+	}
+
+	async function dataUrlToFile(dataUrl: string, fileName: string): Promise<File> {
+		const res: Response = await fetch(dataUrl);
+		const blob: Blob = await res.blob();
+		return new File([blob], fileName, { type: 'image/png' });
+	}
+
+	useDebounceEffect(
+		async () => {
+			if (completedCrop?.width && completedCrop?.height && imgRef.current && previewCanvasRef.current) {
+				// We use canvasPreview as it's much faster than imgPreview.
+				canvasPreview(imgRef.current, previewCanvasRef.current, completedCrop, scale, rotate);
+				console.log('2');
+				const imageDataUrl = previewCanvasRef.current.toDataURL();
+				// @ts-ignore
+				setThumbnail(imageDataUrl);
+			}
+		},
+		100,
+		[completedCrop, scale, rotate]
+	);
 
 	if (!loggedInUser) {
 		return (
@@ -136,13 +205,41 @@ const upload: React.FC = () => {
 
 						<div className="flex flex-col space-y-1">
 							<label className="text-sm font-medium text-gray-300">Artwork</label>
-							<img src={uploadedImage} />
+							{Boolean(imgSrc) && (
+								<ReactCrop
+									crop={crop}
+									onChange={(_, percentCrop) => setCrop(percentCrop)}
+									onComplete={(c) => setCompletedCrop(c)}
+									aspect={aspect}
+								>
+									<img ref={imgRef} alt="Crop me" src={imgSrc} onLoad={onImageLoad} />
+								</ReactCrop>
+							)}
+							<div>
+								{Boolean(completedCrop) && (
+									<>
+										<label className="text-sm font-medium text-gray-300">Thumbnail</label>
+										<canvas
+											ref={previewCanvasRef}
+											style={{
+												border: '1px solid black',
+												objectFit: 'contain',
+												// @ts-ignore
+												width: completedCrop.width,
+												// @ts-ignore
+												height: completedCrop.height,
+											}}
+										/>
+									</>
+								)}
+							</div>
+							{/* @ts-ignore */}
 
 							<input
 								{...register('file', { required: true })}
 								type="file"
 								accept="image/*"
-								onChange={handlePreview}
+								onChange={onSelectFile}
 								className="font-semibold text-sm file:mr-4 file:mt-2 file:py-1 file:px-4
 								file:rounded-full file:border-0
 								file:text-sm file:font-semibold
@@ -233,3 +330,11 @@ export default upload;
 // 	uploadedByImageUrl?: string;
 // 	authorId: string;
 // }
+
+// formData.append('upload_preset', 'uploads'); // For the Cloudinary Images Preset
+
+// // Need to add Error Handling
+// const res = await fetch('https://api.cloudinary.com/v1_1/josenavasiv/image/upload', {
+// 	method: 'POST',
+// 	body: formData,
+// });

@@ -12,6 +12,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 	const description: string = bodyData.description;
 	const section: Section = bodyData.section;
 	const image_url: string = bodyData.image_url;
+	const thumbnail_url: string = bodyData.thumbnail_url;
 	const mature: boolean = bodyData.mature;
 	const tags: string[] = bodyData.filteredTags;
 
@@ -25,7 +26,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 				description: description,
 				section: section,
 				imageUrl: image_url,
-				thumbnailUrl: image_url,
+				thumbnailUrl: thumbnail_url,
 				mature: mature,
 				tags: tags,
 				author: { connect: { email: userEmail } },

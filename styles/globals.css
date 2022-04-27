@@ -108,6 +108,13 @@
 		);
 	}
 
+	.Crop-Controls {
+		margin-bottom: 10px;
+	}
+	.Crop-Controls > * {
+		margin-bottom: 3px;
+	}
+
 	.followers-grid {
 		display: -webkit-box;
 		display: -ms-flexbox;
