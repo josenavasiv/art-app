@@ -56,20 +56,30 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 			if (artworkResult?.authorId === userId) {
 				try {
 					// @ts-ignore
-					const key: string = artworkResult.imageUrl.split('/').pop();
+					const imageKey: string = artworkResult.imageUrl.split('/').pop();
+					// @ts-ignore
+					const thumbnailKey: string = artworkResult?.thumbnailUrl.split('/').pop();
 					// Delete the user's artwork post from prisma
 					const deleteResult = await prisma.artwork.delete({
 						where: { id: artworkResult?.id },
 					});
-
-					// Delete the image from the DO Space
-					return s3Client.deleteObject(
-						{
-							Bucket: process.env.DO_SPACES_BUCKET as string,
-							Key: key,
+					const deleteParams = {
+						Bucket: process.env.DO_SPACES_BUCKET as string,
+						Delete: {
+							Objects: [{ Key: imageKey }, { Key: thumbnailKey }],
 						},
-						async () => res.status(201).send('File Deleted from prisma db and DO space.')
+					};
+					return s3Client.deleteObjects(deleteParams, () =>
+						res.status(201).send('Files deleted from prisma db and digital ocean space.')
 					);
+					// Delete the image from the DO Space
+					// return s3Client.deleteObject(
+					// 	{
+					// 		Bucket: process.env.DO_SPACES_BUCKET as string,
+					// 		Key: imageKey,
+					// 	},
+					// 	async () => res.status(201).send('File Deleted from prisma db and DO space.')
+					// );
 				} catch (error) {
 					res.status(500).send('Internal server error');
 				}
