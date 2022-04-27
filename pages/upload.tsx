@@ -35,7 +35,7 @@ const upload: React.FC = () => {
 		const formData = new FormData();
 		// @ts-ignore
 		formData.append('file', data.file[0]);
-		const res = await fetch('/api/digitaloceans3', {
+		const res = await fetch(`/api/digitaloceans3?userid=${loggedInUser.id}`, {
 			method: 'POST',
 			body: formData,
 		});
@@ -70,7 +70,7 @@ const upload: React.FC = () => {
 		return router.push(`/artwork/${artwork_data.id}`);
 	};
 
-	const handlePreview: ChangeEventHandler<HTMLInputElement> = (e) => {
+	const handlePreview: ChangeEventHandler<HTMLInputElement> = async (e) => {
 		// @ts-ignore
 		if (e.target.files.length !== 0) {
 			// @ts-ignore

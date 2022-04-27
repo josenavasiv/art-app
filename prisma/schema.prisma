@@ -75,7 +75,7 @@ model Artwork {
   subjects      Subject[]
 
   authorId      String
-  author        User @relation(fields: [authorId], references: [id])
+  author        User @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
   comments      Comment[]
   likes         Like[]
@@ -87,24 +87,24 @@ model Comment {
   createdAt     DateTime  @default(now())
 
   artworkId     String
-  artwork       Artwork   @relation(fields: [artworkId], references: [id])
+  artwork       Artwork   @relation(fields: [artworkId], references: [id], onDelete: Cascade)
   authorId      String
-  author        User     @relation(fields: [authorId], references: [id])
+  author        User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
 }
 
 model Like {
   artworkId     String
-  artwork       Artwork   @relation(fields: [artworkId], references: [id])
+  artwork       Artwork   @relation(fields: [artworkId], references: [id], onDelete: Cascade)
   authorId      String
-  author        User     @relation(fields: [authorId], references: [id])
+  author        User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
   @@id([artworkId, authorId])
 }
 
 model Follows {
-  follower      User @relation("follower", fields: [followerId], references: [id])
+  follower      User @relation("follower", fields: [followerId], references: [id], onDelete: Cascade)
   followerId    String
-  following     User @relation("following", fields: [followingId], references: [id])
+  following     User @relation("following", fields: [followingId], references: [id], onDelete: Cascade)
   followingId   String
 
   @@id([followerId, followingId])

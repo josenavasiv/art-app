@@ -3,8 +3,11 @@ import fs from 'fs';
 // import AWS from 'aws-sdk';
 import formidable from 'formidable';
 import s3Client from '../../../lib/s3Client';
+import { getSession } from 'next-auth/react';
+import prisma from '../../../lib/prisma';
 
 // POST /api/digitaloceans3
+// Store user images to the digital ocean space
 
 // const s3Client = new AWS.S3({
 // 	endpoint: process.env.DO_SPACES_URL,
@@ -22,6 +25,7 @@ export const config = {
 };
 
 export default async function handle(req, res) {
+	const userid = req.query.userid;
 	const form = formidable();
 	form.parse(req, async (err, fields, files) => {
 		console.log(files.file);
@@ -34,13 +38,13 @@ export default async function handle(req, res) {
 			return s3Client.putObject(
 				{
 					Bucket: process.env.DO_SPACES_BUCKET,
-					Key: files.file.originalFilename,
+					Key: `${userid}_${files.file.originalFilename}`,
 					Body: fs.createReadStream(files.file.filepath),
 					ACL: 'public-read',
 				},
 				async () =>
 					res.status(201).send({
-						do_url: `https://${process.env.DO_SPACES_BUCKET}.${process.env.DO_SPACES_URL}/${files.file.originalFilename}`,
+						do_url: `https://${process.env.DO_SPACES_BUCKET}.${process.env.DO_SPACES_URL}/${userid}_${files.file.originalFilename}`,
 					})
 			);
 		} catch (error) {

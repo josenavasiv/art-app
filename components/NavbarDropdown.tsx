@@ -85,7 +85,7 @@ const NavbarDropdown: React.FC<INavbarDropdown> = ({ userId, userImageUrl }) => 
 											'block px-4 py-2 text-sm cursor-pointer'
 										)}
 										// @ts-ignore
-										onClick={signOut}
+										onClick={() => signOut({ callbackUrl: '/' })}
 									>
 										Sign Out
 									</div>
