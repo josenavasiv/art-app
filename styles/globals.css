@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 .root,
 #root,
 #docs-root {
@@ -157,6 +153,4 @@
 			flex-basis: calc(100% / 4);
 		}
 	}
-
-	
 }
