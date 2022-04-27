@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
+import prisma from '../../../lib/prisma';
 
 // GET /api/artworks
 // section: COMMUNITY, FEEDBACK
@@ -10,7 +11,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 
 	const section: any = req.query.section;
 	// const limit = req.query.limit ? () : () ?? 50;
-	
+
 	let limit: number;
 	if (req.query.limit) {
 		limit = parseInt(req.query.limit as string);

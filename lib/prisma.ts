@@ -1,9 +1,5 @@
 import { PrismaClient } from '@prisma/client';
 
-declare global {
-	var prisma: PrismaClient;
-}
-
 // The Singleton Prisma Client we call on everytime we need to access the database
 let prisma: PrismaClient;
 
