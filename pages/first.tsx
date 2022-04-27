@@ -1,4 +1,4 @@
-import { ChangeEventHandler, useState } from 'react';
+import { ChangeEventHandler, useState, useEffect } from 'react';
 import { getSession } from 'next-auth/react';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -57,18 +57,20 @@ const first: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 
 	const { register, handleSubmit, formState, setValue } = useForm<IUpdateProfile>();
 
-	// Setting the input fields of the original artwork
-	setValue('displayName', userDetails.displayName ?? userDetails.name);
-	setValue('headline', userDetails.headline);
-	setValue('bio', userDetails.bio);
-	setValue('showMatureContent', userDetails.showMatureContent);
+	useEffect(() => {
+		// Setting the input fields of the original artwork
+		setValue('displayName', userDetails.displayName ?? userDetails.name);
+		setValue('headline', userDetails.headline);
+		setValue('bio', userDetails.bio);
+		setValue('showMatureContent', userDetails.showMatureContent);
+	}, []);
 
 	const onSubmit: SubmitHandler<IUpdateProfile> = async (data) => {
 		const displayName = data.displayName;
 		const headline = data.headline;
 		const showMatureContent = data.showMatureContent;
 		const bio = data.bio;
-		console.log(bio);
+		// console.log(bio);
 
 		let body = { displayName, headline, showMatureContent, bio };
 
@@ -173,7 +175,7 @@ const first: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 							</label>
 							<input
 								id="displayName"
-								{...register('displayName', { required: true })}
+								{...register('displayName', { required: true, maxLength: 100 })}
 								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 							/>
 						</div>
@@ -184,7 +186,7 @@ const first: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 							</label>
 							<input
 								id="headline"
-								{...register('headline', { required: true, maxLength: 60 })}
+								{...register('headline', { required: true, maxLength: 100 })}
 								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 							/>
 						</div>
