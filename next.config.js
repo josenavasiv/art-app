@@ -5,6 +5,11 @@ const nextConfig = {
 	images: {
 		domains: ['lh3.googleusercontent.com', 'res.cloudinary.com', 'app-artworks.sfo3.digitaloceanspaces.com'],
 	},
+	eslint: {
+		// Warning: This allows production builds to successfully complete even if
+		// your project has ESLint errors.
+		ignoreDuringBuilds: true,
+	},
 };
 
 module.exports = nextConfig;
