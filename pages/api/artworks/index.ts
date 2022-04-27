@@ -9,7 +9,14 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 	const session = await getSession();
 
 	const section: any = req.query.section;
-	const limit = parseInt((req.query.limit as string) ?? 50);
+	// const limit = req.query.limit ? () : () ?? 50;
+	
+	let limit: number;
+	if (req.query.limit) {
+		limit = parseInt(req.query.limit as string);
+	} else {
+		limit = 50;
+	}
 	const pageNum = req.query.page ? parseInt(req.query.page as string) : 0;
 
 	// const userResult = await prisma.user.findUnique({
