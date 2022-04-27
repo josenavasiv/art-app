@@ -31,7 +31,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 			},
 		});
 		const userDetails = JSON.parse(JSON.stringify(data));
-		console.log(userDetails);
+		// console.log(userDetails);
 		return {
 			props: {
 				userDetails,
@@ -69,7 +69,7 @@ const index: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 		const headline = data.headline;
 		const showMatureContent = data.showMatureContent;
 		const bio = data.bio;
-		console.log(bio);
+		// console.log(bio);
 
 		let body = { displayName, headline, showMatureContent, bio };
 
@@ -96,7 +96,7 @@ const index: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 			// @ts-ignore
 			body = { displayName, headline, showMatureContent, avatar, backgroundImageUrl, bio };
 		} else if (Array.from(data.avatar).length > 0 && Array.from(data.backgroundImageUrl).length === 0) {
-			console.log('avatar');
+			// console.log('avatar');
 			const formDataAvatar = new FormData();
 			formDataAvatar.append('file', data.avatar[0]);
 			const avatarRes = await fetch(`/api/digitaloceans3?userid=${loggedInUser.id}`, {
@@ -110,7 +110,7 @@ const index: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 			// @ts-ignore
 			body = { displayName, headline, showMatureContent, avatar, backgroundImageUrl };
 		} else if (Array.from(data.avatar).length === 0 && Array.from(data.backgroundImageUrl).length > 0) {
-			console.log('background');
+			// console.log('background');
 			const formDataBackground = new FormData();
 			formDataBackground.append('file', data.backgroundImageUrl[0]);
 			const backgroundRes = await fetch(`/api/digitaloceans3?userid=${loggedInUser.id}`, {
