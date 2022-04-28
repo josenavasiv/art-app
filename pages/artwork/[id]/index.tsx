@@ -3,7 +3,7 @@ import { GetServerSideProps } from 'next';
 import { InferGetServerSidePropsType } from 'next';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import { getSession } from 'next-auth/react';
+
 import { Dialog, Transition } from '@headlessui/react';
 import Head from 'next/head';
 import Linkify from 'react-linkify';
@@ -17,58 +17,60 @@ import FollowButton from '../../../components/FollowButton';
 
 import useComments from '../../../hooks/useComments';
 import useUser from '../../../hooks/useUser';
+import useArtwork from '../../../hooks/useArtwork';
+import useLoggedInUser from '../../../hooks/useLoggedInUser';
+import useLike from '../../../hooks/useLike';
 
 import { getRelativeDate } from '../../../lib/relativeTime';
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-	const id = context.query.id as string; // Get over TypeScript string issue
+// export const getServerSideProps: GetServerSideProps = async (context) => {
+// 	// const id = context.query.id as string; // Get over TypeScript string issue
 
-	const updateViews = await prisma.artwork.update({
-		where: {
-			id: id,
-		},
-		data: {
-			viewCount: {
-				increment: 1,
-			},
-		},
-	});
+// 	// const updateViews = await prisma.artwork.update({
+// 	// 	where: {
+// 	// 		id: id,
+// 	// 	},
+// 	// 	data: {
+// 	// 		viewCount: {
+// 	// 			increment: 1,
+// 	// 		},
+// 	// 	},
+// 	// });
 
-	const data = await prisma.artwork.findUnique({
-		where: { id: id },
-	});
-	const artworkDetails = JSON.parse(JSON.stringify(data));
-	// console.log(artworkDetails);
+// 	// const data = await prisma.artwork.findUnique({
+// 	// 	where: { id: id },
+// 	// });
+// 	// const artworkDetails = JSON.parse(JSON.stringify(data));
+// 	// // console.log(artworkDetails);
 
-	const session = await getSession(context);
+// 	const loggedInUser = await getloggedInUser(context);
 
-	let userCanLike = true;
-	const userResult = await prisma.user.findUnique({
-		// @ts-ignore
-		where: { email: session?.user?.email || 'User is not logged in' },
-	});
+// 	let userCanLike = true;
+// 	const userResult = await prisma.user.findUnique({
+// 		// @ts-ignore
+// 		where: { email: loggedInUser?.user?.email || 'User is not logged in' },
+// 	});
 
-	const likeResult = await prisma.like.findUnique({
-		where: {
-			// @ts-ignore
-			artworkId_authorId: {
-				// @ts-ignore
-				authorId: userResult?.id || 'User is not logged in',
-				// @ts-ignore
-				artworkId: id,
-			},
-		},
-	});
+// 	const liked = await prisma.like.findUnique({
+// 		where: {
+// 			// @ts-ignore
+// 			artworkId_authorId: {
+// 				// @ts-ignore
+// 				authorId: userResult?.id || 'User is not logged in',
+// 				// @ts-ignore
+// 				artworkId: id,
+// 			},
+// 		},
+// 	});
 
-	return {
-		props: {
-			artworkDetails,
-			session,
-			userCanLike,
-			likeResult,
-		},
-	};
-};
+// 	return {
+// 		props: {
+// 			loggedInUser,
+
+// 			liked,
+// 		},
+// 	};
+// };
 
 // Add async function that pings /api/artwork/[:id]/comments to retrieve the upload's comments (and add spinner loader)
 // Add like async function that pins /api/artwork/[:id]/like (need to check if user has already liked)
@@ -77,13 +79,12 @@ interface IFormInput {
 	content: string;
 }
 
-const index: React.FC = ({
-	artworkDetails,
-	session,
-	userCanLike,
-	likeResult,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const index: React.FC = () => {
 	const router = useRouter();
+	const artworkId: string | string[] = router.query.id;
+	const { loggedInUser } = useLoggedInUser();
+	const { artworkDetails, artworkIsLoading, artworkIsError } = useArtwork(artworkId as string);
+	const { liked } = useLike(artworkId as string);
 
 	// const [showModal, setShowModal] = useState(false);
 	let [isOpen, setIsOpen] = useState(false);
@@ -96,19 +97,19 @@ const index: React.FC = ({
 		setIsOpen(true);
 	}
 
-	const { user, isLoading: userIsLoading, isError: userIsError } = useUser(artworkDetails.authorId);
+	const { user, isLoading: userIsLoading, isError: userIsError } = useUser(artworkDetails?.authorId);
 	const {
 		comments,
 		isLoading: commentIsLoading,
 		isError: commentIsError,
 		mutate,
 		mutate_key,
-	} = useComments(artworkDetails.id);
+	} = useComments(artworkDetails?.id);
 
-	// use the useUser Hook (SWR to fetch user) and session to check if the logged-in user is allowed to edit or delete artwork
+	// use the useUser Hook (SWR to fetch user) and loggedInUser to check if the logged-in user is allowed to edit or delete artwork
 	let canEditDelete = false;
 	// @ts-ignore
-	if (user?.email === session?.user?.email) {
+	if (user?.email === loggedInUser?.user?.email) {
 		canEditDelete = true;
 	}
 
@@ -161,7 +162,7 @@ const index: React.FC = ({
 	return (
 		<>
 			<Head>
-				<title>Artwork - {artworkDetails.title}</title>
+				<title>Artwork - {artworkDetails?.title}</title>
 				<meta name="viewport" content="initial-scale=1.0, width=device-width" />
 			</Head>
 			<div className="h-screen relative">
@@ -170,7 +171,7 @@ const index: React.FC = ({
 				</div>
 				<div className="flex flex-col md:flex-row justify-center align-middle md:mr-[365px] h-full">
 					<div className="h-full w-full flex justify-center sm:border-b sm:border-[#9A8C98]">
-						<img src={artworkDetails.imageUrl} alt="" className="self-center sm:max-h-[700px]" />
+						<img src={artworkDetails?.imageUrl} alt="" className="self-center sm:max-h-[700px]" />
 					</div>
 
 					<div className="md:fixed bg-[#1d1020] text-[#F2E9E4] h-full w-full md:w-[365px] overflow-y-auto md:right-0 p-5 md:pt-[76px] space-y-4">
@@ -197,7 +198,7 @@ const index: React.FC = ({
 										<div className="flex flex-row space-x-2 text-xs absolute right-0 text-[#b7094c] py-1">
 											<div
 												className="cursor-pointer"
-												onClick={() => router.push(`/artwork/${artworkDetails.id}/edit`)}
+												onClick={() => router.push(`/artwork/${artworkDetails?.id}/edit`)}
 											>
 												<svg
 													xmlns="http://www.w3.org/2000/svg"
@@ -313,9 +314,9 @@ const index: React.FC = ({
 								</>
 							)}
 						</div>
-						{session && (
+						{loggedInUser && (
 							<div className="flex flex-row items-center text-[#22223B] space-x-2">
-								{likeResult ? (
+								{liked ? (
 									<div
 										onClick={handleUnlike}
 										className="bg-[#3bbfff] w-1/5 rounded-sm cursor-pointer py-1 px-8 flex flex-row text-xs justify-center items-center space-x-1"
@@ -358,12 +359,12 @@ const index: React.FC = ({
 										<div className="font-bold">LIKE</div>
 									</div>
 								)}
-								<FollowButton userId={artworkDetails.authorId} />
+								<FollowButton userId={artworkDetails?.authorId} />
 							</div>
 						)}
 
 						<div className="flex flex-col space-y-2">
-							<div className="text-4xl font-semibold text-[#e80059]">{artworkDetails.title}</div>
+							<div className="text-4xl font-semibold text-[#e80059]">{artworkDetails?.title}</div>
 
 							<Linkify
 								componentDecorator={(decoratedHref, decoratedText, key) => (
@@ -373,18 +374,18 @@ const index: React.FC = ({
 								)}
 							>
 								<div className="text-sm pb-2 break-words whitespace-pre-line ">
-									{artworkDetails.description}
+									{artworkDetails?.description}
 								</div>
 							</Linkify>
 
 							<div className="text-xs text-[#9A8C98] italic flex flex-row space-x-1">
-								<div>Posted {getRelativeDate(artworkDetails.createdAt)} under</div>
+								<div>Posted {getRelativeDate(artworkDetails?.createdAt)} under</div>
 
 								<span
-									onClick={() => router.push(`/${artworkDetails.section.toLowerCase()}`)}
+									onClick={() => router.push(`/${artworkDetails?.section?.toLowerCase()}`)}
 									className="text-xs font-semibold text-[#b7094c] rounded-sm cursor-pointer hover:text-[#F2E9E4]"
 								>
-									{artworkDetails.section}
+									{artworkDetails?.section}
 								</span>
 							</div>
 							<div className="flex flex-row justify-between ">
@@ -403,7 +404,7 @@ const index: React.FC = ({
 										/>
 									</svg>
 
-									<div className="text-xs">{artworkDetails.viewCount} views</div>
+									<div className="text-xs">{artworkDetails?.viewCount} views</div>
 								</div>
 								<div className="flex flex-row space-x-1">
 									<svg
@@ -414,7 +415,7 @@ const index: React.FC = ({
 									>
 										<path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
 									</svg>
-									<div className="text-xs">{artworkDetails.likeCount} likes</div>
+									<div className="text-xs">{artworkDetails?.likeCount} likes</div>
 								</div>
 								<div className="flex flex-row space-x-1">
 									<svg
@@ -436,11 +437,11 @@ const index: React.FC = ({
 						<div className="sm:text-center md:text-left">
 							<div className="text-sm mb-2 font-medium">More by {user?.displayName}</div>
 							<div className="max-w-[443px] mx-auto">
-								<MoreByGrid userId={artworkDetails.authorId} />
+								<MoreByGrid userId={artworkDetails?.authorId} />
 							</div>
 						</div>
 
-						<TagsGrid tags={artworkDetails.tags} />
+						<TagsGrid tags={artworkDetails?.tags} />
 
 						<hr className="border-[#9A8C98]" />
 
@@ -465,7 +466,7 @@ const index: React.FC = ({
 						</div>
 
 						{/* Post a Comment Section */}
-						{session && (
+						{loggedInUser && (
 							<form
 								onSubmit={handleSubmit(onSubmit)}
 								className="space-y-4 flex flex-col text-gray-300 w-full bg-[#1d1020]"

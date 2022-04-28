@@ -25,7 +25,26 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 		});
 		const userId = userResult?.id;
 
-		if (req.method === 'PUT') {
+		if (req.method === 'GET') {
+			const updateViews = await prisma.artwork.update({
+				where: {
+					// @ts-ignore
+					id: id,
+				},
+				data: {
+					viewCount: {
+						increment: 1,
+					},
+				},
+			});
+			const artworkResult = await prisma.artwork.findUnique({
+				// @ts-ignore
+				where: { id: id },
+			});
+
+			res.json(artworkResult);
+			return;
+		} else if (req.method === 'PUT') {
 			// Check if the userId === authorId of artwork
 			const artworkResult = await prisma.artwork.findUnique({
 				// @ts-ignore
@@ -46,6 +65,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 					},
 				});
 				res.json(updateResult);
+				return;
 			}
 		} else if (req.method === 'DELETE') {
 			// Check if the userId === authorId of artwork

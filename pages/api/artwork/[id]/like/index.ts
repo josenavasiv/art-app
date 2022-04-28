@@ -13,7 +13,21 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 			// @ts-ignore
 			where: { email: session?.user?.email },
 		});
-		if (req.method === 'POST') {
+		if (req.method === 'GET') {
+			const likeResult = await prisma.like.findUnique({
+				where: {
+					// @ts-ignore
+					artworkId_authorId: {
+						// @ts-ignore
+						authorId: userResult?.id,
+						// @ts-ignore
+						artworkId: id,
+					},
+				},
+			});
+			res.json(likeResult);
+			return;
+		} else if (req.method === 'POST') {
 			const result = await prisma.like.create({
 				data: {
 					// @ts-ignore
