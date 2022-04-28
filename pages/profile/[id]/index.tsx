@@ -135,11 +135,11 @@ const index: React.FC = ({
 
 			<div className="text-gray-300 z-10 mt-4 w-full">
 				<Tab.Group>
-					<Tab.List className="flex p-1 space-x-1 rounded-sm mx-4">
+					<Tab.List className="flex p-1 space-x-1 rounded-sm mx-4 text-xs">
 						<Tab
 							className={({ selected }) =>
 								classNames(
-									'w-full py-2.5 text-sm leading-5 font-medium text-[#F2E9E4] rounded-sm',
+									'w-full py-2.5 md:text-sm leading-5 font-medium text-[#F2E9E4] rounded-sm',
 									'focus:outline-none ',
 									selected ? 'bg-[#b7094c]' : 'text-[#F2E9E4] hover:bg-white/[0.12] hover:text-white'
 								)
@@ -150,7 +150,7 @@ const index: React.FC = ({
 						<Tab
 							className={({ selected }) =>
 								classNames(
-									'w-full py-2.5 text-sm leading-5 font-medium text-[#F2E9E4] rounded-sm',
+									'w-full py-2.5 md:text-sm leading-5 font-medium text-[#F2E9E4] rounded-sm',
 									'focus:outline-none ',
 									selected ? 'bg-[#b7094c]' : 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
 								)
@@ -161,7 +161,7 @@ const index: React.FC = ({
 						<Tab
 							className={({ selected }) =>
 								classNames(
-									'w-full py-2.5 text-sm leading-5 font-medium text-[#F2E9E4] rounded-sm',
+									'w-full py-2.5 md:text-sm leading-5 font-medium text-[#F2E9E4] rounded-sm',
 									'focus:outline-none ',
 									selected ? 'bg-[#b7094c]' : 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
 								)
@@ -172,7 +172,7 @@ const index: React.FC = ({
 						<Tab
 							className={({ selected }) =>
 								classNames(
-									'w-full py-2.5 text-sm leading-5 font-medium text-[#F2E9E4] rounded-sm',
+									'w-full py-2.5 md:text-sm leading-5 font-medium text-[#F2E9E4] rounded-sm',
 									'focus:outline-none ',
 									selected ? 'bg-[#b7094c]' : 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
 								)
@@ -183,7 +183,7 @@ const index: React.FC = ({
 						<Tab
 							className={({ selected }) =>
 								classNames(
-									'w-full py-2.5 text-sm leading-5 font-medium text-[#F2E9E4] rounded-sm',
+									'w-full py-2.5 md:text-sm leading-5 font-medium text-[#F2E9E4] rounded-sm',
 									'focus:outline-none ',
 									selected ? 'bg-[#b7094c]' : 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
 								)

@@ -70,7 +70,7 @@ const community: NextPage = ({ communityImages }: InferGetServerSidePropsType<ty
 			</Head>
 			<Navbar />
 			<div className="w-full h-full flex flex-col justify-center items-center">
-				<div className="h-36 flex flex-col justify-center items-center">
+				<div className="h-36 flex flex-col justify-center items-center p-4">
 					<h1 className="text-3xl font-bold text-[#e80059] p-3 ">Community.</h1>
 				</div>
 			</div>

@@ -98,7 +98,9 @@ const Navbar: React.FC = () => {
 				<p className="self-center font-bold">BRANDHERE</p>
 			</div>
 
-			<div className="grow self-center">
+			<div className="grow self-center block md:hidden"></div>
+
+			<div className="grow self-center hidden md:block">
 				{/* @ts-ignore */}
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<input

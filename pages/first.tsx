@@ -302,7 +302,7 @@ const first: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 				<div className="h-36 flex flex-col justify-center items-center">
 					<h1 className="text-3xl font-bold text-[#e80059] p-3 ">Create Profile</h1>
 				</div>
-				<div className="w-full max-w-lg">
+				<div className="w-3/4 md:w-full max-w-lg">
 					<form onSubmit={handleSubmit(onSubmit)} className="space-y-5 flex flex-col text-gray-300 ">
 						<div className="space-y-1">
 							<label htmlFor="displayName" className="text-sm font-medium text-gray-300 ">
@@ -454,14 +454,12 @@ const first: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 						{/* Submit Loader Spinner */}
 						{formState.isSubmitting && (
 							<div className="font-medium bg-[#e80059] text-[#F2E9E4] rounded-full flex flex-row justify-center items-center space-x-1">
-								<div>Uploading artwork! Please wait!</div>
+								<div className="text-sm md:text-lg">Creating Profile! Please wait!</div>
 								<svg
-									width="20px"
-									height="20px"
 									viewBox="0 0 24 24"
 									fill="none"
 									xmlns="http://www.w3.org/2000/svg"
-									className="animate-spin "
+									className="animate-spin w-4 md:w-5"
 								>
 									<path
 										d="M12 22C17.5228 22 22 17.5228 22 12H19C19 15.866 15.866 19 12 19V22Z"

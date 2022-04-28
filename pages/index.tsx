@@ -1,10 +1,6 @@
 import { useEffect } from 'react';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { getSession } from 'next-auth/react';
-import { GetServerSideProps } from 'next';
-import prisma from '../lib/prisma';
-import { InferGetServerSidePropsType } from 'next';
 import useSWRInfinite from 'swr/infinite';
 import { useInView } from 'react-intersection-observer';
 
@@ -13,39 +9,6 @@ import ArtworkGrid from '../components/ArtworkGrid';
 import Head from 'next/head';
 
 import useAllArtworks from '../hooks/useAllArtworks';
-
-// export const getServerSideProps: GetServerSideProps = async (context) => {
-// 	const { res } = context;
-// 	res.setHeader('Cache-Control', `s-maxage=60, stale-while-revalidate`);
-// 	const session = await getSession(context);
-// 	// console.log(session);
-
-// 	const userResult = await prisma.user.findUnique({
-// 		where: {
-// 			email: session?.user?.email || 'User Not Logged In',
-// 		},
-// 	});
-// 	// console.log(userResult);
-
-// 	// This is how the mature content is filtered out
-// 	const data = await prisma.artwork.findMany({
-// 		take: 50,
-// 		where: {
-// 			OR: [{ mature: false }, { mature: userResult?.showMatureContent || false }],
-// 		},
-// 		orderBy: {
-// 			createdAt: 'desc',
-// 		},
-// 	});
-
-// 	const allArtworks = JSON.parse(JSON.stringify(data));
-// 	// console.log(commmunityImages); An array of objects (Upload Prisma)
-// 	return {
-// 		props: {
-// 			allArtworks,
-// 		},
-// 	};
-// };
 
 const fetcher = async (url: string) => fetch(url).then((res) => res.json());
 
@@ -86,7 +49,7 @@ const Home: NextPage = () => {
 			</Head>
 			<Navbar />
 			<div className="w-full h-full flex flex-col justify-center items-center">
-				<div className="h-36 w-full flex flex-col justify-center items-center space-y-2">
+				<div className="h-36 w-full flex flex-col justify-center items-center space-y-2 p-4">
 					<h1 className="text-3xl font-bold text-[#e80059] ">WEBSITE NAME</h1>
 					<h1 className="text-lg font-medium text-[#F2E9E4] text-center">
 						A place where artists of all skill levels can share their artwork!
