@@ -464,7 +464,25 @@ const index: React.FC = () => {
 
 						{/* Comments Section */}
 						<div className="flex flex-col w-full space-y-2">
-							{commentIsLoading && <div>LOADING COMMENTS ADD SPINNER HERE</div>}
+							{commentIsLoading && (
+								<div className="flex justify-center items-center">
+									<div className="font-medium flex flex-row justify-center items-center">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											x="0px"
+											y="0px"
+											width="192"
+											height="192"
+											viewBox="0 0 24 24"
+											style={{ fill: '#F2E9E4' }}
+											className="animate-pulse "
+										>
+											{' '}
+											<path d="M 4 3 C 2.9 3 2 3.9 2 5 L 2 15.792969 C 2 16.237969 2.5385156 16.461484 2.8535156 16.146484 L 5 14 L 14 14 C 15.1 14 16 13.1 16 12 L 16 5 C 16 3.9 15.1 3 14 3 L 4 3 z M 18 8 L 18 12 C 18 14.209 16.209 16 14 16 L 8 16 L 8 17 C 8 18.1 8.9 19 10 19 L 19 19 L 21.146484 21.146484 C 21.461484 21.461484 22 21.237969 22 20.792969 L 22 10 C 22 8.9 21.1 8 20 8 L 18 8 z"></path>
+										</svg>
+									</div>
+								</div>
+							)}
 							{comments && (
 								<>
 									{comments.map((comment: string) => (
