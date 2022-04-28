@@ -1,4 +1,4 @@
-import { ChangeEventHandler, useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { signIn } from 'next-auth/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
@@ -6,6 +6,8 @@ import { useRouter } from 'next/router';
 import Navbar from '../components/Navbar';
 import useLoggedInUser from '../hooks/useLoggedInUser';
 import Head from 'next/head';
+
+import imageCompression from 'browser-image-compression';
 
 // react-image-crop related imports
 import ReactCrop, { centerCrop, makeAspectCrop, Crop, PixelCrop } from 'react-image-crop';
@@ -57,31 +59,55 @@ const upload: React.FC = () => {
 
 	const { register, handleSubmit, formState } = useForm<IFormInput>();
 
+	// Add compression to both images here
 	const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-		// The Data is an object of the registered input elements
-		// Will pass data to a function that calls the internal API that prisma creates and also uploads image to cloudinary
+		const artworkFile = data.file[0];
+		const options = {
+			maxWidthOrHeight: 1024,
+			useWebWorker: true,
+		};
+
+		const compressedArtworkBlob = await imageCompression(artworkFile, options);
+		const compressedArtworkFile = new File([compressedArtworkBlob], `${data.title.split(' ')[0]}.png`, {
+			type: 'image/png',
+		});
 		const formData = new FormData();
-		// @ts-ignore
-		formData.append('file', data.file[0]);
+		formData.append('file', compressedArtworkFile);
+
 		const res = await fetch(`/api/digitaloceans3?userid=${loggedInUser.id}`, {
 			method: 'POST',
 			body: formData,
 		});
 		const resJson = await res.json();
+		console.log(resJson);
+
+		// // The Data is an object of the registered input elements
+		// // Will pass data to a function that calls the internal API that prisma creates and also uploads image to cloudinary
+
+		const optionsThumbnail = {
+			maxWidthOrHeight: 512,
+			useWebWorker: true,
+		};
+
+		const thumbnailFile = await dataUrlToFile(thumbnail, `${data.title.split(' ')[0]}_thumbnail.png`); // To get the first title word
+		const compressedThumbnailBlob = await imageCompression(thumbnailFile, optionsThumbnail);
+		const compressedThumbnailFile = new File(
+			[compressedThumbnailBlob],
+			`${data.title.split(' ')[0]}_thumbnail.png`,
+			{
+				type: 'image/png',
+			}
+		);
 
 		const formDataThumbnail = new FormData();
-		// @ts-ignore
-		const thumbnailFile = await dataUrlToFile(
-			// @ts-ignore
-			thumbnail,
-			`${data.title.split(' ')[0]}_thumbnail.png`
-		); // To get the first title word
-		formDataThumbnail.append('file', thumbnailFile);
+
+		formDataThumbnail.append('file', compressedThumbnailFile);
 		const thumbnailRes = await fetch(`/api/digitaloceans3?userid=${loggedInUser.id}`, {
 			method: 'POST',
 			body: formDataThumbnail,
 		});
 		const formDataThumbnailJson = await thumbnailRes.json();
+		console.log(formDataThumbnailJson);
 
 		const image_url: string = resJson.do_url;
 		const thumbnail_url: string = formDataThumbnailJson.do_url;
