@@ -24,12 +24,12 @@ const FollowerProfile: React.FC<IFollowerProfile> = ({ userId }) => {
 				<div className="h-full w-full flex flex-row justify-start items-center space-x-4 p-1 ">
 					<img
 						className=" w-28 h-28 rounded-full cursor-pointer"
-						src={user?.avatar}
+						src={user?.avatar ?? user?.image}
 						alt=""
 						onClick={() => router.push(`/profile/${userId}`)}
 					/>
 					<div onClick={() => router.push(`/profile/${userId}`)} className="text-center z-20 cursor-pointer">
-						<div className="text-2xl font-semibold text-[#F2E9E4]">{user?.displayName}</div>
+						<div className="text-2xl font-semibold text-[#F2E9E4]">{user?.displayName ?? user?.name}</div>
 						<div className="text-xs text-[#9A8C98]">{user?.headline}</div>
 					</div>
 					<FollowButton userId={userId} />
