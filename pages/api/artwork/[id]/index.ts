@@ -17,6 +17,28 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 
 	const session = await getSession({ req });
 
+	if (req.method === 'GET') {
+		const updateViews = await prisma.artwork.update({
+			where: {
+				// @ts-ignore
+				id: id,
+			},
+			data: {
+				viewCount: {
+					increment: 1,
+				},
+			},
+		});
+
+		// const artworkResult = await prisma.artwork.findUnique({
+		// 	// @ts-ignore
+		// 	where: { id: id },
+		// });
+
+		res.json(updateViews);
+		return;
+	}
+
 	if (session) {
 		// Grab the current logged-in user via the session
 		const userResult = await prisma.user.findUnique({
@@ -25,27 +47,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 		});
 		const userId = userResult?.id;
 
-		if (req.method === 'GET') {
-			const updateViews = await prisma.artwork.update({
-				where: {
-					// @ts-ignore
-					id: id,
-				},
-				data: {
-					viewCount: {
-						increment: 1,
-					},
-				},
-			});
-
-			// const artworkResult = await prisma.artwork.findUnique({
-			// 	// @ts-ignore
-			// 	where: { id: id },
-			// });
-
-			res.json(updateViews);
-			return;
-		} else if (req.method === 'PUT') {
+		if (req.method === 'PUT') {
 			// Check if the userId === authorId of artwork
 			const artworkResult = await prisma.artwork.findUnique({
 				// @ts-ignore
