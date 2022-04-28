@@ -22,7 +22,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	// This is how the mature content is filtered out
 	const data = await prisma.artwork.findMany({
-		take: 50,
+		take: 10,
 		where: {
 			OR: [
 				{ section: 'COMMUNITY', mature: false },

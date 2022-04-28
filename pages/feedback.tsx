@@ -19,7 +19,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	});
 
 	const data = await prisma.artwork.findMany({
-		take: 50,
+		take: 10,
 		where: {
 			OR: [
 				{ section: 'FEEDBACK', mature: false },
