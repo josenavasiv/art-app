@@ -59,19 +59,20 @@ const Comment: React.FC<IComment> = ({ commentId, content, authorId, createdAt }
 
 	if (isLoading) {
 		return (
-			<div className="flex justify-center">
-				<div className="w-3/5 font-medium bg-[#e80059] text-[#F2E9E4] rounded-full flex flex-row justify-center items-center space-x-1">
-					<div>Loading Comments</div>
+			<div className="flex justify-center items-center">
+				<div className="font-medium flex flex-row justify-center items-center">
 					<svg
-						width="20px"
-						height="20px"
-						viewBox="0 0 24 24"
-						fill="none"
 						xmlns="http://www.w3.org/2000/svg"
-						className="animate-spin "
+						x="0px"
+						y="0px"
+						width="192"
+						height="192"
+						viewBox="0 0 24 24"
+						style={{ fill: '#F2E9E4' }}
+						className="animate-pulse "
 					>
-						<path d="M12 22C17.5228 22 22 17.5228 22 12H19C19 15.866 15.866 19 12 19V22Z" fill="white" />
-						<path d="M2 12C2 6.47715 6.47715 2 12 2V5C8.13401 5 5 8.13401 5 12H2Z" fill="white" />
+						{' '}
+						<path d="M 4 3 C 2.9 3 2 3.9 2 5 L 2 15.792969 C 2 16.237969 2.5385156 16.461484 2.8535156 16.146484 L 5 14 L 14 14 C 15.1 14 16 13.1 16 12 L 16 5 C 16 3.9 15.1 3 14 3 L 4 3 z M 18 8 L 18 12 C 18 14.209 16.209 16 14 16 L 8 16 L 8 17 C 8 18.1 8.9 19 10 19 L 19 19 L 21.146484 21.146484 C 21.461484 21.461484 22 21.237969 22 20.792969 L 22 10 C 22 8.9 21.1 8 20 8 L 18 8 z"></path>
 					</svg>
 				</div>
 			</div>
