@@ -317,7 +317,7 @@ const index: React.FC = () => {
 								</>
 							)}
 						</div>
-						{loggedInUser && (
+						{session && (
 							<div className="flex flex-row items-center text-[#22223B] space-x-2">
 								{liked ? (
 									<div
@@ -469,7 +469,7 @@ const index: React.FC = () => {
 						</div>
 
 						{/* Post a Comment Section */}
-						{loggedInUser && (
+						{session && (
 							<form
 								onSubmit={handleSubmit(onSubmit)}
 								className="space-y-4 flex flex-col text-gray-300 w-full bg-[#1d1020]"
