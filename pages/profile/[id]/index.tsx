@@ -124,11 +124,13 @@ const index: React.FC = ({
 
 			<div className="flex justify-center">
 				<div className="flex flex-col h-[320px] w-full items-center justify-center relative overflow-hidden">
-					<img className="rounded-full w-28 h-28" src={userDetails.avatar ?? userDetails.image} alt="" />
-					<div className="text-3xl font-semibold text-[#b7094c]">
+					<img className="rounded-full w-28 h-28 mb-2" src={userDetails.avatar ?? userDetails.image} alt="" />
+					<div className="text-3xl font-semibold text-[#e80059] backdrop-blur-sm backdrop-brightness-50 px-2 rounded-sm">
 						{userDetails.displayName ?? userDetails.name}
 					</div>
-					<div className="text-sm font-medium text-[#b7094c]">{userDetails.headline}</div>
+					<div className="text-sm font-semibold text-[#e80059] backdrop-blur-sm backdrop-brightness-50 px-2 pb-1 rounded-sm rounded-t-none">
+						{userDetails.headline}
+					</div>
 					<img className="absolute -z-10 object-cover w-full" src={userDetails?.backgroundImageUrl} alt="" />
 				</div>
 			</div>

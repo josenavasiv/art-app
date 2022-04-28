@@ -443,7 +443,7 @@ const first: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 									{...register('showMatureContent')}
 									id="showMatureContent"
 									type="checkbox"
-									className="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
+									className="w-4 h-4 cursor-pointer bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
 								/>
 							</div>
 							<div className="ml-3 text-sm">
@@ -480,7 +480,7 @@ const first: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 
 						<input
 							disabled={formState.isSubmitting}
-							className="p-3 w-15 rounded-md font-semibold bg-[#e80059]"
+							className="p-3 w-15 rounded-md font-semibold bg-[#e80059] cursor-pointer"
 							type="submit"
 							value="Submit"
 						/>
