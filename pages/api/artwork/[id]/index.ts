@@ -18,7 +18,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 	const session = await getSession({ req });
 
 	if (req.method === 'GET') {
-		const updateViews = await prisma.artwork.update({
+		const updateViewsArtwork = await prisma.artwork.update({
 			where: {
 				// @ts-ignore
 				id: id,
@@ -30,12 +30,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 			},
 		});
 
-		// const artworkResult = await prisma.artwork.findUnique({
-		// 	// @ts-ignore
-		// 	where: { id: id },
-		// });
-
-		res.json(updateViews);
+		res.json(updateViewsArtwork);
 		return;
 	}
 
