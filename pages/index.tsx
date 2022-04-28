@@ -13,6 +13,8 @@ import ArtworkGrid from '../components/ArtworkGrid';
 import Head from 'next/head';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+	const { res } = context;
+	res.setHeader('Cache-Control', `s-maxage=60, stale-while-revalidate`);
 	const session = await getSession(context);
 	// console.log(session);
 
