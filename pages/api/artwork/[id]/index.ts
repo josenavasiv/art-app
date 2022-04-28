@@ -37,12 +37,13 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 					},
 				},
 			});
-			const artworkResult = await prisma.artwork.findUnique({
-				// @ts-ignore
-				where: { id: id },
-			});
 
-			res.json(artworkResult);
+			// const artworkResult = await prisma.artwork.findUnique({
+			// 	// @ts-ignore
+			// 	where: { id: id },
+			// });
+
+			res.json(updateViews);
 			return;
 		} else if (req.method === 'PUT') {
 			// Check if the userId === authorId of artwork

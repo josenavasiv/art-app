@@ -47,6 +47,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 					},
 				},
 			});
+
 			res.json(result);
 			return;
 		} else if (req.method === 'DELETE') {
@@ -72,6 +73,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 					},
 				},
 			});
+
 			res.json(result);
 			return;
 		}

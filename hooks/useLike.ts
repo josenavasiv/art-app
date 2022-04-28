@@ -1,8 +1,10 @@
-import useSWR from 'swr';
+import useSWR, { useSWRConfig } from 'swr';
 
 // Gets the user details of a specified user via the user's id
 const useLike = (artworkId: string) => {
-	const { data, error } = useSWR(`/api/artwork/${artworkId}/like`, async () => {
+	const { mutate } = useSWRConfig();
+	const key = `/api/artwork/${artworkId}/like`;
+	const { data, error } = useSWR(key, async () => {
 		const response = await fetch(`/api/artwork/${artworkId}/like`, { method: 'GET' });
 		const data = await response.json();
 		return data;
@@ -12,6 +14,8 @@ const useLike = (artworkId: string) => {
 		liked: data,
 		likeIsLoading: !error && !data,
 		likeIsError: error,
+		mutateLike: mutate,
+		likeKey: key,
 	};
 };
 

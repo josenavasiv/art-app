@@ -1,14 +1,12 @@
 import { Fragment, useState } from 'react';
-import { GetServerSideProps } from 'next';
-import { InferGetServerSidePropsType } from 'next';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
 
 import { Dialog, Transition } from '@headlessui/react';
 import Head from 'next/head';
 import Linkify from 'react-linkify';
 
-import prisma from '../../../lib/prisma';
 import Navbar from '../../../components/Navbar';
 import Comment from '../../../components/Comment';
 import MoreByGrid from '../../../components/MoreByGrid';
@@ -82,9 +80,10 @@ interface IFormInput {
 const index: React.FC = () => {
 	const router = useRouter();
 	const artworkId: string | string[] = router.query.id;
-	const { loggedInUser } = useLoggedInUser();
+	const { data: session } = useSession();
+	const { loggedInUser, isLoading } = useLoggedInUser();
 	const { artworkDetails, artworkIsLoading, artworkIsError } = useArtwork(artworkId as string);
-	const { liked } = useLike(artworkId as string);
+	const { liked, likeIsLoading, mutateLike, likeKey } = useLike(artworkId as string);
 
 	// const [showModal, setShowModal] = useState(false);
 	let [isOpen, setIsOpen] = useState(false);
@@ -106,10 +105,10 @@ const index: React.FC = () => {
 		mutate_key,
 	} = useComments(artworkDetails?.id);
 
-	// use the useUser Hook (SWR to fetch user) and loggedInUser to check if the logged-in user is allowed to edit or delete artwork
 	let canEditDelete = false;
+	// use the useUser Hook (SWR to fetch user) and loggedInUser to check if the logged-in user is allowed to edit or delete artwork
 	// @ts-ignore
-	if (user?.email === loggedInUser?.user?.email) {
+	if (user?.email === session?.user?.email) {
 		canEditDelete = true;
 	}
 
@@ -148,7 +147,9 @@ const index: React.FC = () => {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 		});
-		router.reload();
+		mutateLike(likeKey);
+
+		// router.reload();
 	};
 
 	const handleUnlike = async () => {
@@ -156,6 +157,8 @@ const index: React.FC = () => {
 			method: 'DELETE',
 			headers: { 'Content-Type': 'application/json' },
 		});
+		mutateLike(likeKey);
+
 		router.reload();
 	};
 

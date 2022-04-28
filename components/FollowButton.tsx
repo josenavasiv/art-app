@@ -17,7 +17,8 @@ const FollowButton: React.FC<IFollowButton> = ({ userId }) => {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 		});
-		router.reload();
+		mutate(mutate_key);
+		// router.reload();
 	};
 
 	const handleUnfollow = async () => {
@@ -25,6 +26,7 @@ const FollowButton: React.FC<IFollowButton> = ({ userId }) => {
 			method: 'DELETE',
 			headers: { 'Content-Type': 'application/json' },
 		});
+		mutate(mutate_key);
 		router.reload();
 	};
 
