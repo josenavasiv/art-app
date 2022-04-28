@@ -54,14 +54,22 @@ const Home: NextPage = () => {
 	const router = useRouter();
 	const { ref, inView } = useInView();
 
-	const { allArtworks } = useAllArtworks();
+	const { allArtworks, isLoading } = useAllArtworks();
 
 	const { data, error, mutate, size, setSize } = useSWRInfinite(
 		(index) => `/api/artworks?page=${index + 1}&section=COMMUNITY`,
 		fetcher
 	);
 
-	const artworks = data ? [].concat(...allArtworks, ...data) : []; // Add onto our current artworks on each request
+	let artworks = [];
+	if (allArtworks) {
+		artworks = [...allArtworks];
+	}
+
+	if (data) {
+		artworks.concat(...data);
+	}
+	// const artworks = data ? [].concat(...allArtworks, ...data) : []; // Add onto our current artworks on each request
 	const isLoadingInitialData = !data && !error;
 
 	useEffect(() => {
@@ -105,7 +113,22 @@ const Home: NextPage = () => {
 					</div>
 				</div>
 			</div>
-
+			{isLoading && (
+				<div className="font-medium bg-[#e80059] text-[#F2E9E4] rounded-full flex flex-row justify-center items-center space-x-1">
+					<div>Loading Artworks</div>
+					<svg
+						width="20px"
+						height="20px"
+						viewBox="0 0 24 24"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg"
+						className="animate-spin "
+					>
+						<path d="M12 22C17.5228 22 22 17.5228 22 12H19C19 15.866 15.866 19 12 19V22Z" fill="white" />
+						<path d="M2 12C2 6.47715 6.47715 2 12 2V5C8.13401 5 5 8.13401 5 12H2Z" fill="white" />
+					</svg>
+				</div>
+			)}
 			<ArtworkGrid artworks={artworks} />
 
 			<div ref={ref} className="text-white mt-[750px] text-center">
