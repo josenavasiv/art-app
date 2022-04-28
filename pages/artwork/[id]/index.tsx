@@ -438,7 +438,7 @@ const index: React.FC = () => {
 						<hr className="border-[#9A8C98]" />
 
 						<div className="sm:text-center md:text-left">
-							<div className="text-sm mb-2 font-medium">More by {user?.displayName}</div>
+							<div className="text-sm mb-2 font-medium">More by {user?.displayName ?? user?.name}</div>
 							<div className="max-w-[443px] mx-auto">
 								<MoreByGrid userId={artworkDetails?.authorId} />
 							</div>
