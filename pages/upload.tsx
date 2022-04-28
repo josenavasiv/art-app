@@ -14,6 +14,7 @@ import ReactCrop, { centerCrop, makeAspectCrop, Crop, PixelCrop } from 'react-im
 import { canvasPreview } from '../lib/canvasPreview';
 import { useDebounceEffect } from '../lib/useDebounceEffect';
 import 'react-image-crop/dist/ReactCrop.css';
+import dataUrlToFile from '../lib/dataUrlToFile';
 
 function centerAspectCrop(mediaWidth: number, mediaHeight: number, aspect: number) {
 	return centerCrop(
@@ -154,11 +155,6 @@ const upload: React.FC = () => {
 		}
 	}
 
-	async function dataUrlToFile(dataUrl: string, fileName: string): Promise<File> {
-		const res: Response = await fetch(dataUrl);
-		const blob: Blob = await res.blob();
-		return new File([blob], fileName, { type: 'image/png' });
-	}
 
 	useDebounceEffect(
 		async () => {

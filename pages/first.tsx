@@ -1,4 +1,4 @@
-import { ChangeEventHandler, useState, useEffect } from 'react';
+import { ChangeEventHandler, useState, useEffect, useRef } from 'react';
 import { getSession } from 'next-auth/react';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -8,6 +8,30 @@ import prisma from '../lib/prisma';
 
 import Navbar from '../components/Navbar';
 import Head from 'next/head';
+
+// react-image-crop related imports
+import ReactCrop, { centerCrop, makeAspectCrop, Crop, PixelCrop } from 'react-image-crop';
+import { canvasPreview } from '../lib/canvasPreview';
+import { useDebounceEffect } from '../lib/useDebounceEffect';
+import 'react-image-crop/dist/ReactCrop.css';
+import dataUrlToFile from '../lib/dataUrlToFile';
+import imageCompression from 'browser-image-compression';
+
+function centerAspectCrop(mediaWidth: number, mediaHeight: number, aspect: number) {
+	return centerCrop(
+		makeAspectCrop(
+			{
+				unit: '%',
+				width: 40,
+			},
+			aspect,
+			mediaWidth,
+			mediaHeight
+		),
+		mediaWidth,
+		mediaHeight
+	);
+}
 
 // Will protect with middleware
 // @ts-ignore
@@ -53,10 +77,98 @@ const first: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 	const router = useRouter();
 	const { loggedInUser } = useLoggedInUser();
 
-	const [avatarPreview, setAvatarPreview] = useState(userDetails.avatar ?? userDetails.image);
-	const [backgroundPreview, setBackgroundPreview] = useState(userDetails.backgroundImageUrl);
-
 	const { register, handleSubmit, formState, setValue } = useForm<IUpdateProfile>();
+
+	// react-crop-image
+	const [avatarSrc, setAvatarSrc] = useState(null);
+	const [avatar, setAvatar] = useState(null); // Avatar
+	const previewCanvasRef = useRef<HTMLCanvasElement>(null);
+	const imgRef = useRef<HTMLImageElement>(null);
+	const [crop, setCrop] = useState<Crop>();
+	const [completedCrop, setCompletedCrop] = useState<PixelCrop>();
+
+	const [backgroundSrc, setBackgroundSrc] = useState(null);
+	const [background, setBackground] = useState(null); // Background
+	const previewCanvasRefBackground = useRef<HTMLCanvasElement>(null);
+	const imgRefBackground = useRef<HTMLImageElement>(null);
+	const [cropBackground, setCropBackground] = useState<Crop>();
+	const [completedCropBackground, setCompletedCropBackground] = useState<PixelCrop>();
+
+	const scale = 1;
+	const rotate = 0;
+	// aspect
+	const aspectAvatar = 1;
+	const aspectBackground = 16 / 9;
+
+	function onSelectFile(e: React.ChangeEvent<HTMLInputElement>) {
+		if (e.target.files && e.target.files.length > 0) {
+			setCrop(undefined); // Makes crop preview update between images.
+			const reader = new FileReader();
+			// @ts-ignore
+			reader.addEventListener('load', () => setAvatarSrc(reader.result.toString() || ''));
+			reader.readAsDataURL(e.target.files[0]);
+		}
+	}
+	function onSelectFileBackground(e: React.ChangeEvent<HTMLInputElement>) {
+		if (e.target.files && e.target.files.length > 0) {
+			setCropBackground(undefined); // Makes crop preview update between images.
+			const reader = new FileReader();
+			// @ts-ignore
+			reader.addEventListener('load', () => setBackgroundSrc(reader.result.toString() || ''));
+			reader.readAsDataURL(e.target.files[0]);
+		}
+	}
+
+	function onImageLoad(e: React.SyntheticEvent<HTMLImageElement>) {
+		if (aspectAvatar) {
+			const { width, height } = e.currentTarget;
+			setCrop(centerAspectCrop(width, height, aspectAvatar));
+		}
+		if (aspectBackground) {
+			const { width, height } = e.currentTarget;
+			setCropBackground(centerAspectCrop(width, height, aspectBackground));
+		}
+	}
+
+	useDebounceEffect(
+		async () => {
+			if (
+				completedCropBackground?.width &&
+				completedCropBackground?.height &&
+				imgRefBackground.current &&
+				previewCanvasRefBackground.current
+			) {
+				// We use canvasPreview as it's much faster than imgPreview.
+				canvasPreview(
+					imgRefBackground.current,
+					previewCanvasRefBackground.current,
+					completedCropBackground,
+					scale,
+					rotate
+				);
+				const imageDataUrlBackground = previewCanvasRefBackground.current.toDataURL();
+				// @ts-ignore
+				setBackground(imageDataUrlBackground);
+			}
+		},
+		100,
+		[completedCropBackground, scale, rotate]
+	);
+	useDebounceEffect(
+		async () => {
+			if (completedCrop?.width && completedCrop?.height && imgRef.current && previewCanvasRef.current) {
+				// We use canvasPreview as it's much faster than imgPreview.
+				canvasPreview(imgRef.current, previewCanvasRef.current, completedCrop, scale, rotate);
+				const imageDataUrl = previewCanvasRef.current.toDataURL();
+				// @ts-ignore
+				setAvatar(imageDataUrl);
+			}
+		},
+		100,
+		[completedCrop, scale, rotate]
+	);
+
+	// End React-Image-Crop
 
 	useEffect(() => {
 		// Setting the input fields of the original artwork
@@ -71,15 +183,45 @@ const first: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 		const headline = data.headline;
 		const showMatureContent = data.showMatureContent;
 		const bio = data.bio;
-		// console.log(bio);
 
 		let body = { displayName, headline, showMatureContent, bio };
 
+		const optionsAvatar = {
+			maxWidthOrHeight: 128,
+			useWebWorker: true,
+		};
+		const optionsBackground = {
+			maxWidthOrHeight: 1920,
+			useWebWorker: true,
+		};
+
+		const avatarFile = await dataUrlToFile(avatar, `${data.displayName.split(' ')[0]}_avatar.png`); // To get the first title word
+		const backgroundFile = await dataUrlToFile(background, `${data.displayName.split(' ')[0]}_background.png`); // To get the first title word
+
 		if (Array.from(data.avatar).length > 0 && Array.from(data.backgroundImageUrl).length > 0) {
+			const compressedAvatarBlob = await imageCompression(avatarFile, optionsAvatar);
+			const compressedAvatarFile = new File(
+				[compressedAvatarBlob],
+				`${data.displayName.split(' ')[0]}_avatar.png`,
+				{
+					type: 'image/png',
+				}
+			);
+
 			const formDataAvatar = new FormData();
+			formDataAvatar.append('file', compressedAvatarFile);
+
+			const compressedBackgroundBlob = await imageCompression(backgroundFile, optionsBackground);
+			const compressedBackgroundFile = new File(
+				[compressedBackgroundBlob],
+				`${data.displayName.split(' ')[0]}_background.png`,
+				{
+					type: 'image/png',
+				}
+			);
+
 			const formDataBackground = new FormData();
-			formDataAvatar.append('file', data.avatar[0]);
-			formDataBackground.append('file', data.backgroundImageUrl[0]);
+			formDataBackground.append('file', compressedBackgroundFile);
 
 			const avatarRes = await fetch(`/api/digitaloceans3?userid=${loggedInUser.id}`, {
 				method: 'POST',
@@ -98,9 +240,18 @@ const first: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 			// @ts-ignore
 			body = { displayName, headline, showMatureContent, avatar, backgroundImageUrl, bio };
 		} else if (Array.from(data.avatar).length > 0 && Array.from(data.backgroundImageUrl).length === 0) {
-			console.log('avatar');
+			const compressedAvatarBlob = await imageCompression(avatarFile, optionsAvatar);
+			const compressedAvatarFile = new File(
+				[compressedAvatarBlob],
+				`${data.displayName.split(' ')[0]}_avatar.png`,
+				{
+					type: 'image/png',
+				}
+			);
+
 			const formDataAvatar = new FormData();
-			formDataAvatar.append('file', data.avatar[0]);
+			formDataAvatar.append('file', compressedAvatarFile);
+
 			const avatarRes = await fetch(`/api/digitaloceans3?userid=${loggedInUser.id}`, {
 				method: 'POST',
 				body: formDataAvatar,
@@ -138,23 +289,6 @@ const first: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 		});
 		const userData = await result.json();
 		return router.push(`/profile/${userData.id}`);
-	};
-
-	const handleAvatarPreview: ChangeEventHandler<HTMLInputElement> = (e) => {
-		// @ts-ignore
-
-		if (e.target.files.length !== 0) {
-			// @ts-ignore
-			setAvatarPreview(URL.createObjectURL(e.target.files[0]));
-		}
-	};
-
-	const handleBackgroundPreview: ChangeEventHandler<HTMLInputElement> = (e) => {
-		// @ts-ignore
-		if (e.target.files.length !== 0) {
-			// @ts-ignore
-			setBackgroundPreview(URL.createObjectURL(e.target.files[0]));
-		}
 	};
 
 	return (
@@ -198,34 +332,98 @@ const first: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 							</label>
 							<textarea
 								id="bio"
-								{...register('bio', { required: true, maxLength: 1000 })}
+								{...register('bio', { maxLength: 1000 })}
 								placeholder="Add a bio to your profile. Add links to your socials as well."
 								className="bg-gray-50 border font-medium border-gray-300 text-gray-900 h-48 whitespace-pre-line text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 							/>
 						</div>
 
 						<div className="flex flex-col space-y-1">
-							<label className="text-sm font-medium text-gray-300">Avatar</label>
-							<img src={avatarPreview} />
+							<label className="text-sm font-medium text-gray-300">Crop Avatar</label>
+
+							{Boolean(avatarSrc) && (
+								<ReactCrop
+									crop={crop}
+									onChange={(_, percentCrop) => setCrop(percentCrop)}
+									onComplete={(c) => setCompletedCrop(c)}
+									aspect={aspectAvatar}
+								>
+									<img ref={imgRef} alt="Crop me" src={avatarSrc} onLoad={onImageLoad} />
+								</ReactCrop>
+							)}
+							<div>
+								{Boolean(completedCrop) && (
+									<>
+										<label className="text-sm font-medium text-gray-300">Avatar</label>
+										<canvas
+											ref={previewCanvasRef}
+											style={{
+												border: '1px solid black',
+												objectFit: 'contain',
+												// @ts-ignore
+												width: completedCrop.width,
+												// @ts-ignore
+												height: completedCrop.height,
+											}}
+										/>
+									</>
+								)}
+							</div>
+							{/* @ts-ignore */}
+
 							<input
-								{...register('avatar')}
+								{...register('avatar', { required: true })}
 								type="file"
 								accept="image/*"
-								onChange={handleAvatarPreview}
+								onChange={onSelectFile}
 								className="font-semibold text-sm file:mr-4 file:mt-2 file:py-1 file:px-4
 								file:rounded-full file:border-0
 								file:text-sm file:font-semibold
-								file:bg-[#e80059] file:text-white"
+								file:bg-[#e80059] file:text-white
+							 file:cursor-pointer"
 							/>
 						</div>
+
 						<div className="flex flex-col space-y-1">
-							<label className="text-sm font-medium text-gray-300">Background</label>
-							<img src={backgroundPreview} />
+							<label className="text-sm font-medium text-gray-300">Crop Background</label>
+							{Boolean(backgroundSrc) && (
+								<ReactCrop
+									crop={cropBackground}
+									onChange={(_, percentCrop) => setCropBackground(percentCrop)}
+									onComplete={(c) => setCompletedCropBackground(c)}
+									aspect={aspectBackground}
+								>
+									<img
+										ref={imgRefBackground}
+										alt="Crop me"
+										src={backgroundSrc}
+										onLoad={onImageLoad}
+									/>
+								</ReactCrop>
+							)}
+							<div>
+								{Boolean(completedCropBackground) && (
+									<>
+										<label className="text-sm font-medium text-gray-300">Background</label>
+										<canvas
+											ref={previewCanvasRefBackground}
+											style={{
+												border: '1px solid black',
+												objectFit: 'contain',
+												// @ts-ignore
+												width: completedCropBackground.width,
+												// @ts-ignore
+												height: completedCropBackground.height,
+											}}
+										/>
+									</>
+								)}
+							</div>
 							<input
 								{...register('backgroundImageUrl')}
 								type="file"
 								accept="image/*"
-								onChange={handleBackgroundPreview}
+								onChange={onSelectFileBackground}
 								className="font-semibold text-sm file:mr-4 file:mt-2 file:py-1 file:px-4
 								file:rounded-full file:border-0
 								file:text-sm file:font-semibold
