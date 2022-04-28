@@ -1,7 +1,7 @@
 import { Fragment, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import { useSession } from 'next-auth/react';
+import { getSession, useSession } from 'next-auth/react';
 
 import { Dialog, Transition } from '@headlessui/react';
 import Head from 'next/head';
@@ -20,8 +20,17 @@ import useLoggedInUser from '../../../hooks/useLoggedInUser';
 import useLike from '../../../hooks/useLike';
 
 import { getRelativeDate } from '../../../lib/relativeTime';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 
-// export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+	const session = await getSession(context);
+
+	return {
+		props: {
+			session,
+		},
+	};
+};
 // 	// const id = context.query.id as string; // Get over TypeScript string issue
 
 // 	// const updateViews = await prisma.artwork.update({
@@ -77,11 +86,11 @@ interface IFormInput {
 	content: string;
 }
 
-const index: React.FC = () => {
+const index: React.FC = ({ session }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const router = useRouter();
 	const artworkId: string | string[] = router.query.id;
-	const { data: session } = useSession();
-	const { loggedInUser, isLoading } = useLoggedInUser();
+
+	// const { loggedInUser, isLoading } = useLoggedInUser();
 	const { artworkDetails, artworkIsLoading, artworkIsError } = useArtwork(artworkId as string);
 	const { liked, likeIsLoading, mutateLike, likeKey } = useLike(artworkId as string);
 
@@ -97,6 +106,7 @@ const index: React.FC = () => {
 	}
 
 	const { user, isLoading: userIsLoading, isError: userIsError } = useUser(artworkDetails?.authorId);
+
 	const {
 		comments,
 		isLoading: commentIsLoading,
