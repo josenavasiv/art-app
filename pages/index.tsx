@@ -12,51 +12,56 @@ import Navbar from '../components/Navbar';
 import ArtworkGrid from '../components/ArtworkGrid';
 import Head from 'next/head';
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-	const { res } = context;
-	res.setHeader('Cache-Control', `s-maxage=60, stale-while-revalidate`);
-	const session = await getSession(context);
-	// console.log(session);
+import useAllArtworks from '../hooks/useAllArtworks';
 
-	const userResult = await prisma.user.findUnique({
-		where: {
-			email: session?.user?.email || 'User Not Logged In',
-		},
-	});
-	// console.log(userResult);
+// export const getServerSideProps: GetServerSideProps = async (context) => {
+// 	const { res } = context;
+// 	res.setHeader('Cache-Control', `s-maxage=60, stale-while-revalidate`);
+// 	const session = await getSession(context);
+// 	// console.log(session);
 
-	// This is how the mature content is filtered out
-	const data = await prisma.artwork.findMany({
-		take: 50,
-		where: {
-			OR: [{ mature: false }, { mature: userResult?.showMatureContent || false }],
-		},
-		orderBy: {
-			createdAt: 'desc',
-		},
-	});
+// 	const userResult = await prisma.user.findUnique({
+// 		where: {
+// 			email: session?.user?.email || 'User Not Logged In',
+// 		},
+// 	});
+// 	// console.log(userResult);
 
-	const communityImages = JSON.parse(JSON.stringify(data));
-	// console.log(commmunityImages); An array of objects (Upload Prisma)
-	return {
-		props: {
-			communityImages,
-		},
-	};
-};
+// 	// This is how the mature content is filtered out
+// 	const data = await prisma.artwork.findMany({
+// 		take: 50,
+// 		where: {
+// 			OR: [{ mature: false }, { mature: userResult?.showMatureContent || false }],
+// 		},
+// 		orderBy: {
+// 			createdAt: 'desc',
+// 		},
+// 	});
+
+// 	const allArtworks = JSON.parse(JSON.stringify(data));
+// 	// console.log(commmunityImages); An array of objects (Upload Prisma)
+// 	return {
+// 		props: {
+// 			allArtworks,
+// 		},
+// 	};
+// };
 
 const fetcher = async (url: string) => fetch(url).then((res) => res.json());
 
-const Home: NextPage = ({ communityImages }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+// const Home: NextPage = ({ allArtworks }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const Home: NextPage = () => {
 	const router = useRouter();
 	const { ref, inView } = useInView();
+
+	const { allArtworks } = useAllArtworks();
 
 	const { data, error, mutate, size, setSize } = useSWRInfinite(
 		(index) => `/api/artworks?page=${index + 1}&section=COMMUNITY`,
 		fetcher
 	);
 
-	const artworks = data ? [].concat(...communityImages, ...data) : []; // Add onto our current artworks on each request
+	const artworks = data ? [].concat(...allArtworks, ...data) : []; // Add onto our current artworks on each request
 	const isLoadingInitialData = !data && !error;
 
 	useEffect(() => {
