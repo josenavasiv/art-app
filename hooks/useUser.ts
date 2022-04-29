@@ -1,8 +1,10 @@
-import useSWR from 'swr';
+import useSWR, { useSWRConfig } from 'swr';
 
 // Gets the user details of a specified user via the user's id
 const useUser = (id: string) => {
-	const { data, error } = useSWR(`/api/user/${id}`, async () => {
+	const { mutate } = useSWRConfig();
+	const key = `/api/user/${id}`;
+	const { data, error } = useSWR(key, async () => {
 		const response = await fetch(`/api/user/${id}`, { method: 'GET' });
 		const data = await response.json();
 		return data;
@@ -10,6 +12,8 @@ const useUser = (id: string) => {
 
 	return {
 		user: data,
+		mutateUser: mutate,
+		userKey: key,
 		isLoading: !error && !data,
 		isError: error,
 	};

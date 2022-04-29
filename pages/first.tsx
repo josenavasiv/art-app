@@ -1,4 +1,4 @@
-import { ChangeEventHandler, useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { getSession } from 'next-auth/react';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -107,6 +107,9 @@ const first: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 			// @ts-ignore
 			reader.addEventListener('load', () => setAvatarSrc(reader.result.toString() || ''));
 			reader.readAsDataURL(e.target.files[0]);
+		} else {
+			setAvatarSrc(null);
+			setCompletedCrop(null);
 		}
 	}
 	function onSelectFileBackground(e: React.ChangeEvent<HTMLInputElement>) {
@@ -116,6 +119,9 @@ const first: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 			// @ts-ignore
 			reader.addEventListener('load', () => setBackgroundSrc(reader.result.toString() || ''));
 			reader.readAsDataURL(e.target.files[0]);
+		} else {
+			setBackgroundSrc(null);
+			setCompletedCropBackground(null);
 		}
 	}
 
@@ -195,10 +201,15 @@ const first: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 			useWebWorker: true,
 		};
 
-		const avatarFile = await dataUrlToFile(avatar, `${data.displayName.split(' ')[0]}_avatar.png`); // To get the first title word
-		const backgroundFile = await dataUrlToFile(background, `${data.displayName.split(' ')[0]}_background.png`); // To get the first title word
+		var avatarVar = avatar ?? [];
+		var backgroundVar = background ?? [];
 
-		if (Array.from(data.avatar).length > 0 && Array.from(data.backgroundImageUrl).length > 0) {
+		if (Array.from(avatarVar).length > 0 && Array.from(backgroundVar).length > 0) {
+			const avatarFile = await dataUrlToFile(avatarVar, `${data.displayName.split(' ')[0]}_avatar.png`); // To get the first title word
+			const backgroundFile = await dataUrlToFile(
+				backgroundVar,
+				`${data.displayName.split(' ')[0]}_background.png`
+			); // To get the first title word
 			const compressedAvatarBlob = await imageCompression(avatarFile, optionsAvatar);
 			const compressedAvatarFile = new File(
 				[compressedAvatarBlob],
@@ -239,7 +250,9 @@ const first: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 
 			// @ts-ignore
 			body = { displayName, headline, showMatureContent, avatar, backgroundImageUrl, bio };
-		} else if (Array.from(data.avatar).length > 0 && Array.from(data.backgroundImageUrl).length === 0) {
+		} else if (Array.from(avatarVar).length > 0 && Array.from(backgroundVar).length === 0) {
+			const avatarFile = await dataUrlToFile(avatarVar, `${data.displayName.split(' ')[0]}_avatar.png`); // To get the first title word
+
 			const compressedAvatarBlob = await imageCompression(avatarFile, optionsAvatar);
 			const compressedAvatarFile = new File(
 				[compressedAvatarBlob],
@@ -262,19 +275,6 @@ const first: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 			const backgroundImageUrl = userDetails.backgroundImageUrl;
 			// @ts-ignore
 			body = { displayName, headline, showMatureContent, avatar, backgroundImageUrl };
-		} else if (Array.from(data.avatar).length === 0 && Array.from(data.backgroundImageUrl).length > 0) {
-			console.log('background');
-			const formDataBackground = new FormData();
-			formDataBackground.append('file', data.backgroundImageUrl[0]);
-			const backgroundRes = await fetch(`/api/digitaloceans3?userid=${loggedInUser.id}`, {
-				method: 'POST',
-				body: formDataBackground,
-			});
-			const backgroundJson = await backgroundRes.json();
-			const backgroundImageUrl: string = backgroundJson.do_url;
-			const avatar = userDetails.avatar;
-			// @ts-ignore
-			body = { displayName, headline, showMatureContent, avatar, backgroundImageUrl, bio };
 		} else {
 			const avatar = userDetails.avatar;
 			const backgroundImageUrl = userDetails.backgroundImageUrl;
@@ -310,29 +310,66 @@ const first: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 							</label>
 							<input
 								id="displayName"
-								{...register('displayName', { required: true, maxLength: 100 })}
+								{...register('displayName', {
+									required: true,
+									maxLength: 100,
+								})}
 								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 							/>
+							{formState.errors.displayName && (
+								<div className="error-msg">
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										className="h-5 w-5"
+										viewBox="0 0 20 20"
+										fill="currentColor"
+									>
+										<path
+											fillRule="evenodd"
+											d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+											clipRule="evenodd"
+										/>
+									</svg>
+									<p>Display Name is required and cannot exceed 100 characters</p>
+								</div>
+							)}
 						</div>
 
 						<div className="space-y-1">
 							<label htmlFor="headline" className="text-sm font-medium text-gray-300 ">
-								Headline - Describe a goal or what you currently do!
+								Headline - Describe what you do or who you are in a sentence
 							</label>
 							<input
 								id="headline"
-								{...register('headline', { required: true, maxLength: 100 })}
+								{...register('headline', { required: true, maxLength: 150 })}
 								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 							/>
+							{formState.errors.headline && (
+								<div className="error-msg">
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										className="h-5 w-5"
+										viewBox="0 0 20 20"
+										fill="currentColor"
+									>
+										<path
+											fillRule="evenodd"
+											d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+											clipRule="evenodd"
+										/>
+									</svg>
+									<p>Headline is required and cannot exceed 150 characters</p>
+								</div>
+							)}
 						</div>
 
 						<div className="space-y-1">
 							<label htmlFor="bio" className="text-sm font-medium text-gray-300 ">
-								Bio
+								Biography
 							</label>
 							<textarea
 								id="bio"
-								{...register('bio', { maxLength: 1000 })}
+								{...register('bio', { maxLength: 2000 })}
 								placeholder="Add a bio to your profile. Add links to your socials as well."
 								className="bg-gray-50 border font-medium border-gray-300 text-gray-900 h-48 whitespace-pre-line text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 							/>
@@ -382,6 +419,23 @@ const first: React.FC = ({ userDetails }: InferGetServerSidePropsType<typeof get
 								file:bg-[#e80059] file:text-white
 							 file:cursor-pointer"
 							/>
+							{formState.errors.avatar && (
+								<div className="error-msg">
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										className="h-5 w-5"
+										viewBox="0 0 20 20"
+										fill="currentColor"
+									>
+										<path
+											fillRule="evenodd"
+											d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+											clipRule="evenodd"
+										/>
+									</svg>
+									<p>An Avatar is required</p>
+								</div>
+							)}
 						</div>
 
 						<div className="flex flex-col space-y-1">

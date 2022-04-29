@@ -16,7 +16,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 	if (req.query.limit) {
 		limit = parseInt(req.query.limit as string);
 	} else {
-		limit = 10;
+		limit = 30;
 	}
 	const pageNum = req.query.page ? parseInt(req.query.page as string) : 0;
 
@@ -28,7 +28,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 
 	const artworks = await prisma.artwork.findMany({
 		take: limit,
-		skip: 10 * pageNum,
+		skip: 30 * pageNum,
 		where: {
 			section: section,
 			// OR: [

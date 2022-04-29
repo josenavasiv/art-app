@@ -45,7 +45,7 @@ const Navbar: React.FC = () => {
 							type="text"
 							name="search"
 							id="search"
-							placeholder="Search #tags"
+							placeholder="Search artworks via tags or title"
 						/>
 						<input type="submit" className="hidden" />
 					</form>
@@ -109,7 +109,7 @@ const Navbar: React.FC = () => {
 						type="text"
 						name="search"
 						id="search"
-						placeholder="Search #tags"
+						placeholder="Search artworks via tags or title"
 					/>
 					<input type="submit" className="hidden" />
 				</form>

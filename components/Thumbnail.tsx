@@ -35,7 +35,7 @@ const Thumbnail: React.FC<IThumbnailProps> = ({ authorId, artworkId, artworkTitl
 		// </div>
 		<div className="relative">
 			<div
-				className="max-w-full max-h-full min-w-[250px] min-h-[200px] overflow-hidden thumbnail cursor-pointer parent"
+				className=" min-w-[250px] min-h-[250px] overflow-hidden thumbnail cursor-pointer parent"
 				onClick={() => router.push(`/artwork/${artworkId}`)}
 				style={{ backgroundImage: 'url(' + thumbnailUrl + ')' }}
 			>

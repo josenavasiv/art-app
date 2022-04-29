@@ -2,6 +2,7 @@ import { GetServerSideProps } from 'next';
 import { InferGetServerSidePropsType } from 'next';
 import { Tab } from '@headlessui/react';
 import Linkify from 'react-linkify';
+import Image from 'next/image';
 
 import { getSession } from 'next-auth/react';
 
@@ -196,12 +197,58 @@ const index: React.FC = ({
 					</Tab.List>
 					<Tab.Panels>
 						<Tab.Panel>
+							<h1 className="text-2xl font-semibold text-[#e80059] text-center mt-2">
+								{userDetails?.displayName ?? userDetails?.name}'s Artworks
+							</h1>
+							{userArtworks.length === 0 && (
+								<div className="w-full h-full flex flex-col justify-center items-center">
+									<div className=" w-full flex flex-col justify-center items-center space-y-2 p-4">
+										<Image src="/cricket.png" width="128" height="128" />
+										<h1 className="text-2xl font-bold text-[#e80059] ">*Cricket Noises*</h1>
+										<h1 className="text-lg font-medium text-[#F2E9E4] text-center">
+											{userDetails?.displayName ?? userDetails?.name} should upload some art...
+										</h1>
+									</div>
+								</div>
+							)}
+
 							<ArtworkGrid artworks={userArtworks} />
 						</Tab.Panel>
 						<Tab.Panel>
+							<h1 className="text-2xl font-semibold text-[#e80059] text-center mt-2">
+								{userDetails?.displayName ?? userDetails?.name}'s Favorite Artworks
+							</h1>
+							{userLikesArtworksParsed.length === 0 && (
+								<div className="w-full h-full flex flex-col justify-center items-center">
+									<div className=" w-full flex flex-col justify-center items-center space-y-2 p-4">
+										<Image src="/cricket.png" width="128" height="128" />
+										<h1 className="text-2xl font-bold text-[#e80059] ">*Cricket Noises*</h1>
+										<h1 className="text-lg font-medium text-[#F2E9E4] text-center">
+											{userDetails?.displayName ?? userDetails?.name} hasn't liked anything yet...
+										</h1>
+									</div>
+								</div>
+							)}
+
 							<ArtworkGrid artworks={userLikesArtworksParsed} />
 						</Tab.Panel>
 						<Tab.Panel>
+							<h1 className="text-2xl font-semibold text-[#e80059] text-center mt-2">
+								{userDetails?.displayName ?? userDetails?.name}'s Followers
+							</h1>
+							{userFollowing.length === 0 && (
+								<div className="w-full h-full flex flex-col justify-center items-center">
+									<div className=" w-full flex flex-col justify-center items-center space-y-2 p-4">
+										<Image src="/cricket.png" width="128" height="128" />
+										<h1 className="text-2xl font-bold text-[#e80059] ">*Cricket Noises*</h1>
+										<h1 className="text-lg font-medium text-[#F2E9E4] text-center">
+											Looks like {userDetails?.displayName ?? userDetails?.name} hasn't followed
+											anyone yet...
+										</h1>
+									</div>
+								</div>
+							)}
+
 							<div className="w-full followers-grid p-4">
 								{userFollowing.map((following: string) => (
 									// @ts-ignore
@@ -210,6 +257,22 @@ const index: React.FC = ({
 							</div>
 						</Tab.Panel>
 						<Tab.Panel>
+							<h1 className="text-2xl font-semibold text-[#e80059] text-center mt-2">
+								{userDetails?.displayName ?? userDetails?.name}'s Followings
+							</h1>
+							{userFollowers.length === 0 && (
+								<div className="w-full h-full flex flex-col justify-center items-center">
+									<div className=" w-full flex flex-col justify-center items-center space-y-2 p-4">
+										<Image src="/cricket.png" width="128" height="128" />
+										<h1 className="text-2xl font-bold text-[#e80059] ">*Cricket Noises*</h1>
+										<h1 className="text-lg font-medium text-[#F2E9E4] text-center">
+											Looks like {userDetails?.displayName ?? userDetails?.name} hasn't had anyone
+											follow them anyone yet...
+										</h1>
+									</div>
+								</div>
+							)}
+
 							<div className="w-full followers-grid p-4">
 								{userFollowers.map((follower: string) => (
 									// @ts-ignore
@@ -218,6 +281,9 @@ const index: React.FC = ({
 							</div>
 						</Tab.Panel>
 						<Tab.Panel>
+							<h1 className="text-2xl font-semibold text-[#e80059] text-center mt-2">
+								{userDetails?.displayName ?? userDetails?.name}'s Biography
+							</h1>
 							<div className="w-full h-full flex flex-col justify-center items-center space-y-4">
 								<Linkify
 									componentDecorator={(decoratedHref, decoratedText, key) => (
@@ -226,8 +292,22 @@ const index: React.FC = ({
 										</a>
 									)}
 								>
-									<h1 className="text-2xl font-semibold text-[#e80059]">Biography</h1>
-									<div className="w-3/5 whitespace-pre-line font-medium">{userDetails?.bio}</div>
+									{userDetails?.bio ? (
+										<div className="w-3/5 whitespace-pre-line font-medium mt-2">
+											{userDetails?.bio}
+										</div>
+									) : (
+										<div className="w-full h-full flex flex-col justify-center items-center">
+											<div className=" w-full flex flex-col justify-center items-center space-y-2 p-4">
+												<Image src="/cricket.png" width="128" height="128" />
+												<h1 className="text-2xl font-bold text-[#e80059] ">*Cricket Noises*</h1>
+												<h1 className="text-lg font-medium text-[#F2E9E4] text-center">
+													{userDetails?.displayName ?? userDetails?.name} hasn't added a bio
+													yet...
+												</h1>
+											</div>
+										</div>
+									)}
 								</Linkify>
 							</div>
 						</Tab.Panel>

@@ -25,7 +25,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	// This is how the mature content is filtered out
 	const data = await prisma.artwork.findMany({
-		take: 10,
+		take: 30,
 		where: {
 			OR: [
 				{ section: 'RESOURCES', mature: false },
@@ -52,7 +52,7 @@ const resources: NextPage = ({ communityImages }: InferGetServerSidePropsType<ty
 	const { ref, inView } = useInView();
 
 	const { data, error, mutate, size, setSize } = useSWRInfinite(
-		(index) => `/api/artworks?page=${index + 1}&section=COMMUNITY`,
+		(index) => `/api/artworks?page=${index + 1}&section=RESOURCES`,
 		fetcher
 	);
 
