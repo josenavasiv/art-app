@@ -54,7 +54,7 @@ const Navbar: React.FC = () => {
 
 				<div onClick={() => signIn()} className="flex flex-row items-center space-x-6 pr-6 pl-3">
 					<button className="w-18 flex flex-row space-x-2 hover:text-[#e80059]">
-						<img className="w-5 h-5" src="/Google.png" alt="" />
+						<img className="w-5 h-5" src="/google.png" alt="" />
 						<p className="self-center font-semibold hover:text-[#e80059]">LOGIN | REGISTER </p>
 					</button>
 					{/* <button className="w-18 flex flex-row space-x-1 bg-[#E9D8A6] hover:bg-[#e80059] hover:text-[#F2E9E4] text-[#04041c] px-[0.5rem] py-[0.3rem] rounded-md">
