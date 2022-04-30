@@ -1,4 +1,5 @@
 import GoogleProvider from 'next-auth/providers/google';
+// import TwitterProvider from 'next-auth/providers/twitter';
 import NextAuth from 'next-auth';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import prisma from '../../../lib/prisma';
@@ -18,6 +19,10 @@ export default NextAuth({
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET,
 			authorization: GOOGLE_AUTHORIZATION_URL,
 		}),
+		// TwitterProvider({
+		// 	clientId: process.env.TWITTER_CLIENT_ID,
+		// 	clientSecret: process.env.TWITTER_CLIENT_SECRET,
+		// }),
 	],
 	adapter: PrismaAdapter(prisma),
 	secret: process.env.JWT_SECRET,

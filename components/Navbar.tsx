@@ -35,8 +35,9 @@ const Navbar: React.FC = () => {
 
 					<p className="self-center font-bold">TheArtOfUs</p>
 				</div>
+				<div className="grow self-center block sm:hidden"></div>
 
-				<div className="grow self-center">
+				<div className="grow self-center hidden sm:block">
 					{/* @ts-ignore */}
 					<form onSubmit={handleSubmit(onSubmit)}>
 						<input
@@ -52,22 +53,11 @@ const Navbar: React.FC = () => {
 				</div>
 
 				<div onClick={() => signIn()} className="flex flex-row items-center space-x-6 pr-6 pl-3">
-					<button className="w-18 flex flex-row space-x-1 hover:text-[#e80059]">
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							className="h-5 w-5 hidden md:block"
-							viewBox="0 0 20 20"
-							fill="currentColor"
-						>
-							<path
-								fillRule="evenodd"
-								d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z"
-								clipRule="evenodd"
-							/>
-						</svg>
-						<p className="self-center font-semibold hover:text-[#e80059]">LOGIN</p>
+					<button className="w-18 flex flex-row space-x-2 hover:text-[#e80059]">
+						<img className="w-5 h-5" src="/Google.png" alt="" />
+						<p className="self-center font-semibold hover:text-[#e80059]">LOGIN | REGISTER </p>
 					</button>
-					<button className="w-18 flex flex-row space-x-1 bg-[#E9D8A6] hover:bg-[#e80059] hover:text-[#F2E9E4] text-[#04041c] px-[0.5rem] py-[0.3rem] rounded-md">
+					{/* <button className="w-18 flex flex-row space-x-1 bg-[#E9D8A6] hover:bg-[#e80059] hover:text-[#F2E9E4] text-[#04041c] px-[0.5rem] py-[0.3rem] rounded-md">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							className="h-5 w-5 hidden md:block"
@@ -81,7 +71,7 @@ const Navbar: React.FC = () => {
 							/>
 						</svg>
 						<p className="self-center font-semibold">REGISTER</p>
-					</button>
+					</button> */}
 				</div>
 			</nav>
 		);
