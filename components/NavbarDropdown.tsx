@@ -22,7 +22,7 @@ const NavbarDropdown: React.FC<INavbarDropdown> = ({ userId, userImageUrl }) => 
 			<Menu as="div" className="relative inline-block text-left">
 				<div>
 					<Menu.Button className="inline-flex justify-center items-center w-full bg-accent-primary py-2 text-sm font-medium hover:text-[#e80059] space-x-0.5 ">
-						<Image src={userImageUrl} height="30px" width="30px" className="rounded-full cursor-pointer " />
+						<Image src={userImageUrl} height="32px" width="32px" className="rounded-full cursor-pointer " />
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							className="h-5 w-5"

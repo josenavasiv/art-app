@@ -118,7 +118,7 @@ const Navbar: React.FC = () => {
 						/>
 					</svg>
 
-					<p className="self-center font-semibold ">Share Art</p>
+					<p className="self-center font-semibold">Share Art</p>
 				</button>
 
 				<NavbarDropdown userId={loggedInUser?.id} userImageUrl={loggedInUser?.avatar || loggedInUser?.image} />
