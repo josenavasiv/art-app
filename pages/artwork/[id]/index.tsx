@@ -476,7 +476,7 @@ const index: React.FC = ({ artworkDetails }: InferGetServerSidePropsType<typeof 
 						</div>
 
 						{/* Post a Comment Section */}
-						{session && (
+						{session ? (
 							<form
 								onSubmit={handleSubmit(onSubmit)}
 								className="space-y-4 flex flex-col text-gray-300 w-full bg-primary"
@@ -495,6 +495,14 @@ const index: React.FC = ({ artworkDetails }: InferGetServerSidePropsType<typeof 
 									value="Add Comment"
 								/>
 							</form>
+						) : (
+							<div className=" w-full flex flex-col justify-center items-center space-y-2">
+								<img className="w-16 h-16" src="/cricket.png" />
+								<h1 className="text-xl font-bold text-[#e80059] ">*Cricket Noises*</h1>
+								<h1 className="text-md font-medium text-[#F2E9E4] text-center">
+									{artworkDetails?.title} has no comments yet...
+								</h1>
+							</div>
 						)}
 					</div>
 				</div>
