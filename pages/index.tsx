@@ -20,7 +20,7 @@ const Home: NextPage = () => {
 	const { allArtworks, isLoading } = useAllArtworks();
 
 	const { data, error, mutate, size, setSize } = useSWRInfinite(
-		(index) => `/api/artworks?page=${index + 1}&section=COMMUNITY`,
+		(index) => `/api/artworks?page=${index + 1}`,
 		fetcher
 	);
 
@@ -77,7 +77,7 @@ const Home: NextPage = () => {
 
 			<ArtworkGrid artworks={artworks} />
 
-			<div ref={ref} className="text-white mt-[750px] text-center">
+			<div ref={ref} className="text-white mt-[650px] text-center invisible">
 				Intersection Observer Marker
 			</div>
 		</>

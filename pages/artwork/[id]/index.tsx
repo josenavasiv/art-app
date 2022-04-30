@@ -184,7 +184,7 @@ const index: React.FC = ({ artworkDetails }: InferGetServerSidePropsType<typeof 
 										>
 											{user.displayName ?? user.name}
 										</div>
-										<div className="text-xs text-secondary font-medium">{user.headline}</div>
+										<div className="text-xs text-secondary font-semibold">{user.headline}</div>
 									</div>
 									{canEditDelete && (
 										<div className="flex flex-row space-x-2 text-xs absolute right-0 text-[#b7094c] py-1">
@@ -256,7 +256,7 @@ const index: React.FC = ({ artworkDetails }: InferGetServerSidePropsType<typeof 
 															leaveFrom="opacity-100 scale-100"
 															leaveTo="opacity-0 scale-95"
 														>
-															<div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden  align-middle transition-all transform bg-gray-900 shadow-xl rounded-sm ">
+															<div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden align-middle transition-all transform bg-[#04041c] shadow-xl rounded-md ">
 																<Dialog.Title
 																	as="h3"
 																	className="text-lg font-medium leading-6 text-[#E63E6D] flex items-center justify-center"

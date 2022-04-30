@@ -73,9 +73,15 @@ const resources: NextPage = ({ communityImages }: InferGetServerSidePropsType<ty
 			</Head>
 			<Navbar />
 			<div className="w-full h-full flex flex-col justify-center items-center">
-				<div className="h-36 flex flex-col justify-center items-center p-4">
-					<h1 className="text-3xl font-bold text-[#e80059] p-3 ">Resources.</h1>
-					<h1 className="text-xl font-bold text-[#e80059] p-3 ">
+				<div className="h-24 flex flex-col justify-center items-center p-4 relative">
+					<h1 className="text-3xl font-bold text-[#E9D8A6] p-3 z-10 ">Resources.</h1>
+					<h1 className="text-3xl font-bold text-[#403DE3] p-3 absolute ml-[5px] mt-[5px]">Resources.</h1>
+				</div>
+				<div className="h-24 flex flex-col justify-center items-center p-4 relative">
+					<h1 className="text-xl font-bold text-[#E9D8A6] p-3 z-10 ">
+						Resource creation and displaying is currently a work in progress...
+					</h1>
+					<h1 className="text-xl font-bold text-[#403DE3] p-3 absolute ml-[5px] mt-[5px]">
 						Resource creation and displaying is currently a work in progress...
 					</h1>
 				</div>
@@ -83,7 +89,7 @@ const resources: NextPage = ({ communityImages }: InferGetServerSidePropsType<ty
 
 			<ArtworkGrid artworks={artworks} />
 
-			<div ref={ref} className="text-white mt-[750px] text-center">
+			<div ref={ref} className="text-white mt-[650px] text-center invisible">
 				Intersection Observer Marker
 			</div>
 		</>

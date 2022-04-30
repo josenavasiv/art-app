@@ -99,7 +99,7 @@ const Comment: React.FC<IComment> = ({ commentId, content, authorId, createdAt }
 					<Link href={`/profile/${user.id}`}>
 						<a className="text-xs font-medium text-[#e80059]">{user.displayName ?? user.name}</a>
 					</Link>
-					<div className="text-[9px] text-[#9A8C98] font-medium">{user.headline}</div>
+					<div className="text-[9px] text-[#9A8C98] font-semibold">{user.headline}</div>
 				</div>
 
 				{editing ? (

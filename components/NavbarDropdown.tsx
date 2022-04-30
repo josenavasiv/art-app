@@ -21,7 +21,7 @@ const NavbarDropdown: React.FC<INavbarDropdown> = ({ userId, userImageUrl }) => 
 		<div className="flex flex-row justify-center items-center z-50">
 			<Menu as="div" className="relative inline-block text-left">
 				<div>
-					<Menu.Button className="inline-flex justify-center items-center w-full text-[#F2E9E4] py-2 text-sm font-medium hover:text-[#e80059] space-x-0.5">
+					<Menu.Button className="inline-flex justify-center items-center w-full bg-accent-primary py-2 text-sm font-medium hover:text-[#e80059] space-x-0.5 ">
 						<Image src={userImageUrl} height="30px" width="30px" className="rounded-full cursor-pointer " />
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -49,13 +49,13 @@ const NavbarDropdown: React.FC<INavbarDropdown> = ({ userId, userImageUrl }) => 
 					leaveFrom="transform opacity-100 scale-100"
 					leaveTo="transform opacity-0 scale-95"
 				>
-					<Menu.Items className="origin-top-right absolute right-0 mt-3 w-36 rounded-sm shadow-lg bg-[#F2E9E4] ring-1 ring-black ring-opacity-5 focus:outline-none">
+					<Menu.Items className="origin-top-right absolute right-0 mt-3 w-36 rounded-sm shadow-lg bg-[#E9D8A6] font-semibold ring-1 ring-black ring-opacity-5 focus:outline-none">
 						<div className="py-1">
 							<Menu.Item>
 								{({ active }) => (
 									<div
 										className={classNames(
-											active ? 'text-[#e80059] ' : 'text-[#1d1020]',
+											active ? 'text-[#e80059] ' : 'text-[#04041c]',
 											'block px-4 py-2 text-sm cursor-pointer'
 										)}
 										onClick={() => router.push(`/`)}
@@ -68,7 +68,7 @@ const NavbarDropdown: React.FC<INavbarDropdown> = ({ userId, userImageUrl }) => 
 								{({ active }) => (
 									<div
 										className={classNames(
-											active ? 'text-[#e80059] ' : 'text-[#1d1020]',
+											active ? 'text-[#e80059] ' : 'text-[#04041c]',
 											'block px-4 py-2 text-sm cursor-pointer'
 										)}
 										onClick={() => router.push(`/upload`)}
@@ -81,7 +81,7 @@ const NavbarDropdown: React.FC<INavbarDropdown> = ({ userId, userImageUrl }) => 
 								{({ active }) => (
 									<div
 										className={classNames(
-											active ? 'text-[#e80059] ' : 'text-[#1d1020]',
+											active ? 'text-[#e80059] ' : 'text-[#04041c]',
 											'block px-4 py-2 text-sm cursor-pointer'
 										)}
 										onClick={() => router.push(`/community`)}
@@ -94,7 +94,7 @@ const NavbarDropdown: React.FC<INavbarDropdown> = ({ userId, userImageUrl }) => 
 								{({ active }) => (
 									<div
 										className={classNames(
-											active ? 'text-[#e80059] ' : 'text-[#1d1020]',
+											active ? 'text-[#e80059] ' : 'text-[#04041c]',
 											'block px-4 py-2 text-sm cursor-pointer'
 										)}
 										onClick={() => router.push(`/feedback`)}
@@ -107,7 +107,20 @@ const NavbarDropdown: React.FC<INavbarDropdown> = ({ userId, userImageUrl }) => 
 								{({ active }) => (
 									<div
 										className={classNames(
-											active ? 'text-[#e80059] ' : 'text-[#1d1020]',
+											active ? 'text-[#e80059] ' : 'text-[#04041c]',
+											'block px-4 py-2 text-sm cursor-pointer'
+										)}
+										onClick={() => router.push(`/about`)}
+									>
+										About
+									</div>
+								)}
+							</Menu.Item>
+							<Menu.Item>
+								{({ active }) => (
+									<div
+										className={classNames(
+											active ? 'text-[#e80059] ' : 'text-[#04041c]',
 											'block px-4 py-2 text-sm cursor-pointer'
 										)}
 										onClick={() => router.push(`/profile/${userId}`)}
@@ -120,7 +133,7 @@ const NavbarDropdown: React.FC<INavbarDropdown> = ({ userId, userImageUrl }) => 
 								{({ active }) => (
 									<div
 										className={classNames(
-											active ? ' text-[#e80059]' : 'text-[#1d1020]',
+											active ? ' text-[#e80059]' : 'text-[#04041c]',
 											'block px-4 py-2 text-sm cursor-pointer'
 										)}
 										onClick={() => router.push(`/profile/${userId}/edit`)}
@@ -133,7 +146,7 @@ const NavbarDropdown: React.FC<INavbarDropdown> = ({ userId, userImageUrl }) => 
 								{({ active }) => (
 									<div
 										className={classNames(
-											active ? ' text-[#e80059]' : 'text-[#1d1020]',
+											active ? ' text-[#e80059]' : 'text-[#04041c]',
 											'block px-4 py-2 text-sm cursor-pointer'
 										)}
 										// @ts-ignore

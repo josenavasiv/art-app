@@ -68,14 +68,16 @@ const feedback: NextPage = ({ feedbackImages }: InferGetServerSidePropsType<type
 			<Navbar />
 			<div className="w-full h-full flex flex-col justify-center items-center">
 				<div className="h-24 flex flex-col justify-center items-center p-4 relative">
-					<h1 className="text-3xl font-bold text-[#E9D8A6] p-3 z-10 ">Feedback.</h1>
-					<h1 className="text-3xl font-bold text-[#403DE3] p-3 absolute ml-[5px] mt-[5px]">Feedback.</h1>
+					<h1 className="text-3xl font-bold text-[#E9D8A6] p-3 z-10 ">Artists Seeking Feedback.</h1>
+					<h1 className="text-3xl font-bold text-[#403DE3] p-3 absolute ml-[5px] mt-[5px]">
+						Artists Seeking Feedback.
+					</h1>
 				</div>
 			</div>
 
 			<ArtworkGrid artworks={feedbackArtworks} />
 
-			<div ref={ref} className="text-white mt-[750px] text-center">
+			<div ref={ref} className="text-white mt-[650px] text-center invisible">
 				Intersection Observer Marker
 			</div>
 		</>

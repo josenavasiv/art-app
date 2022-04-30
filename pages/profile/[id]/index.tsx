@@ -262,10 +262,10 @@ const index: React.FC = ({
 						<Tab.Panel>
 							<div className="h-16 flex flex-col justify-center items-center p-4 relative">
 								<h1 className="text-3xl font-bold text-[#E9D8A6] p-3 z-10 ">
-									{userDetails?.displayName ?? userDetails?.name}'s Followers
+									{userDetails?.displayName ?? userDetails?.name}'s Followings
 								</h1>
 								<h1 className="text-3xl font-bold text-[#b7094c] p-3 absolute ml-[5px] mt-[5px]">
-									{userDetails?.displayName ?? userDetails?.name}'s Followers
+									{userDetails?.displayName ?? userDetails?.name}'s Followings
 								</h1>
 							</div>
 
@@ -292,10 +292,10 @@ const index: React.FC = ({
 						<Tab.Panel>
 							<div className="h-16 flex flex-col justify-center items-center p-4 relative">
 								<h1 className="text-3xl font-bold text-[#E9D8A6] p-3 z-10 ">
-									{userDetails?.displayName ?? userDetails?.name}'s Followings
+									{userDetails?.displayName ?? userDetails?.name}'s Followers
 								</h1>
 								<h1 className="text-3xl font-bold text-[#b7094c] p-3 absolute ml-[5px] mt-[5px]">
-									{userDetails?.displayName ?? userDetails?.name}'s Followings
+									{userDetails?.displayName ?? userDetails?.name}'s Followers
 								</h1>
 							</div>
 

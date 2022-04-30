@@ -26,14 +26,14 @@ const Navbar: React.FC = () => {
 
 	if (!loggedInUser) {
 		return (
-			<nav className="w-full h-14 space-x-3 bg-[#04041c] flex flex-row text-[#F2E9E4] text-xs md:text-sm font-medium sticky top-0 z-50">
+			<nav className="w-full h-14 space-x-3 bg-[#04041c] flex flex-row bg-accent-primary text-xs md:text-sm font-medium sticky top-0 z-50">
 				<div
 					onClick={() => router.push('/')}
-					className="w-36 self-center ml-3 flex flex-row space-x-2 p-2 cursor-pointer"
+					className="w-36 self-center ml-3 flex flex-row space-x-3 p-2 cursor-pointer hover:primary-accent"
 				>
-					<Image src="/art-app-placeholder-icon.png" alt="me" width="28" height="28" />
+					<Image src="/theartofuslogo.png" alt="me" width="32" height="32" />
 
-					<p className="self-center font-bold">BRANDHERE</p>
+					<p className="self-center font-bold">TheArtOfUs</p>
 				</div>
 
 				<div className="grow self-center">
@@ -41,7 +41,7 @@ const Navbar: React.FC = () => {
 					<form onSubmit={handleSubmit(onSubmit)}>
 						<input
 							{...register('search')}
-							className="w-full h-9 bg-[#04041c] border-[#F2E9E4] py-2 px-3 border-b-2 focus:border-[#e80059] focus:text-[#e80059] focus:outline-none transition-all placeholder:font-semibold font-semibold placeholder:text-[#F2E9E4] text-[#F2E9E4] text-xs"
+							className="w-full h-9 bg-[#04041c] border-bg-accent-primary py-2 px-3 border-b-2 border-[#E9D8A6] focus:border-[#e80059] focus:text-[#e80059] focus:outline-none transition-all placeholder:font-semibold font-semibold placeholder:bg-accent-primary bg-accent-primary text-xs"
 							type="text"
 							name="search"
 							id="search"
@@ -67,7 +67,7 @@ const Navbar: React.FC = () => {
 						</svg>
 						<p className="self-center font-semibold hover:text-[#e80059]">LOGIN</p>
 					</button>
-					<button className="w-18 flex flex-row space-x-1 bg-[#F2E9E4] hover:bg-[#e80059] hover:text-[#F2E9E4] text-[#1b1528] px-[0.5rem] py-[0.3rem] rounded-md">
+					<button className="w-18 flex flex-row space-x-1 bg-[#E9D8A6] hover:bg-[#e80059] hover:text-[#F2E9E4] text-[#04041c] px-[0.5rem] py-[0.3rem] rounded-md">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							className="h-5 w-5 hidden md:block"
@@ -88,24 +88,24 @@ const Navbar: React.FC = () => {
 	}
 
 	return (
-		<nav className="w-full h-14 space-x-3 bg-[#04041c] flex flex-row text-[#F2E9E4] text-xs md:text-sm font-medium sticky top-0 z-50">
+		<nav className="w-full h-14 space-x-3 bg-[#04041c] flex flex-row bg-accent-primary text-xs md:text-sm font-medium sticky top-0 z-50">
 			<div
 				onClick={() => router.push('/')}
-				className="w-36 self-center ml-3 flex flex-row space-x-2 p-2 cursor-pointer"
+				className="w-36 self-center ml-3 flex flex-row space-x-3 p-2 cursor-pointer hover:primary-accent"
 			>
-				<Image src="/art-app-placeholder-icon.png" alt="me" width="28" height="28" />
+				<Image src="/theartofuslogo.png" alt="me" width="32" height="32" />
 
-				<p className="self-center font-bold">BRANDHERE</p>
+				<p className="self-center font-bold">TheArtOfUs</p>
 			</div>
 
-			<div className="grow self-center block md:hidden"></div>
+			<div className="grow self-center block sm:hidden"></div>
 
-			<div className="grow self-center hidden md:block">
+			<div className="grow self-center hidden sm:block">
 				{/* @ts-ignore */}
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<input
 						{...register('search')}
-						className="w-full h-9 bg-[#04041c] border-[#F2E9E4] py-2 px-3 border-b-2 focus:border-[#e80059] focus:text-[#e80059] focus:outline-none transition-all placeholder:font-semibold font-semibold placeholder:text-[#F2E9E4] text-[#F2E9E4] text-xs"
+						className="w-full h-9 bg-[#04041c] border-bg-accent-primary py-2 px-3 border-b-2 border-[#E9D8A6] focus:border-[#e80059] focus:text-[#e80059] focus:outline-none transition-all placeholder:font-semibold font-semibold placeholder:bg-accent-primary bg-accent-primary text-xs"
 						type="text"
 						name="search"
 						id="search"
@@ -117,7 +117,7 @@ const Navbar: React.FC = () => {
 
 			<div className="flex flex-row items-center space-x-3 pr-3 bg-accent-primary relative">
 				<button
-					className="w-18 flex flex-row space-x-1.5 hover:text-[#403DE3]"
+					className="w-18 flex flex-row space-x-1.5 hover:text-[#e80059]"
 					onClick={() => router.push('/upload')}
 				>
 					<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -128,7 +128,7 @@ const Navbar: React.FC = () => {
 						/>
 					</svg>
 
-					<p className="self-center font-semibold ">Upload</p>
+					<p className="self-center font-semibold ">Share Art</p>
 				</button>
 
 				<NavbarDropdown userId={loggedInUser?.id} userImageUrl={loggedInUser?.avatar || loggedInUser?.image} />
