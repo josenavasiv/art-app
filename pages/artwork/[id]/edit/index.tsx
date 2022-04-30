@@ -91,8 +91,9 @@ const index: React.FC = ({ artworkDetails }: InferGetServerSidePropsType<typeof 
 			</Head>
 			<Navbar />
 			<div className="w-full h-full flex flex-col justify-center items-center space-y-3 mb-6">
-				<div className="h-36 flex flex-col justify-center items-center">
-					<h1 className="text-3xl font-bold text-[#e80059] p-3 ">Edit Artwork.</h1>
+				<div className="h-24 flex flex-col justify-center items-center p-4 relative">
+					<h1 className="text-3xl font-bold text-[#E9D8A6] p-3 z-10 ">Edit Artwork.</h1>
+					<h1 className="text-3xl font-bold text-[#403DE3] p-3 absolute ml-[5px] mt-[5px]">Edit Artwork.</h1>
 				</div>
 				<div className="w-3/4 md:w-full max-w-lg">
 					<form onSubmit={handleSubmit(onSubmit)} className="space-y-5 flex flex-col text-gray-300 ">

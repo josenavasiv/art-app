@@ -180,11 +180,13 @@ const upload: React.FC = () => {
 					<meta name="viewport" content="initial-scale=1.0, width=device-width" />
 				</Head>
 				<Navbar />
-				<div className="w-full h-full flex flex-col justify-center items-center">
-					<h1 className="text-3xl font-bold underline text-[#e80059]">Please Log In to Upload Image</h1>
-					<button onClick={() => signIn()} className="bg-white p-2">
-						SIGN IN
-					</button>
+				<div className="h-24 flex flex-col justify-center items-center p-4 relative">
+					<h1 className="text-3xl font-bold text-[#E9D8A6] p-3 z-10 ">
+						Please Sign In To Upload New Artwork.
+					</h1>
+					<h1 className="text-3xl font-bold text-[#403DE3] p-3 absolute ml-[5px] mt-[5px]">
+						Please Sign In To Upload New Artwork.
+					</h1>
 				</div>
 			</>
 		);
@@ -198,8 +200,11 @@ const upload: React.FC = () => {
 			</Head>
 			<Navbar />
 			<div className="w-full h-full flex flex-col justify-center items-center space-y-3 mb-6">
-				<div className="h-36 flex flex-col justify-center items-center">
-					<h1 className="text-3xl font-bold text-[#e80059] p-3 ">Upload New Artwork.</h1>
+				<div className="h-24 flex flex-col justify-center items-center p-4 relative">
+					<h1 className="text-3xl font-bold text-[#E9D8A6] p-3 z-10 ">Upload New Artwork.</h1>
+					<h1 className="text-3xl font-bold text-[#403DE3] p-3 absolute ml-[5px] mt-[5px]">
+						Upload New Artwork.
+					</h1>
 				</div>
 				<div className="w-3/4 md:w-full max-w-lg">
 					<form onSubmit={handleSubmit(onSubmit)} className="space-y-5 flex flex-col text-gray-300 ">
