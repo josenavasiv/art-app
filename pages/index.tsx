@@ -49,30 +49,10 @@ const Home: NextPage = () => {
 			</Head>
 			<Navbar />
 			<div className="w-full h-full flex flex-col justify-center items-center">
-				<div className="h-36 w-full flex flex-col justify-center items-center space-y-2 p-4">
-					<h1 className="text-3xl font-bold text-[#e80059] ">WEBSITE NAME</h1>
-					<h1 className="text-lg font-medium text-[#F2E9E4] text-center">
-						A place where artists of all skill levels can share their artwork!
-					</h1>
-					<div className="flex flex-row justify-evenly w-full text-[#e80059]">
-						<h1
-							onClick={() => router.push('/community')}
-							className="text-lg font-semibold text-center cursor-pointer hover:text-[#F2E9E4]"
-						>
-							Community{' '}
-						</h1>
-						<h1
-							onClick={() => router.push('/feedback')}
-							className="text-lg font-semibold text-center cursor-pointer hover:text-[#F2E9E4]"
-						>
-							Feedback{' '}
-						</h1>
-						<h1
-							onClick={() => router.push('/resources')}
-							className="text-lg font-semibold text-center cursor-pointer hover:text-[#F2E9E4]"
-						>
-							Resources{' '}
-						</h1>
+				<div className="h-24 w-full flex flex-col justify-center items-center space-y-2 p-4">
+					<div className="h-24 flex flex-col justify-center items-center p-4 relative">
+						<h1 className="text-3xl font-bold text-[#E9D8A6] p-3 z-10 ">Home.</h1>
+						<h1 className="text-3xl font-bold text-[#403DE3] p-3 absolute ml-[5px] mt-[5px]">Home.</h1>
 					</div>
 				</div>
 			</div>

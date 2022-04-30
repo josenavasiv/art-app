@@ -106,7 +106,7 @@ const Comment: React.FC<IComment> = ({ commentId, content, authorId, createdAt }
 					<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-2 w-60">
 						<textarea
 							{...register('content', { required: true })}
-							className=" border border-[#b7094c] rounded-sm text-sm w-full p-1 bg-[#1b1528] text-[#F2E9E4]"
+							className=" border border-[#b7094c] rounded-sm text-sm w-full p-1 bg-secondary text-[#F2E9E4]"
 						/>
 						<button
 							type="submit"

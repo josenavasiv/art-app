@@ -21,6 +21,33 @@
 	.error-msg {
 		@apply text-rose-600 text-xs font-medium py-2 flex flex-row items-center space-x-1;
 	}
+	.bg-primary {
+		@apply bg-[#04041c];
+	}
+	.bg-secondary {
+		@apply bg-[#010213];
+	}
+	.follower-profile-bg {
+		@apply bg-slate-900;
+	}
+	.text-primary {
+		@apply text-white;
+	}
+	.text-secondary {
+		@apply text-[#9A8C98];
+	}
+	.primary-accent {
+		@apply text-[#e80059];
+	}
+	.secondary-accent {
+		@apply text-[#b7094c];
+	}
+	.bg-accent-primary {
+		@apply text-[#E9D8A6];
+	}
+	.bg-accent-secondary {
+		@apply text-[#403DE3];
+	}
 }
 
 @layer base {
@@ -30,7 +57,7 @@
 		width: 0.4em;
 	}
 	::-webkit-scrollbar-track {
-		background: #1b1528;
+		background: #04041c;
 		margin-block: 0.2em;
 	}
 	::-webkit-scrollbar-thumb {
@@ -40,7 +67,8 @@
 
 	html {
 		font-family: 'Poppins', sans-serif;
-		background: #1d1020;
+		background: #04041c;
+		/* background: #1d1020; */
 		/* Moves scrollback into the page instead of it being on the "outside" */
 		overflow: overlay;
 	}
@@ -80,7 +108,7 @@
 		transition: all 0.3s ease;
 	}
 	.thumbnail:hover {
-		box-shadow: -1px -1px #b7094c, -2px -2px #b7094c, -3px -3px #b7094c;
+		box-shadow: -1px -1px #403de3, -2px -2px #403de3, -3px -3px #403de3;
 		-webkit-transform: translateX(3px);
 		transform: translateX(3px);
 	}
@@ -115,15 +143,10 @@
 	}
 
 	.followers-grid {
-		display: -webkit-box;
-		display: -ms-flexbox;
-		display: flex;
-		-ms-flex-wrap: wrap;
-		flex-wrap: wrap;
-		/* -webkit-box-align: stretch;
-		-ms-flex-align: stretch;
-		align-items: stretch; */
-		margin: 22px 11px 0;
+		display: grid;
+		padding: 1rem;
+		gap: 1rem;
+		grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
 	}
 
 	.follower-grid-item {

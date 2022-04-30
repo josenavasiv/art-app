@@ -124,12 +124,17 @@ const index: React.FC = ({
 			<Navbar />
 
 			<div className="flex justify-center">
-				<div className="flex flex-col h-[320px] w-full items-center justify-center relative overflow-hidden">
-					<img className="rounded-full w-28 h-28 mb-2" src={userDetails.avatar ?? userDetails.image} alt="" />
-					<div className="text-3xl font-semibold text-[#e80059] backdrop-blur-sm backdrop-brightness-50 px-2 rounded-sm">
+				<div className="flex flex-col h-[350px] w-full items-center justify-center relative overflow-hidden">
+					<img className="rounded-full w-28 h-28 mb-3" src={userDetails.avatar ?? userDetails.image} alt="" />
+					<div className="text-3xl font-semibold text-[#E9D8A6] z-10">
 						{userDetails.displayName ?? userDetails.name}
 					</div>
-					<div className="text-sm font-semibold text-[#e80059] backdrop-blur-sm backdrop-brightness-50 px-2 pb-1 rounded-sm rounded-t-none">
+					<div className="text-3xl font-semibold text-[#403DE3] absolute mt-[97.5px] ml-[5px]">
+						{userDetails.displayName ?? userDetails.name}
+					</div>
+					<div className="text-sm font-semibold text-[#E9D8A6] mb-[10px] z-10">{userDetails.headline}</div>
+
+					<div className="text-sm font-semibold text-[#403DE3] absolute mt-[152.5px] ml-[3px]">
 						{userDetails.headline}
 					</div>
 					<img className="absolute -z-10 object-cover w-full" src={userDetails?.backgroundImageUrl} alt="" />
@@ -144,7 +149,9 @@ const index: React.FC = ({
 								classNames(
 									'w-full py-2.5 md:text-sm leading-5 font-medium text-[#F2E9E4] rounded-sm',
 									'focus:outline-none ',
-									selected ? 'bg-[#b7094c]' : 'text-[#F2E9E4] hover:bg-white/[0.12] hover:text-white'
+									selected
+										? 'bg-[#403DE3]'
+										: 'text-amber-100 hover:bg-[#e80059]/[0.12] hover:text-white'
 								)
 							}
 						>
@@ -155,7 +162,9 @@ const index: React.FC = ({
 								classNames(
 									'w-full py-2.5 md:text-sm leading-5 font-medium text-[#F2E9E4] rounded-sm',
 									'focus:outline-none ',
-									selected ? 'bg-[#b7094c]' : 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
+									selected
+										? 'bg-[#403DE3]'
+										: 'text-amber-100 hover:bg-[#e80059]/[0.12] hover:text-white'
 								)
 							}
 						>
@@ -166,7 +175,9 @@ const index: React.FC = ({
 								classNames(
 									'w-full py-2.5 md:text-sm leading-5 font-medium text-[#F2E9E4] rounded-sm',
 									'focus:outline-none ',
-									selected ? 'bg-[#b7094c]' : 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
+									selected
+										? 'bg-[#403DE3]'
+										: 'text-amber-100 hover:bg-[#e80059]/[0.12] hover:text-white'
 								)
 							}
 						>
@@ -177,7 +188,9 @@ const index: React.FC = ({
 								classNames(
 									'w-full py-2.5 md:text-sm leading-5 font-medium text-[#F2E9E4] rounded-sm',
 									'focus:outline-none ',
-									selected ? 'bg-[#b7094c]' : 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
+									selected
+										? 'bg-[#403DE3]'
+										: 'text-amber-100 hover:bg-[#e80059]/[0.12] hover:text-white'
 								)
 							}
 						>
@@ -188,7 +201,9 @@ const index: React.FC = ({
 								classNames(
 									'w-full py-2.5 md:text-sm leading-5 font-medium text-[#F2E9E4] rounded-sm',
 									'focus:outline-none ',
-									selected ? 'bg-[#b7094c]' : 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
+									selected
+										? 'bg-[#403DE3]'
+										: 'text-amber-100 hover:bg-[#e80059]/[0.12] hover:text-white'
 								)
 							}
 						>
@@ -197,9 +212,15 @@ const index: React.FC = ({
 					</Tab.List>
 					<Tab.Panels>
 						<Tab.Panel>
-							<h1 className="text-2xl font-semibold text-[#e80059] text-center mt-2">
-								{userDetails?.displayName ?? userDetails?.name}'s Artworks
-							</h1>
+							<div className="h-16 flex flex-col justify-center items-center p-4 relative">
+								<h1 className="text-3xl font-bold text-[#E9D8A6] p-3 z-10 ">
+									{userDetails?.displayName ?? userDetails?.name}'s Artworks
+								</h1>
+								<h1 className="text-3xl font-bold text-[#b7094c] p-3 absolute ml-[5px] mt-[5px]">
+									{userDetails?.displayName ?? userDetails?.name}'s Artworks
+								</h1>
+							</div>
+
 							{userArtworks.length === 0 && (
 								<div className="w-full h-full flex flex-col justify-center items-center">
 									<div className=" w-full flex flex-col justify-center items-center space-y-2 p-4">
@@ -215,9 +236,15 @@ const index: React.FC = ({
 							<ArtworkGrid artworks={userArtworks} />
 						</Tab.Panel>
 						<Tab.Panel>
-							<h1 className="text-2xl font-semibold text-[#e80059] text-center mt-2">
-								{userDetails?.displayName ?? userDetails?.name}'s Favorite Artworks
-							</h1>
+							<div className="h-16 flex flex-col justify-center items-center p-4 relative">
+								<h1 className="text-3xl font-bold text-[#E9D8A6] p-3 z-10 ">
+									{userDetails?.displayName ?? userDetails?.name}'s Favorite Artworks
+								</h1>
+								<h1 className="text-3xl font-bold text-[#b7094c] p-3 absolute ml-[5px] mt-[5px]">
+									{userDetails?.displayName ?? userDetails?.name}'s Favorite Artworks
+								</h1>
+							</div>
+
 							{userLikesArtworksParsed.length === 0 && (
 								<div className="w-full h-full flex flex-col justify-center items-center">
 									<div className=" w-full flex flex-col justify-center items-center space-y-2 p-4">
@@ -233,9 +260,15 @@ const index: React.FC = ({
 							<ArtworkGrid artworks={userLikesArtworksParsed} />
 						</Tab.Panel>
 						<Tab.Panel>
-							<h1 className="text-2xl font-semibold text-[#e80059] text-center mt-2">
-								{userDetails?.displayName ?? userDetails?.name}'s Followers
-							</h1>
+							<div className="h-16 flex flex-col justify-center items-center p-4 relative">
+								<h1 className="text-3xl font-bold text-[#E9D8A6] p-3 z-10 ">
+									{userDetails?.displayName ?? userDetails?.name}'s Followers
+								</h1>
+								<h1 className="text-3xl font-bold text-[#b7094c] p-3 absolute ml-[5px] mt-[5px]">
+									{userDetails?.displayName ?? userDetails?.name}'s Followers
+								</h1>
+							</div>
+
 							{userFollowing.length === 0 && (
 								<div className="w-full h-full flex flex-col justify-center items-center">
 									<div className=" w-full flex flex-col justify-center items-center space-y-2 p-4">
@@ -257,9 +290,15 @@ const index: React.FC = ({
 							</div>
 						</Tab.Panel>
 						<Tab.Panel>
-							<h1 className="text-2xl font-semibold text-[#e80059] text-center mt-2">
-								{userDetails?.displayName ?? userDetails?.name}'s Followings
-							</h1>
+							<div className="h-16 flex flex-col justify-center items-center p-4 relative">
+								<h1 className="text-3xl font-bold text-[#E9D8A6] p-3 z-10 ">
+									{userDetails?.displayName ?? userDetails?.name}'s Followings
+								</h1>
+								<h1 className="text-3xl font-bold text-[#b7094c] p-3 absolute ml-[5px] mt-[5px]">
+									{userDetails?.displayName ?? userDetails?.name}'s Followings
+								</h1>
+							</div>
+
 							{userFollowers.length === 0 && (
 								<div className="w-full h-full flex flex-col justify-center items-center">
 									<div className=" w-full flex flex-col justify-center items-center space-y-2 p-4">
@@ -281,9 +320,15 @@ const index: React.FC = ({
 							</div>
 						</Tab.Panel>
 						<Tab.Panel>
-							<h1 className="text-2xl font-semibold text-[#e80059] text-center mt-2">
-								{userDetails?.displayName ?? userDetails?.name}'s Biography
-							</h1>
+							<div className="h-16 flex flex-col justify-center items-center p-4 relative">
+								<h1 className="text-3xl font-bold text-[#E9D8A6] p-3 z-10 ">
+									{userDetails?.displayName ?? userDetails?.name}'s Biography
+								</h1>
+								<h1 className="text-3xl font-bold text-[#b7094c] p-3 absolute ml-[5px] mt-[5px]">
+									{userDetails?.displayName ?? userDetails?.name}'s Biography
+								</h1>
+							</div>
+
 							<div className="w-full h-full flex flex-col justify-center items-center space-y-4">
 								<Linkify
 									componentDecorator={(decoratedHref, decoratedText, key) => (

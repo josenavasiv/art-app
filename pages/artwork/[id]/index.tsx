@@ -167,7 +167,7 @@ const index: React.FC = ({ artworkDetails }: InferGetServerSidePropsType<typeof 
 						<img src={artworkDetails?.imageUrl} alt="" className="self-center" />
 					</div>
 
-					<div className="h-1/2 bottom-0 fixed bg-[#1d1020] text-[#F2E9E4] md:h-full w-full md:w-[365px] overflow-y-auto md:right-0 p-5 md:pt-[76px] space-y-4">
+					<div className="h-1/2 bottom-0 fixed bg-primary text-primary md:h-full w-full md:w-[365px] overflow-y-auto md:right-0 p-5 md:pt-[76px] space-y-4">
 						<div className="flex flex-row space-x-3 relative">
 							{user && (
 								<>
@@ -184,7 +184,7 @@ const index: React.FC = ({ artworkDetails }: InferGetServerSidePropsType<typeof 
 										>
 											{user.displayName ?? user.name}
 										</div>
-										<div className="text-xs text-[#9A8C98] font-medium">{user.headline}</div>
+										<div className="text-xs text-secondary font-medium">{user.headline}</div>
 									</div>
 									{canEditDelete && (
 										<div className="flex flex-row space-x-2 text-xs absolute right-0 text-[#b7094c] py-1">
@@ -479,13 +479,13 @@ const index: React.FC = ({ artworkDetails }: InferGetServerSidePropsType<typeof 
 						{session && (
 							<form
 								onSubmit={handleSubmit(onSubmit)}
-								className="space-y-4 flex flex-col text-gray-300 w-full bg-[#1d1020]"
+								className="space-y-4 flex flex-col text-gray-300 w-full bg-primary"
 							>
 								<textarea
 									id="comment"
 									placeholder="Share a comment or provide feedback!"
 									{...register('content', { required: true, maxLength: 130 })}
-									className="border border-[#b7094c] rounded-sm text-sm w-full p-2.5 bg-[#1b1528]  transition-all focus:outline-none focus:border-[#F2E9E4] placeholder:text-[#9A8C98] placeholder:font-medium focus:text-[#F2E9E4] focus:font-medium text-[#F2E9E4] font-medium"
+									className="border border-[#b7094c] rounded-sm text-sm w-full p-2.5 bg-secondary  transition-all focus:outline-none focus:border-[#F2E9E4] placeholder:text-[#9A8C98] placeholder:font-medium focus:text-[#F2E9E4] focus:font-medium text-[#F2E9E4] font-medium"
 								/>
 
 								<input
