@@ -39,6 +39,7 @@ There is still a lot to do such as refactoring the code, adding proper error han
 2. Create and set environmental variables within .env in root directory
 
     ```bash
+    NEXTAUTH_URL=http://localhost:3000
     DATABASE_URL = db-connection-url-from-supabase-pgbouncer=true
     GOOGLE_CLIENT_ID = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     GOOGLE_CLIENT_SECRET = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
