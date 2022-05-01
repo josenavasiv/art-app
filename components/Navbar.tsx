@@ -52,26 +52,11 @@ const Navbar: React.FC = () => {
 					</form>
 				</div>
 
-				<div onClick={() => signIn()} className="flex flex-row items-center space-x-6 pr-6 pl-3">
-					<button className="w-18 flex flex-row space-x-2 hover:text-[#e80059]">
-						<img className="w-5 h-5" src="/google.png" alt="" />
+				<div className="flex flex-row items-center space-x-3 pr-3 pl-3">
+					<button className="w-18 flex flex-row space-x-2 hover:text-[#e80059] " onClick={() => signIn()}>
 						<p className="self-center font-semibold hover:text-[#e80059]">LOGIN | REGISTER </p>
 					</button>
-					{/* <button className="w-18 flex flex-row space-x-1 bg-[#E9D8A6] hover:bg-[#e80059] hover:text-[#F2E9E4] text-[#04041c] px-[0.5rem] py-[0.3rem] rounded-md">
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							className="h-5 w-5 hidden md:block"
-							viewBox="0 0 20 20"
-							fill="currentColor"
-						>
-							<path
-								fillRule="evenodd"
-								d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z"
-								clipRule="evenodd"
-							/>
-						</svg>
-						<p className="self-center font-semibold">REGISTER</p>
-					</button> */}
+					<NavbarDropdown userId={null} userImageUrl={null} />
 				</div>
 			</nav>
 		);
@@ -105,7 +90,7 @@ const Navbar: React.FC = () => {
 				</form>
 			</div>
 
-			<div className="flex flex-row items-center space-x-3 pr-3 bg-accent-primary relative">
+			<div className="flex flex-row items-center space-x-3 pr-3 pl-3 bg-accent-primary relative">
 				<button
 					className="w-18 flex flex-row space-x-1.5 hover:text-[#e80059]"
 					onClick={() => router.push('/upload')}
