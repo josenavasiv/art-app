@@ -49,7 +49,7 @@ There is still a lot to do such as refactoring the code, adding proper error han
     DO_SPACES_BUCKET = digital-ocean-space-name
     ```
 
-3. Within the credentials settings of the [Google App](https://console.developers.google.com/) you recently created in your dashboard, create an OAuth 2.0 Client ID and add the following under the authorized redirect URI's section
+3. Within the credentials settings of the [Google App](https://console.developers.google.com/) you recently created in your dashboard, create an OAuth 2.0 Client ID and add the following under the authorized redirect URI's section (for [next-auth](https://next-auth.js.org/providers/google))
 
     ```bash
     http://localhost:3000/api/auth/callback/google
