@@ -23,6 +23,7 @@ import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import prisma from '../../../lib/prisma';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+	context.res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
 	const id = context.query.id;
 	const data = await prisma.artwork.update({
 		where: {
