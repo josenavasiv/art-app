@@ -18,6 +18,7 @@ function classNames(...classes) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+	context.res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
 	const session = await getSession(context);
 
 	const sessionResult = await prisma.user.findUnique({
@@ -36,7 +37,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	// Need to grab the user's images
 	const userArtworksData = await prisma.artwork.findMany({
-		take: 50,
 		where: {
 			OR: [
 				{ authorId: id, mature: false },
