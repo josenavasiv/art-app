@@ -40,7 +40,8 @@ const FollowerProfile: React.FC<IFollowerProfile> = ({ userId }) => {
 							key={followArtwork.id}
 							onClick={() => router.push(`/artwork/${followArtwork.id}`)}
 							className="max-w-full max-h-full min-w-[100px] min-h-[100px] thumbnail cursor-pointer"
-							style={{ backgroundImage: 'url(' + followArtwork?.imageUrl + ')' }}
+							// @ts-ignore
+							style={{ backgroundImage: 'url(' + followArtwork?.thumbnailUrl + ')' }}
 						></div>
 					)
 				)}
