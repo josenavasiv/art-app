@@ -150,7 +150,7 @@ const index: React.FC = ({ artworkDetails }: InferGetServerSidePropsType<typeof 
 					<Navbar />
 				</div>
 				<div className="flex flex-col md:flex-row justify-center align-middle md:mr-[365px] h-full">
-					<div className="h-2/3 top-0 fixed md:static md:h-full w-full flex justify-center items-center sm:border-b sm:border-[#9A8C98]">
+					<div className="h-2/3 top-0 fixed md:static md:h-full w-full flex justify-center items-center sm:border-b sm:border-[#9A8C98] md:overflow-y-auto">
 						{/* {artworkIsLoading && (
 							<svg
 								xmlns="http://www.w3.org/2000/svg"

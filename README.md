@@ -8,7 +8,8 @@
   A beginner focused, art sharing full-stack web app
 </p>
 
-![alt text](https://i.imgur.com/JxQG89i.png)
+![alt text](https://i.imgur.com/uQVPDKq.png)
+![alt text](https://i.imgur.com/oDTJwA5.png)
 
 Hello! This is my first official _big_ project that I am currently building and improving on daily. This beginner focused, art sharing full-stack web app was built primarily with [React.js](https://reactjs.org/), [Next.js](https://nextjs.org/) and [Prisma](https://www.prisma.io/). I took inspiration from [Artstation](https://www.artstation.com/). I focused on creating a similar site that revolves around supporting users who are still in the process of learning how to draw, whereas Artstation focuses on professional artists who are sharing their portfolio for employment. In its current state, users can upload their artworks, comment and like on other artworks, and follow each other. User's uploaded artworks are saved onto a [Digital Ocean Space](https://www.digitalocean.com/products/spaces) and user's information is saved onto a [Postgres](https://www.postgresql.org/) database, hosted on [Supabase](https://supabase.com/). User authentication is done with [Google](https://next-auth.js.org/providers/google) via [Next-Auth](https://next-auth.js.org/), but I do plan on making more methods of authentication available.
 
