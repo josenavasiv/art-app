@@ -357,7 +357,7 @@ const index: React.FC = ({ artworkDetails }: InferGetServerSidePropsType<typeof 
 						)}
 
 						<div className="flex flex-col space-y-2">
-							<div className="text-4xl font-semibold text-[#e80059]">{artworkDetails?.title}</div>
+							<div className="text-3xl font-semibold text-[#e80059]">{artworkDetails?.title}</div>
 
 							<Linkify
 								componentDecorator={(decoratedHref, decoratedText, key) => (

@@ -51,6 +51,7 @@ export default async function handle(req, res) {
 			res.status(500).send('Internal server error');
 		}
 	});
+	return;
 }
 
 // https://app-artworks.sfo3.digitaloceanspaces.com/eye.jpg

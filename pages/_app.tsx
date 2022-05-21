@@ -11,6 +11,7 @@ import '../public/nprogress.css';
 function MyApp({ Component, pageProps }: AppProps) {
 	const router = useRouter();
 
+	// Code for the loader
 	useEffect(() => {
 		const handleStart = (url) => {
 			console.log(`Loading: ${url}`);
